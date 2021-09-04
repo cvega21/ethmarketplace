@@ -3,8 +3,13 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import ActionButton from './components/ActionButton';
+import Product from './components/product';
+import React, { useState, useEffect } from 'react'
 
 const Home: NextPage = () => {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState('')
+  
   return (
     <div className={styles.container}>
       <Head>
@@ -22,31 +27,39 @@ const Home: NextPage = () => {
           Buy and sell anything using the Ethereum blockchain.
         </p>
 
+        {loggedIn ? 
+          <div>
+            <h2>logged in as {user}</h2> 
+            <ActionButton action="sell" text="List an Item"/>
+          </div>
+          : 
+          <ActionButton action="login" text="Start Selling"/>
+        }
+
         <div>
-          <button>sell stuff</button>
         </div>
 
         <div>
           <h1>Products for Sale</h1>
           <div className={styles.itemsGrid}>
-            <div className={styles.item}>
-              <h2>🌮</h2>
-              <h3>Thing 1</h3>
-              <p>0.01 eth</p>
-              <ActionButton action="buy" text="buy now"/>
-            </div>
-            <div className={styles.item}>
-              <h2>🍺</h2>
-              <h3>Thing 2</h3>
-              <p>0.04 eth</p>
-              <ActionButton action="buy" text="buy now"/>
-            </div>
-            <div className={styles.item}>
-              <h2>🍌</h2>
-              <h3>Thing 3</h3>
-              <p>0.02 eth</p>
-              <ActionButton action="buy" text="buy now"/>
-            </div>
+            <Product
+              image="🍔"
+              name="half eaten mcchicken"
+              price={0.05}
+              action={loggedIn ? "buy" : "login"}
+            />
+            <Product
+              image="👓"
+              name="gucci sunglasses"
+              price={0.05}
+              action={loggedIn ? "buy" : "login"}
+            />
+            <Product
+              image="🧢"
+              name="fake supreme hat"
+              price={0.05}
+              action={loggedIn ? "buy" : "login"}
+            />
           </div>
         </div>
 
