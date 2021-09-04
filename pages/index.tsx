@@ -33,7 +33,8 @@ const Home: NextPage = () => {
             <ActionButton action="sell" text="List an Item"/>
           </div>
           : 
-          <ActionButton action="login" text="Start Selling"/>
+          // <ActionButton action="login" text="Start Selling"/>
+          <ActionButton action="sell" text="Start Selling"/>
         }
 
         <div>
@@ -44,19 +45,19 @@ const Home: NextPage = () => {
           <div className={styles.itemsGrid}>
             <Product
               image="🍔"
-              name="half eaten mcchicken"
+              title="half eaten mcchicken"
               price={0.05}
               action={loggedIn ? "buy" : "login"}
             />
             <Product
               image="👓"
-              name="gucci sunglasses"
+              title="gucci sunglasses"
               price={0.05}
               action={loggedIn ? "buy" : "login"}
             />
             <Product
               image="🧢"
-              name="fake supreme hat"
+              title="fake supreme hat"
               price={0.05}
               action={loggedIn ? "buy" : "login"}
             />
