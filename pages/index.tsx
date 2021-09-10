@@ -6,9 +6,25 @@ import ActionButton from './components/ActionButton';
 import Product from './components/product';
 import React, { useState, useEffect } from 'react'
 
+declare global {
+  interface Window {
+      web3: any;
+  }
+}
+
 const Home: NextPage = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState('')
+  const [web3IsEnabled, setWeb3IsEnabled] = useState(false);
+  let web3Display = '';
+
+  useEffect(() => {
+    window.web3 ? setWeb3IsEnabled(true) : void(0);
+
+    // if (window.web3) {
+    //   setWeb3(true);
+    // }
+  }, [])
   
   return (
     <div className={styles.container}>
@@ -37,8 +53,7 @@ const Home: NextPage = () => {
           <ActionButton action="sell" text="Start Selling"/>
         }
 
-        <div>
-        </div>
+        {web3IsEnabled ? <h2>web3 is enabled.</h2> : <h2>web3 is not enabled. get metamask today...</h2>} 
 
         <div>
           <h1>Products for Sale</h1>
