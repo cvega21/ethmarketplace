@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import ActionButton from './components/ActionButton';
-import Product from './components/product';
+import Product from './components/Product';
 import React, { useState, useEffect, useRef } from 'react';
 import Web3 from 'web3';
 import abi from './api/sample_abi';
@@ -32,10 +32,10 @@ const Home: NextPage = () => {
   }, 500);
 
   const startContract = () => {
-    var cryptoZombiesAddress = "YOUR_CONTRACT_ADDRESS";
+    // var cryptoZombiesAddress = "YOUR_CONTRACT_ADDRESS";
     let web3 = web3js.current as Web3;
-    testContract = new web3.eth.Contract(abi as any, cryptoZombiesAddress);
-    console.log(testContract);
+    // testContract = new web3.eth.Contract(abi as any, cryptoZombiesAddress);
+    // console.log(testContract);
   }
 
   
@@ -50,11 +50,11 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">dappBay!</a>
+          Grails on Chain
         </h1>
 
         <p className={styles.description}>
-          Buy and sell anything using the Ethereum blockchain.
+          Buy and sell sneakers - verified by the blockchain.
         </p>
 
         {loggedIn ? 
