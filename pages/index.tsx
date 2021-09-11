@@ -4,11 +4,13 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import ActionButton from './components/ActionButton';
 import Product from './components/product';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
+import Web3 from 'web3';
+import abi from './api/sample_abi';
 
 declare global {
   interface Window {
-      web3: any;
+      ethereum: any;
   }
 }
 
@@ -16,16 +18,28 @@ const Home: NextPage = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState('')
   const [web3IsEnabled, setWeb3IsEnabled] = useState(false);
-  let web3Display = '';
+  const web3js = useRef<Web3|null>(null);
+  let testContract;
 
   useEffect(() => {
-    window.web3 ? setWeb3IsEnabled(true) : void(0);
-
-    // if (window.web3) {
-    //   setWeb3(true);
-    // }
+    window.ethereum ? setWeb3IsEnabled(true) : void(0);
+    web3js.current = new Web3(window.ethereum.currentProvider);
+    console.log(web3js.current);
   }, [])
   
+  setTimeout(() => {
+    startContract();
+  }, 500);
+
+  const startContract = () => {
+    var cryptoZombiesAddress = "YOUR_CONTRACT_ADDRESS";
+    let web3 = web3js.current as Web3;
+    testContract = new web3.eth.Contract(abi as any, cryptoZombiesAddress);
+    console.log(testContract);
+  }
+
+  
+
   return (
     <div className={styles.container}>
       <Head>
@@ -53,7 +67,11 @@ const Home: NextPage = () => {
           <ActionButton action="sell" text="Start Selling"/>
         }
 
-        {web3IsEnabled ? <h2>web3 is enabled.</h2> : <h2>web3 is not enabled. get metamask today...</h2>} 
+        {
+          web3IsEnabled ? 
+            <h2>web3 is enabled.</h2> :
+            <h2>web3 is not enabled. get metamask today...</h2>
+        } 
 
         <div>
           <h1>Products for Sale</h1>
