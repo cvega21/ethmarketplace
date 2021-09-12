@@ -1,5 +1,4 @@
 import React from 'react'
-import styles from '../../styles/Home.module.css'
 import ActionButton from './ActionButton'
 
 interface propsInterface {
@@ -11,7 +10,7 @@ interface propsInterface {
 
 const Product = (props: propsInterface) => {
   return (
-    <div className={styles.item}>
+    <div className="border m-5 p-10">
       <h2>{props.image}</h2>
       <h3>{props.title}</h3>
       <p>{props.price} eth</p>
