@@ -56,15 +56,15 @@ const Home: NextPage = () => {
             </h1>
           </div>
           <div className="flex mr-20 items-center">
-            <a className="font-medium mr-12 text-xl">
+            {/* <a className="font-medium mr-12 text-xl" href="buy">
               Buy
             </a>
             <a className="font-medium ml-12 text-xl">
               Sell
-            </a>
+            </a> */}
           </div>
           <div className="flex mr-20 items-center">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+            <button className="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 border border-indigo-700 rounded">
              Connect Wallet
             </button>
             {/* <p className="ml-5">
@@ -74,13 +74,18 @@ const Home: NextPage = () => {
         </nav>
         
         <div className="text-center flex flex-col justify-center items-center">
-          <h1 className="font-bold text-8xl w-9/12 mt-10">
+          <h1 className="font-bold text-8xl w-9/12 mt-12">
             Buy and Sell Authentic Sneakers 
           </h1>
           <h2 className="font-light text-gray-500 text-4xl mt-8 flex items-center">
             NFTs Powered by Ethereum 
             <Image src="/ethereum.svg" height={30} width={40} alt="ethereum"/>
           </h2>
+          <a href="sell">
+          <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 border border-yellow-600 rounded mt-12">
+            List an Item
+          </button>
+          </a>
         </div>
 
         {/* {loggedIn ? 
@@ -100,7 +105,7 @@ const Home: NextPage = () => {
 
         <div>
           {/* <h1>Products for Sale</h1> */}
-          <div className="flex">
+          <div className="flex mt-12">
             <Product
               image="🍔"
               title="half eaten mcchicken"

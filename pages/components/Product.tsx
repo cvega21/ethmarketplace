@@ -10,11 +10,11 @@ interface propsInterface {
 
 const Product = (props: propsInterface) => {
   return (
-    <div className="border m-5 p-10">
-      <h2>{props.image}</h2>
-      <h3>{props.title}</h3>
-      <p>{props.price} eth</p>
-      <ActionButton action={props.action} text="buy now"/>
+    <div className="border m-12 p-10">
+      <h2 className="text-7xl">{props.image}</h2>
+      <h3 className="font-semibold text-2xl mt-8">{props.title}</h3>
+      <p className="font-light mb-8">{props.price} eth</p>
+      <ActionButton action={props.action} text="Cop"/>
     </div>
   )
 }

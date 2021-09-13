@@ -7,7 +7,7 @@ const ActionButton = (props: any) => {
     <div>
       <Link href={`/${props.action}`}>
         <a>
-          <button>{props.text}</button>
+          <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-medium py-2 px-4 rounded w-24">{props.text}</button>
         </a>
       </Link>
     </div>
