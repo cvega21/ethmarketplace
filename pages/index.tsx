@@ -7,6 +7,7 @@ import Product from './components/Product';
 import React, { useState, useEffect, useRef } from 'react';
 import Web3 from 'web3';
 import abi from './api/sample_abi';
+import NavBar from './components/NavBar'
 
 declare global {
   interface Window {
@@ -49,30 +50,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex flex-1 flex-col items-center">
-        <nav className="bg-gray-800 text-white p-5 m-0 w-screen flex justify-between">
-          <div>
-            <h1 className="font-bold text-3xl ml-10">
-              Grails on Chain
-            </h1>
-          </div>
-          <div className="flex mr-20 items-center">
-            {/* <a className="font-medium mr-12 text-xl" href="buy">
-              Buy
-            </a>
-            <a className="font-medium ml-12 text-xl">
-              Sell
-            </a> */}
-          </div>
-          <div className="flex mr-20 items-center">
-            <button className="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 border border-indigo-700 rounded">
-             Connect Wallet
-            </button>
-            {/* <p className="ml-5">
-              or Get Metamask
-            </p> */}
-          </div>
-        </nav>
-        
+        <NavBar/>
         <div className="text-center flex flex-col justify-center items-center">
           <h1 className="font-bold text-8xl w-9/12 mt-12">
             Buy and Sell Authentic Sneakers 
