@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import NavBar from './components/NavBar'
 import Image from 'next/image'
+import Typed from 'typed.js';
 
-const sell = () => {
+const Sell = () => {
+
   return (
     <div className="flex flex-col w-screen items-center text-center">
-      <NavBar/>
-    <div className="flex flex-col items-center text-center w-9/12">
-      <h1 className="font-bold text-6xl w-9/12 m-12">Sell Your Sh*t</h1>
+      <NavBar />
+      <div className="flex flex-col items-center text-center w-9/12">
+        <h1 className="font-bold text-6xl w-9/12 m-12">Sell Your Sh*t</h1>
         <div className="mt-5 md:mt-0 md:col-span-2 w-6/12">
           <form action="#" method="POST">
             <div className="shadow sm:rounded-md sm:overflow-hidden">
@@ -28,7 +30,6 @@ const sell = () => {
                     </div>
                   </div>
                 </div>
-
                 <div>
                   <label htmlFor="about" className="block text-md text-left font-medium text-gray-700">
                     Description
@@ -40,42 +41,44 @@ const sell = () => {
                 <div className="">
                   <div className="">
                     <div className="flex justify-between">
-                    <div className="w-5/12">
-                      <label htmlFor="company-website" className="block text-md text-left font-medium text-gray-700">
-                      Starting Price
+                      <div className="w-5/12">
+                        <label htmlFor="company-website" className="block text-md text-left font-medium text-gray-700">
+                          Starting Price
                       </label>
-                      <div className="mt-1 flex rounded-md shadow-sm w-full">
-                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
-                          ETH
-                        <Image src="/ethereum.svg" height={20} width={30} alt="ethereum"/>
-                        </span>
-                        <input
-                          type="number"
-                          name="company-website"
-                          id="company-website"
-                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2"
-                          placeholder="0.0001"
-                          value="0.0001"
-                        />
+                        <div className="mt-1 flex rounded-md shadow-sm w-full">
+                          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                            ETH
+                        <Image src="/ethereum.svg" height={20} width={30} alt="ethereum" />
+                          </span>
+                          <input
+                            type="number"
+                            name="company-website"
+                            id="company-website"
+                            className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2"
+                            placeholder="0.0001"
+                            defaultValue="0.0001"
+                            step="0.0001"
+                          />
                         </div>
                       </div>
-                    <div className="w-5/12">
-                      <label htmlFor="company-website" className="block text-md text-left font-medium text-gray-700">
-                      Buy Now Price
+                      <div className="w-5/12">
+                        <label htmlFor="company-website" className="block text-md text-left font-medium text-gray-700">
+                          Buy Now Price
                       </label>
-                      <div className="mt-1 flex rounded-md shadow-sm w-full">
-                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
-                          ETH
-                        <Image src="/ethereum.svg" height={20} width={30} alt="ethereum"/>
-                        </span>
-                        <input
-                          type="text"
-                          name="company-website"
-                          id="company-website"
-                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2"
-                          placeholder="0.0005"
-                          value="0.0005"
-                        />
+                        <div className="mt-1 flex rounded-md shadow-sm w-full">
+                          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                            ETH
+                        <Image src="/ethereum.svg" height={20} width={30} alt="ethereum" />
+                          </span>
+                          <input
+                            type="number"
+                            name="company-website"
+                            id="company-website"
+                            className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2"
+                            placeholder="0.0005"
+                            defaultValue="0.0005"
+                            step="0.0001"
+                          />
                         </div>
                       </div>
                     </div>
@@ -93,7 +96,7 @@ const sell = () => {
                       <div className="flex text-sm text-gray-600">
                         <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                           <span>Upload a file</span>
-                          <input id="file-upload" name="file-upload" type="file" className="sr-only"/>
+                          <input id="file-upload" name="file-upload" type="file" className="sr-only" />
                         </label>
                         <p className="pl-1">or drag and drop</p>
                       </div>
@@ -117,4 +120,4 @@ const sell = () => {
   )
 }
 
-export default sell
+export default Sell

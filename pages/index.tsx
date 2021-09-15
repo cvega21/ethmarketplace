@@ -8,6 +8,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Web3 from 'web3';
 import abi from './api/sample_abi';
 import NavBar from './components/NavBar'
+import Typed from 'typed.js';
 
 declare global {
   interface Window {
@@ -39,6 +40,23 @@ const Home: NextPage = () => {
     // console.log(testContract);
   }
 
+  const typedElement: any = useRef(null);
+  const typed: any = useRef(null);
+  
+  useEffect(() => {
+    const options = {
+      strings: ['^300 Sneakers^400','^300 Gucci Belts^400','^300 Jewelry^400'],
+      typeSpeed: 38,
+      backSpeed: 18,
+      loop: true
+    };
+    
+    typed.current = new Typed(typedElement.current as Element, options);
+    return () => {
+      typed.current.destroy();
+    }
+  }, [])
+
   
 
   return (
@@ -52,11 +70,14 @@ const Home: NextPage = () => {
       <main className="flex flex-1 flex-col items-center">
         <NavBar/>
         <div className="text-center flex flex-col justify-center items-center">
-          <h1 className="font-bold text-8xl w-9/12 mt-12">
-            The Metaverse For Anything
+          <h1 className="font-bold text-8xl w-full mt-12">
+            The Metaverse for 
+            <div className="text-green-500">
+              <span ref={typedElement}></span>
+            </div>
           </h1>
           <h2 className="font-light text-gray-500 text-4xl mt-8 flex items-center">
-            Buy and sell real-life stuff as NFT's - powered by Ethereum 
+            Buy and sell real-life stuff as NFTs - powered by Ethereum 
             <Image src="/ethereum.svg" height={30} width={40} alt="ethereum"/>
           </h2>
           <a href="sell">
