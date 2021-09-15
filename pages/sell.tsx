@@ -1,5 +1,6 @@
 import React from 'react'
 import NavBar from './components/NavBar'
+import Image from 'next/image'
 
 const sell = () => {
   return (
@@ -17,9 +18,6 @@ const sell = () => {
                       Title
                     </label>
                     <div className="mt-1 flex rounded-md shadow-sm w-full">
-                      <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
-                        I&apos;m selling a...
-                      </span>
                       <input
                         type="text"
                         name="company-website"
@@ -37,6 +35,50 @@ const sell = () => {
                   </label>
                   <div className="mt-1">
                     <textarea id="about" name="about" rows={3} className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2" placeholder="e.g. These sneakers are straight drip"></textarea>
+                  </div>
+                </div>
+                <div className="">
+                  <div className="">
+                    <div className="flex justify-between">
+                    <div className="w-5/12">
+                      <label htmlFor="company-website" className="block text-md text-left font-medium text-gray-700">
+                      Starting Price
+                      </label>
+                      <div className="mt-1 flex rounded-md shadow-sm w-full">
+                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                          ETH
+                        <Image src="/ethereum.svg" height={20} width={30} alt="ethereum"/>
+                        </span>
+                        <input
+                          type="number"
+                          name="company-website"
+                          id="company-website"
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2"
+                          placeholder="0.0001"
+                          value="0.0001"
+                        />
+                        </div>
+                      </div>
+                    <div className="w-5/12">
+                      <label htmlFor="company-website" className="block text-md text-left font-medium text-gray-700">
+                      Buy Now Price
+                      </label>
+                      <div className="mt-1 flex rounded-md shadow-sm w-full">
+                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                          ETH
+                        <Image src="/ethereum.svg" height={20} width={30} alt="ethereum"/>
+                        </span>
+                        <input
+                          type="text"
+                          name="company-website"
+                          id="company-website"
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2"
+                          placeholder="0.0005"
+                          value="0.0005"
+                        />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div>

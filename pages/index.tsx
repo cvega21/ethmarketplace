@@ -53,10 +53,10 @@ const Home: NextPage = () => {
         <NavBar/>
         <div className="text-center flex flex-col justify-center items-center">
           <h1 className="font-bold text-8xl w-9/12 mt-12">
-            Buy and Sell Authentic Sneakers 
+            The Metaverse For Anything
           </h1>
           <h2 className="font-light text-gray-500 text-4xl mt-8 flex items-center">
-            NFTs Powered by Ethereum 
+            Buy and sell real-life stuff as NFT's - powered by Ethereum 
             <Image src="/ethereum.svg" height={30} width={40} alt="ethereum"/>
           </h2>
           <a href="sell">

@@ -1,12 +1,15 @@
 import React from 'react'
+import Link from 'next/link'
 
 const NavBar = () => {
   return (
         <nav className="bg-gray-800 text-white p-5 m-0 w-screen flex justify-between">
           <div>
-            <h1 className="font-bold text-3xl ml-10">
-              Grails on Chain
-            </h1>
+            <Link href="/" passHref={true}>
+              <a className="font-bold text-3xl ml-10">
+                Grails on Chain
+              </a>
+            </Link>
           </div>
           <div className="flex mr-20 items-center">
             {/* <a className="font-medium mr-12 text-xl" href="buy">
