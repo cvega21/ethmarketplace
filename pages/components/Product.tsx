@@ -14,7 +14,7 @@ const Product = (props: propsInterface) => {
       <h2 className="text-7xl">{props.image}</h2>
       <h3 className="font-semibold text-2xl mt-8">{props.title}</h3>
       <p className="font-light mb-8">{props.price} eth</p>
-      <ActionButton action={props.action} text="Cop"/>
+      {/* <ActionButton action={props.action} text="Cop"/> */}
     </div>
   )
 }

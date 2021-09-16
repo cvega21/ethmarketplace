@@ -9,6 +9,23 @@ import Web3 from 'web3';
 import abi from './api/sample_abi';
 import NavBar from './components/NavBar'
 import Typed from 'typed.js';
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDUUrS6OUn2LJFC6oxRGMUJ4vYwaOIS8R8",
+  authDomain: "portfolio-75ffa.firebaseapp.com",
+  databaseURL: "https://portfolio-75ffa-default-rtdb.firebaseio.com",
+  projectId: "portfolio-75ffa",
+  storageBucket: "portfolio-75ffa.appspot.com",
+  messagingSenderId: "171226664150",
+  appId: "1:171226664150:web:2329c0be04baa8d456cd77",
+  measurementId: "G-Y3HXME3XXL"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 declare global {
   interface Window {
@@ -21,7 +38,6 @@ const Home: NextPage = () => {
   const [user, setUser] = useState('')
   const [web3IsEnabled, setWeb3IsEnabled] = useState(false);
   const web3js = useRef<Web3|null>(null);
-  let testContract;
 
   useEffect(() => {
     window.ethereum ? setWeb3IsEnabled(true) : void(0);
@@ -80,10 +96,10 @@ const Home: NextPage = () => {
             Buy and sell real-life stuff as NFTs - powered by Ethereum 
             <Image src="/ethereum.svg" height={30} width={40} alt="ethereum"/>
           </h2>
-          <a href="sell">
-          <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 border border-yellow-600 rounded mt-12">
-            List an Item
-          </button>
+          <a href="sell" className="mt-16">
+            <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-bold py-3 px-4  rounded">
+              List an Item
+            </button>
           </a>
         </div>
 
