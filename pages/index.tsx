@@ -25,7 +25,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// need to create custom hook or dynamic import to use analytics in nextjs since navigator/geolocationa is not enabled
+// const analytics = getAnalytics(app);
 
 declare global {
   interface Window {
@@ -97,30 +98,14 @@ const Home: NextPage = () => {
             <Image src="/ethereum.svg" height={30} width={40} alt="ethereum"/>
           </h2>
           <a href="sell" className="mt-16">
-            <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-bold py-3 px-4  rounded">
+            <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-bold text-xl py-3 px-8  rounded">
               List an Item
             </button>
           </a>
         </div>
-
-        {/* {loggedIn ? 
-          <div>
-            <h2>logged in as {user}</h2> 
-            <ActionButton action="sell" text="List an Item"/>
-          </div>
-          : 
-          <ActionButton action="sell" text="Start Selling"/>
-        } */}
-
-        {/* {
-          web3IsEnabled ? 
-            <h2>web3 is enabled.</h2> :
-            <h2>web3 is not enabled. get metamask today...</h2>
-        }  */}
-
-        <div>
-          {/* <h1>Products for Sale</h1> */}
-          <div className="flex mt-12">
+        <div className="flex flex-col border mt-24">
+          <h1 className="font-bold justify-self-start text-left ml-12 mt-6">Products for Sale</h1>
+          <div className="flex">
             <Product
               image="🍔"
               title="half eaten mcchicken"
