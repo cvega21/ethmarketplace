@@ -84,7 +84,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-1 flex-col items-center">
+      <main className="flex flex-1 flex-col items-center overflow-hidden">
         <NavBar/>
         <div className="text-center flex flex-col justify-center items-center">
           <h1 className="font-bold text-8xl w-full mt-12">
