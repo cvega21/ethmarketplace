@@ -4,12 +4,13 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import ActionButton from './components/ActionButton';
 import Product from './components/Product';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import Web3 from 'web3';
 import abi from './api/sample_abi';
 import NavBar from './components/NavBar'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -33,6 +34,9 @@ declare global {
       ethereum: any;
   }
 }
+
+const db = getFirestore();
+export const FirestoreContext = React.createContext(db);
 
 const Home: NextPage = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -85,48 +89,49 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex flex-1 flex-col items-center overflow-hidden">
-        <NavBar/>
-        <div className="text-center flex flex-col justify-center items-center">
-          <h1 className="font-bold text-8xl w-full mt-12">
-            The Metaverse for 
-            <div className="text-green-500">
-              <span ref={typedElement}></span>
-            </div>
-          </h1>
-          <h2 className="font-light text-gray-500 text-4xl mt-8 flex items-center">
-            Buy and sell real-life stuff as NFTs - powered by Ethereum 
-            <Image src="/ethereum.svg" height={30} width={40} alt="ethereum"/>
-          </h2>
-          <a href="sell" className="mt-16">
-            <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-bold text-xl py-3 px-8  rounded">
-              List an Item
-            </button>
-          </a>
-        </div>
-        <div className="flex flex-col border mt-24">
-          <h1 className="font-bold justify-self-start text-left ml-12 mt-6">Products for Sale</h1>
-          <div className="flex">
-            <Product
-              image="🍔"
-              title="half eaten mcchicken"
-              price={0.05}
-              action={loggedIn ? "buy" : "login"}
-            />
-            <Product
-              image="👓"
-              title="gucci sunglasses"
-              price={0.05}
-              action={loggedIn ? "buy" : "login"}
-            />
-            <Product
-              image="🧢"
-              title="fake supreme hat"
-              price={0.05}
-              action={loggedIn ? "buy" : "login"}
-            />
+        <FirestoreContext.Provider value={db}>
+          <NavBar/>
+          <div className="text-center flex flex-col justify-center items-center">
+            <h1 className="font-bold text-8xl w-full mt-12">
+              The Metaverse for 
+              <div className="text-green-500">
+                <span ref={typedElement}></span>
+              </div>
+            </h1>
+            <h2 className="font-light text-gray-500 text-4xl mt-8 flex items-center">
+              Buy and sell real-life stuff as NFTs - powered by Ethereum 
+              <Image src="/ethereum.svg" height={30} width={40} alt="ethereum"/>
+            </h2>
+            <a href="sell" className="mt-16">
+              <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-bold text-xl py-3 px-8  rounded">
+                List an Item
+              </button>
+            </a>
           </div>
-        </div>
-
+          <div className="flex flex-col border mt-24">
+            <h1 className="font-bold justify-self-start text-left ml-12 mt-6">Products for Sale</h1>
+            <div className="flex">
+              <Product
+                image="🍔"
+                title="half eaten mcchicken"
+                price={0.05}
+                action={loggedIn ? "buy" : "login"}
+              />
+              <Product
+                image="👓"
+                title="gucci sunglasses"
+                price={0.05}
+                action={loggedIn ? "buy" : "login"}
+              />
+              <Product
+                image="🧢"
+                title="fake supreme hat"
+                price={0.05}
+                action={loggedIn ? "buy" : "login"}
+              />
+            </div>
+          </div>
+        </FirestoreContext.Provider>
       </main>
     </div>
   )

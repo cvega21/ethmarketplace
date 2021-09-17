@@ -26,9 +26,6 @@ const NavBar = () => {
             <button className="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 border border-indigo-700 rounded">
              Connect Wallet
             </button>
-            {/* <p className="ml-5">
-              or Get Metamask
-            </p> */}
           </div>
         </nav>
   )
