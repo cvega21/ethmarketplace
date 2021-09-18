@@ -13,18 +13,18 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 
+// Initialize Firebase
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDUUrS6OUn2LJFC6oxRGMUJ4vYwaOIS8R8",
-  authDomain: "portfolio-75ffa.firebaseapp.com",
-  databaseURL: "https://portfolio-75ffa-default-rtdb.firebaseio.com",
-  projectId: "portfolio-75ffa",
-  storageBucket: "portfolio-75ffa.appspot.com",
-  messagingSenderId: "171226664150",
-  appId: "1:171226664150:web:2329c0be04baa8d456cd77",
-  measurementId: "G-Y3HXME3XXL"
+  apiKey: "AIzaSyDNsb7C4EEJfAJNUaBLbSW-20yWdGRq5ns",
+  authDomain: "ethmarketplace.firebaseapp.com",
+  projectId: "ethmarketplace",
+  storageBucket: "ethmarketplace.appspot.com",
+  messagingSenderId: "90727014603",
+  appId: "1:90727014603:web:f8c8ea958b97b19385fb4e",
+  measurementId: "G-EB9CRH1WVJ"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // need to create custom hook or dynamic import to use analytics in nextjs since navigator/geolocationa is not enabled
 // const analytics = getAnalytics(app);
@@ -35,8 +35,8 @@ declare global {
   }
 }
 
-const db = getFirestore();
-export const FirestoreContext = React.createContext(db);
+// const db = getFirestore();
+// export const FirestoreContext = React.createContext(db);
 
 const Home: NextPage = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -89,7 +89,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex flex-1 flex-col items-center overflow-hidden">
-        <FirestoreContext.Provider value={db}>
+        {/* <FirestoreContext.Provider value={db}> */}
           <NavBar/>
           <div className="text-center flex flex-col justify-center items-center">
             <h1 className="font-bold text-8xl w-full mt-12">
@@ -131,7 +131,7 @@ const Home: NextPage = () => {
               />
             </div>
           </div>
-        </FirestoreContext.Provider>
+        {/* </FirestoreContext.Provider> */}
       </main>
     </div>
   )

@@ -1,24 +1,93 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import NavBar from './components/NavBar'
 import Image from 'next/image'
 import Typed from 'typed.js';
-import { getFirestore } from "firebase/firestore";
-import { FirestoreContext } from './index';
+import { initializeApp } from "firebase/app";
+import { collection, getFirestore, doc, setDoc, addDoc  } from "firebase/firestore";
+// import { FirestoreContext } from './index';
 
 interface IProduct {
   title: string;
   description: string;
-  initialPrice: number;
+  startingPrice: number;
   buyNowPrice: number;
-  Location: string;
+  location: string;
 }
+
+
+
+
+// Initialize Firebase
+// const db = getFirestore();
 
 const Sell = () => {
   const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [startingPrice, setStartingPrice] = useState(0.0001);
+  const [buyNowPrice, setBuyNowPrice] = useState(0.0001);
+  const [photo, setPhoto] = useState('');
+  const [location, setLocation] = useState('');
+  // const fireStoreContext = useContext(FirestoreContext);
 
+  
+  const listItem = async () => {
+    // try {
+    //     const docRef = await addDoc(collection(db, "users"), {
+    //       first: "Ada",
+    //       last: "Lovelace",
+    //       born: 1815
+    //     });
+    //     console.log("Document written with ID: ", docRef.id);
+    // } catch (e) {
+    //   console.error("Error adding document: ", e);
+    // }
 
-  const listItem = ({...thing}) => {
-    console.log('hi');
+    // const product: IProduct = {
+    //   title: title,
+    //   description: description,
+    //   startingPrice: startingPrice,
+    //   buyNowPrice: buyNowPrice,
+    //   location: location
+    // }
+
+    // console.log('product')
+    // console.log(product)
+    // const docRef = await setDoc(doc(db, 'products', title), {
+    //   title: title,
+    //   description: description,
+    //   startingPrice: startingPrice,
+    //   buyNowPrice: buyNowPrice,
+    //   location: location
+    // });
+    
+    // const docRef = db.collection('users').doc('alovelace');
+
+    // await docRef.set({
+    //   first: 'Ada',
+    //   last: 'Lovelace',
+    //   born: 1815
+    // });
+
+    // try {
+    //   console.log('hi');
+    //   console.log(db)
+    //   console.log('hi 2')
+      
+    //   console.log("Document written with ID: ", docRef.id);
+    // }
+    // catch (e) {
+    //   console.log('error!!!')
+    // }
+  }
+
+  const changeInput = (e: React.ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<any>>) => {
+    let newValue = e.currentTarget.value;
+    setState(newValue);
+  }
+
+  const changeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>, setState: React.Dispatch<React.SetStateAction<any>>) => {
+    let newValue = e.currentTarget.value;
+    setState(newValue);
   }
 
   return (
@@ -42,6 +111,7 @@ const Sell = () => {
                           id="company-website"
                           className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2"
                           placeholder="e.g. Louis Vuitton Bag"
+                          onChange={e => changeInput(e, setTitle)}
                         />
                       </div>
                     </div>
@@ -51,7 +121,14 @@ const Sell = () => {
                       Description
                     </label>
                     <div className="mt-1">
-                      <textarea id="about" name="about" rows={3} className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2" placeholder="e.g. These sneakers are straight drip"></textarea>
+                      <textarea 
+                        id="about" 
+                        name="about" 
+                        rows={3} 
+                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2" 
+                        placeholder="e.g. These sneakers are straight drip"
+                        onChange={e => changeTextArea(e, setDescription)}
+                      />
                     </div>
                   </div>
                   <div className="">
@@ -74,6 +151,7 @@ const Sell = () => {
                               placeholder="0.0001"
                               defaultValue="0.0001"
                               step="0.0001"
+                              onChange={e => changeInput(e, setStartingPrice)}
                             />
                           </div>
                         </div>
@@ -94,9 +172,27 @@ const Sell = () => {
                               placeholder="0.0005"
                               defaultValue="0.0005"
                               step="0.0001"
+                              onChange={e => changeInput(e, setBuyNowPrice)}
                             />
                           </div>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-6">
+                    <div className="col-span-3 sm:col-span-3 w-full">
+                      <label htmlFor="company-website" className="block text-md text-left font-medium text-gray-700">
+                        Location
+                      </label>
+                      <div className="mt-1 flex rounded-md shadow-sm w-full">
+                        <input
+                          type="text"
+                          name="company-website"
+                          id="company-website"
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2"
+                          placeholder="e.g. Austin, TX"
+                          onChange={e => changeInput(e, setLocation)}
+                        />
                       </div>
                     </div>
                   </div>
@@ -125,9 +221,9 @@ const Sell = () => {
                 </div>
                 <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
                   <button 
-                    type="submit" 
+                    type='button'
                     className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    onClick={listItem}  
+                    onClick={() => listItem()}  
                   >
                     List For Sale
                   </button>
