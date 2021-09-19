@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
 import { collection, getFirestore, doc, setDoc, addDoc  } from "firebase/firestore";
+import { db } from './api/firebase'
 
 interface IProduct {
   title: string;
@@ -12,19 +13,6 @@ interface IProduct {
   buyNowPrice: number;
   location: string;
 }
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDNsb7C4EEJfAJNUaBLbSW-20yWdGRq5ns",
-  authDomain: "ethmarketplace.firebaseapp.com",
-  projectId: "ethmarketplace",
-  storageBucket: "ethmarketplace.appspot.com",
-  messagingSenderId: "90727014603",
-  appId: "1:90727014603:web:f8c8ea958b97b19385fb4e",
-  measurementId: "G-EB9CRH1WVJ"
-};
-
-const firebase = initializeApp(firebaseConfig);
-const db = getFirestore();
 
 const Sell = () => {
   const [title, setTitle] = useState('');
