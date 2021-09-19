@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
 import { collection, getFirestore, doc, setDoc, addDoc  } from "firebase/firestore";
-// import { FirestoreContext } from './index';
 
 interface IProduct {
   title: string;
@@ -14,11 +13,18 @@ interface IProduct {
   location: string;
 }
 
+const firebaseConfig = {
+  apiKey: "AIzaSyDNsb7C4EEJfAJNUaBLbSW-20yWdGRq5ns",
+  authDomain: "ethmarketplace.firebaseapp.com",
+  projectId: "ethmarketplace",
+  storageBucket: "ethmarketplace.appspot.com",
+  messagingSenderId: "90727014603",
+  appId: "1:90727014603:web:f8c8ea958b97b19385fb4e",
+  measurementId: "G-EB9CRH1WVJ"
+};
 
-
-
-// Initialize Firebase
-// const db = getFirestore();
+const firebase = initializeApp(firebaseConfig);
+const db = getFirestore();
 
 const Sell = () => {
   const [title, setTitle] = useState('');
@@ -27,57 +33,22 @@ const Sell = () => {
   const [buyNowPrice, setBuyNowPrice] = useState(0.0001);
   const [photo, setPhoto] = useState('');
   const [location, setLocation] = useState('');
-  // const fireStoreContext = useContext(FirestoreContext);
-
   
   const listItem = async () => {
-    // try {
-    //     const docRef = await addDoc(collection(db, "users"), {
-    //       first: "Ada",
-    //       last: "Lovelace",
-    //       born: 1815
-    //     });
-    //     console.log("Document written with ID: ", docRef.id);
-    // } catch (e) {
-    //   console.error("Error adding document: ", e);
-    // }
+    const product: IProduct = {
+      title: title,
+      description: description,
+      startingPrice: startingPrice,
+      buyNowPrice: buyNowPrice,
+      location: location
+    }
 
-    // const product: IProduct = {
-    //   title: title,
-    //   description: description,
-    //   startingPrice: startingPrice,
-    //   buyNowPrice: buyNowPrice,
-    //   location: location
-    // }
-
-    // console.log('product')
-    // console.log(product)
-    // const docRef = await setDoc(doc(db, 'products', title), {
-    //   title: title,
-    //   description: description,
-    //   startingPrice: startingPrice,
-    //   buyNowPrice: buyNowPrice,
-    //   location: location
-    // });
-    
-    // const docRef = db.collection('users').doc('alovelace');
-
-    // await docRef.set({
-    //   first: 'Ada',
-    //   last: 'Lovelace',
-    //   born: 1815
-    // });
-
-    // try {
-    //   console.log('hi');
-    //   console.log(db)
-    //   console.log('hi 2')
-      
-    //   console.log("Document written with ID: ", docRef.id);
-    // }
-    // catch (e) {
-    //   console.log('error!!!')
-    // }
+    try {
+      const docRef = await addDoc(collection(db, 'products'), {product});
+      console.log(docRef.id);
+    } catch (e) {
+      console.error('error!!!' + e)
+    }
   }
 
   const changeInput = (e: React.ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<any>>) => {

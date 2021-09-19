@@ -9,34 +9,12 @@ import Web3 from 'web3';
 import abi from './api/sample_abi';
 import NavBar from './components/NavBar'
 import Typed from 'typed.js';
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
-
-// Initialize Firebase
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDNsb7C4EEJfAJNUaBLbSW-20yWdGRq5ns",
-  authDomain: "ethmarketplace.firebaseapp.com",
-  projectId: "ethmarketplace",
-  storageBucket: "ethmarketplace.appspot.com",
-  messagingSenderId: "90727014603",
-  appId: "1:90727014603:web:f8c8ea958b97b19385fb4e",
-  measurementId: "G-EB9CRH1WVJ"
-};
-
-const app = initializeApp(firebaseConfig);
-// need to create custom hook or dynamic import to use analytics in nextjs since navigator/geolocationa is not enabled
-// const analytics = getAnalytics(app);
 
 declare global {
   interface Window {
       ethereum: any;
   }
 }
-
-// const db = getFirestore();
-// export const FirestoreContext = React.createContext(db);
 
 const Home: NextPage = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -55,10 +33,7 @@ const Home: NextPage = () => {
   }, 500);
 
   const startContract = () => {
-    // var cryptoZombiesAddress = "YOUR_CONTRACT_ADDRESS";
     let web3 = web3js.current as Web3;
-    // testContract = new web3.eth.Contract(abi as any, cryptoZombiesAddress);
-    // console.log(testContract);
   }
 
   const typedElement: any = useRef(null);
@@ -78,8 +53,6 @@ const Home: NextPage = () => {
     }
   }, [])
 
-  
-
   return (
     <div className="text-center">
       <Head>
@@ -89,49 +62,47 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex flex-1 flex-col items-center overflow-hidden">
-        {/* <FirestoreContext.Provider value={db}> */}
-          <NavBar/>
-          <div className="text-center flex flex-col justify-center items-center">
-            <h1 className="font-bold text-8xl w-full mt-12">
-              The Metaverse for 
-              <div className="text-green-500">
-                <span ref={typedElement}></span>
-              </div>
-            </h1>
-            <h2 className="font-light text-gray-500 text-4xl mt-8 flex items-center">
-              Buy and sell real-life stuff as NFTs - powered by Ethereum 
-              <Image src="/ethereum.svg" height={30} width={40} alt="ethereum"/>
-            </h2>
-            <a href="sell" className="mt-16">
-              <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-bold text-xl py-3 px-8  rounded">
-                List an Item
-              </button>
-            </a>
-          </div>
-          <div className="flex flex-col border mt-24">
-            <h1 className="font-bold justify-self-start text-left ml-12 mt-6">Products for Sale</h1>
-            <div className="flex">
-              <Product
-                image="🍔"
-                title="half eaten mcchicken"
-                price={0.05}
-                action={loggedIn ? "buy" : "login"}
-              />
-              <Product
-                image="👓"
-                title="gucci sunglasses"
-                price={0.05}
-                action={loggedIn ? "buy" : "login"}
-              />
-              <Product
-                image="🧢"
-                title="fake supreme hat"
-                price={0.05}
-                action={loggedIn ? "buy" : "login"}
-              />
+        <NavBar/>
+        <div className="text-center flex flex-col justify-center items-center">
+          <h1 className="font-bold text-8xl w-full mt-12">
+            The Metaverse for 
+            <div className="text-green-500">
+              <span ref={typedElement}></span>
             </div>
+          </h1>
+          <h2 className="font-light text-gray-500 text-4xl mt-8 flex items-center">
+            Buy and sell real-life stuff as NFTs - powered by Ethereum 
+            <Image src="/ethereum.svg" height={30} width={40} alt="ethereum"/>
+          </h2>
+          <a href="sell" className="mt-16">
+            <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-bold text-xl py-3 px-8  rounded">
+              List an Item
+            </button>
+          </a>
+        </div>
+        <div className="flex flex-col border mt-24">
+          <h1 className="font-bold justify-self-start text-left ml-12 mt-6">Products for Sale</h1>
+          <div className="flex">
+            <Product
+              image="🍔"
+              title="half eaten mcchicken"
+              price={0.05}
+              action={loggedIn ? "buy" : "login"}
+            />
+            <Product
+              image="👓"
+              title="gucci sunglasses"
+              price={0.05}
+              action={loggedIn ? "buy" : "login"}
+            />
+            <Product
+              image="🧢"
+              title="fake supreme hat"
+              price={0.05}
+              action={loggedIn ? "buy" : "login"}
+            />
           </div>
-        {/* </FirestoreContext.Provider> */}
+        </div>
       </main>
     </div>
   )
