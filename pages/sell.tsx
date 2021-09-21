@@ -19,7 +19,7 @@ const Sell = () => {
   const [description, setDescription] = useState('');
   const [startingPrice, setStartingPrice] = useState(0.0001);
   const [buyNowPrice, setBuyNowPrice] = useState(0.0001);
-  const [photo, setPhoto] = useState('');
+  const [image, setImage] = useState<File>();
   const [location, setLocation] = useState('');
   
   const listItem = async () => {
@@ -32,8 +32,7 @@ const Sell = () => {
     }
 
     try {
-      const docRef = await addDoc(collection(db, 'products'), {product});
-      console.log(docRef.id);
+      await setDoc(doc(db, 'products', title), {product});
     } catch (e) {
       console.error('error!!!' + e)
     }
@@ -47,6 +46,12 @@ const Sell = () => {
   const changeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>, setState: React.Dispatch<React.SetStateAction<any>>) => {
     let newValue = e.currentTarget.value;
     setState(newValue);
+  }
+
+  const changeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+    if (!fileList) return;
+    setImage(fileList[0])
   }
 
   return (
@@ -80,7 +85,7 @@ const Sell = () => {
                       Description
                     </label>
                     <div className="mt-1">
-                      <textarea 
+                      <textarea
                         id="about" 
                         name="about" 
                         rows={3} 
@@ -167,7 +172,7 @@ const Sell = () => {
                         <div className="flex text-sm text-gray-600">
                           <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                             <span>Upload a file</span>
-                            <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                            <input accept="image/*" id="file-upload" name="file-upload" type="file" className="sr-only" onChange={e => changeImage(e)}/>
                           </label>
                           <p className="pl-1">or drag and drop</p>
                         </div>

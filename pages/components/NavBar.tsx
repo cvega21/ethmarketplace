@@ -10,7 +10,7 @@ const NavBar = () => {
             <Link href="/" passHref={true}>
               <a className="font-bold ml-10 text-4xl font-dramatic flex items-center">
                 <FontAwesomeIcon icon={faGgCircle}/> 
-                <h1 className="ml-3 mt-2 text-5xl">GRAILS ON CHAIN</h1>
+                <h1 className="ml-3 mt-2 text-5xl">FIRE ON CHAIN</h1>
               </a>
             </Link>
           </div>
