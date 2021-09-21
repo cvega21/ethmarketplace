@@ -162,13 +162,17 @@ const Sell = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-md text-left font-medium text-white">
+                    <label className="block text-md text-left font-medium text-white mb-2">
                       Photo
                     </label>
                     <div className="relative min-h-48">
                       {
                         image ?
-                            <Image src={image} alt={image} width={200} height={50} layout='fill'></Image>
+                        <div className="mt-1 flex flex-col items-center pt-6 h-auto">
+                          <div className="relative h-40 w-full">
+                            <Image src={image} alt={image} layout='fill' objectFit='cover'></Image>
+                          </div>
+                        </div>
                             :
                             <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                               <div className="space-y-1 text-center">
