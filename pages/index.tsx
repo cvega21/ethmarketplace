@@ -61,20 +61,22 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-1 flex-col items-center overflow-hidden">
+      <main className="flex flex-1 flex-col items-center overflow-hidden bg-gray-900">
         <NavBar/>
         <div className="text-center flex flex-col justify-center items-center">
-          <h1 className="font-bold text-6xl w-10/12 mt-4">
-            The Metaverse for 
-            <div className="text-green-500">
+          <div className="font-bold text-6xl w-10/12 mt-4 text-white tracking-tighter">
+            <h1>the</h1> 
+            <h1>metaverse</h1> 
+            <h1>for</h1> 
+            <div className="text-green-400">
               <span ref={typedElement}></span>
             </div>
-          </h1>
+          </div>
           <div className="w-10/12 flex flex-col">
             <h2 className="font-extralight text-gray-500 text-2xl mt-8">
-              Buy and sell your real life stuff as NFTs, powered by
+              buy and sell your real life stuff as NFTs, powered by
               <p className="inline">
-                <div className="inline-flex items-center ml-1"> Ethereum 
+                <div className="inline-flex items-center ml-1 font-semibold"> Ethereum 
                 </div>
               </p>
             </h2>
@@ -82,12 +84,12 @@ const Home: NextPage = () => {
           <div className="flex flex-col w-5/12">
             <a href="sell" className="mt-12">
               <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-bold text-xl py-3 px-8 rounded-lg shadow-indigo w-full">
-                Explore
+               explore
               </button>
             </a>
             <a href="sell" className="mt-8">
               <button className="bg-indigo-700 rounded-lg hover:bg-indigo-600 text-gray-100 hover:text-white font-bold text-xl py-3 px-8 shadow-indigo w-full">
-                Sell Stuff
+                sell stuff
               </button>
             </a>
           </div>
