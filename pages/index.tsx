@@ -68,11 +68,11 @@ const Home: NextPage = () => {
             <h1>the</h1> 
             <h1>metaverse</h1> 
             <h1>for</h1> 
-            <div className="text-green-400">
+            <div className="text-indigo-400">
               <span ref={typedElement}></span>
             </div>
           </div>
-          <div className="w-10/12 flex flex-col">
+          <div className="w-8/12 flex flex-col">
             <h2 className="font-extralight text-gray-500 text-2xl mt-8">
               buy and sell your real life stuff as NFTs, powered by
               <p className="inline">
@@ -87,16 +87,16 @@ const Home: NextPage = () => {
                explore
               </button>
             </a>
-            <a href="sell" className="mt-8">
+            <a href="sell" className="mt-8 mb-5">
               <button className="bg-indigo-700 rounded-lg hover:bg-indigo-600 text-gray-100 hover:text-white font-bold text-xl py-3 px-8 shadow-indigo w-full">
                 sell stuff
               </button>
             </a>
           </div>
         </div>
-        <div className="flex flex-col border mt-24">
-          <h1 className="font-bold justify-self-start text-left ml-12 mt-6">Products for Sale</h1>
-          <div className="flex">
+        <div className="flex flex-col">
+          {/* <h1 className="font-semibold justify-self-start text-left ml-12 mt-6 text-white text-xl">Trending near Austin, TX</h1> */}
+          <div className="flex flex-col">
             <Product
               image="🍔"
               title="half eaten mcchicken"

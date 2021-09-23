@@ -56,9 +56,9 @@ const Sell = () => {
   }
 
   return (
-    <div className="flex flex-col w-screen items-center text-center">
-      <NavBar />
-        <div className="flex flex-col items-center text-center bg-black bg-opacity-90 w-full">
+    <div className="flex flex-col w-screen items-center text-center bg-gray-900">
+        <NavBar />
+        <div className="flex flex-col items-center text-center w-full">
           <h1 className="font-bold text-5xl mt-10 mb-6 text-white">List an item</h1>
           <div className="md:mt-0 md:col-span-2 w-11/12">
             <form action="#" method="POST">
