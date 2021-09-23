@@ -64,21 +64,33 @@ const Home: NextPage = () => {
       <main className="flex flex-1 flex-col items-center overflow-hidden">
         <NavBar/>
         <div className="text-center flex flex-col justify-center items-center">
-          <h1 className="font-bold text-8xl w-full mt-12">
+          <h1 className="font-bold text-6xl w-10/12 mt-4">
             The Metaverse for 
             <div className="text-green-500">
               <span ref={typedElement}></span>
             </div>
           </h1>
-          <h2 className="font-light text-gray-500 text-4xl mt-8 flex items-center">
-            Buy and sell real-life stuff as NFTs - powered by Ethereum 
-            <Image src="/ethereum.svg" height={30} width={40} alt="ethereum"/>
-          </h2>
-          <a href="sell" className="mt-16">
-            <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-bold text-xl py-3 px-8  rounded">
-              List an Item
-            </button>
-          </a>
+          <div className="w-10/12 flex flex-col">
+            <h2 className="font-extralight text-gray-500 text-2xl mt-8">
+              Buy and sell your real life stuff as NFTs, powered by
+              <p className="inline">
+                <div className="inline-flex items-center ml-1"> Ethereum 
+                </div>
+              </p>
+            </h2>
+          </div>
+          <div className="flex flex-col w-5/12">
+            <a href="sell" className="mt-12">
+              <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-bold text-xl py-3 px-8 rounded-lg shadow-indigo w-full">
+                Explore
+              </button>
+            </a>
+            <a href="sell" className="mt-8">
+              <button className="bg-indigo-700 rounded-lg hover:bg-indigo-600 text-gray-100 hover:text-white font-bold text-xl py-3 px-8 shadow-indigo w-full">
+                Sell Stuff
+              </button>
+            </a>
+          </div>
         </div>
         <div className="flex flex-col border mt-24">
           <h1 className="font-bold justify-self-start text-left ml-12 mt-6">Products for Sale</h1>

@@ -5,7 +5,7 @@ import { faGgCircle } from '@fortawesome/free-brands-svg-icons'
 
 const NavBar = () => {
   return (
-        <nav className="bg-indigo-800 pt-3 pb-3 text-white m-0 w-full flex justify-between items-center">
+        <nav className="bg-indigo-800 pt-2 pb-2 text-white m-0 w-full flex justify-between items-center">
           <div className='flex'>
             <Link href="/" passHref={true}>
               <a className="font-bold ml-10 text-3xl font-dramatic flex items-center">
