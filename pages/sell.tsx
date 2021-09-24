@@ -91,7 +91,7 @@ const Sell = () => {
                         name="about" 
                         rows={3} 
                         className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2 bg-gray-700 text-white" 
-                        placeholder="e.g. These sneakers are straight drip"
+                        placeholder="e.g. These sneakers are straight fire"
                         onChange={e => changeTextArea(e, setDescription)}
                       />
                     </div>

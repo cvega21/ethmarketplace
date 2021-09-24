@@ -10,7 +10,7 @@ const NavBar = () => {
             <Link href="/" passHref={true}>
               <a className="font-bold ml-10 text-3xl font-dramatic flex items-center">
                 <FontAwesomeIcon icon={faFireAlt} className="text-red-400"/> 
-                <h1 className="ml-3 mt-2 text-4xl">fire on chain</h1>
+                <h1 className="ml-2 text-4xl">firechain</h1>
               </a>
             </Link>
           </div> 

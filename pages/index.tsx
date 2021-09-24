@@ -64,7 +64,7 @@ const Home: NextPage = () => {
       <main className="flex flex-1 flex-col items-center overflow-hidden bg-gray-900">
         <NavBar/>
         <div className="text-center flex flex-col justify-center items-center">
-          <div className="font-bold text-6xl w-10/12 mt-4 text-white tracking-tighter">
+          <div className="font-bold text-5xl w-10/12 mt-6 text-white tracking-tighter">
             <h1>the</h1> 
             <h1>metaverse</h1> 
             <h1>for</h1> 
@@ -72,30 +72,30 @@ const Home: NextPage = () => {
               <span ref={typedElement}></span>
             </div>
           </div>
-          <div className="w-8/12 flex flex-col">
-            <h2 className="font-extralight text-gray-500 text-2xl mt-8">
+          <div className="w-11/12 flex flex-col">
+            <h2 className="font-extralight text-gray-500 text-xl mt-8">
               buy and sell your real life stuff as NFTs, powered by
               <p className="inline">
-                <div className="inline-flex items-center ml-1 font-semibold"> Ethereum 
+                <div className="inline-flex items-center ml-1 font-semibold"> Ethereum. 
                 </div>
               </p>
             </h2>
           </div>
           <div className="flex flex-col w-5/12">
-            <a href="sell" className="mt-12">
-              <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-bold text-xl py-3 px-8 rounded-lg shadow-indigo w-full">
+            <a href="sell" className="mt-10">
+              <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-medium text-xl py-2 px-8 rounded-lg shadow-indigo w-full">
                explore
               </button>
             </a>
             <a href="sell" className="mt-8 mb-5">
-              <button className="bg-indigo-700 rounded-lg hover:bg-indigo-600 text-gray-100 hover:text-white font-bold text-xl py-3 px-8 shadow-indigo w-full">
+              <button className="bg-indigo-700 rounded-lg hover:bg-indigo-600 text-gray-100 hover:text-white font-medium text-xl py-2 px-8 shadow-indigo w-full">
                 sell stuff
               </button>
             </a>
           </div>
         </div>
-        <div className="flex flex-col">
-          {/* <h1 className="font-semibold justify-self-start text-left ml-12 mt-6 text-white text-xl">Trending near Austin, TX</h1> */}
+        <div className="flex flex-col w-10/12 mt-12">
+          <h1 className="font-light justify-self-start text-left text-gray-50 text-2xl">top picks near you</h1>
           <div className="flex flex-col">
             <Product
               image="🍔"

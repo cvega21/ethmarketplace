@@ -10,7 +10,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      'dramatic': ['Teko', ...defaultTheme.fontFamily.sans],
+      'dramatic': ['Gemunu Libre', ...defaultTheme.fontFamily.sans],
     },
   },
   variants: {
