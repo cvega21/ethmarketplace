@@ -67,7 +67,7 @@ const Sell = () => {
                   <div className="grid grid-cols-3 gap-6">
                     <div className="col-span-3 sm:col-span-3 w-full">
                       <label htmlFor="company-website" className="block text-md text-left font-medium text-white">
-                        I'm selling a...
+                        I&apos;m selling a...
                       </label>
                       <div className="mt-1 flex rounded-md shadow-sm w-full">
                         <input

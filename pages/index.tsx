@@ -98,25 +98,25 @@ const Home: NextPage = () => {
           <h1 className="font-light justify-self-start text-left text-gray-50 text-2xl ml-4">top picks near you</h1>
           <div className="flex flex-col">
             <Product
-              image="🍔"
-              title="half eaten mcchicken"
-              price={0.0002}
+              image="coffee_table.jpeg"
+              title="modern coffee table"
+              price={0.000042}
               action={loggedIn ? "buy" : "login"}
               location="austin, tx"
               />
             <Product
-              image="👓"
-              title="gucci sunglasses"
-              price={0.0004}
+              image="iphone.jpeg"
+              title="iphone 12"
+              price={0.000095}
               action={loggedIn ? "buy" : "login"}
-              location="austin, tx"
+              location="san marcos, tx"
               />
             <Product
-              image="🧢"
-              title="fake supreme hat"
-              price={0.093844}
+              image="jordans.jpeg"
+              title="jordan 1's"
+              price={0.00004}
               action={loggedIn ? "buy" : "login"}
-              location="austin, tx"
+              location="round rock, tx"
             />
           </div>
         </div>
