@@ -61,9 +61,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-1 flex-col items-center overflow-hidden bg-gray-900">
+      <main className="flex flex-1 flex-col items-center overflow-hidden bg-gray-900 min-h-screen relative">
         <NavBar/>
-        <div className="text-center flex flex-col justify-center items-center">
+        <div className="text-center flex w-full flex-col justify-center items-center">
           <div className="font-bold text-5xl w-10/12 mt-6 text-white tracking-tighter">
             <h1>the</h1> 
             <h1>metaverse</h1> 
@@ -82,7 +82,7 @@ const Home: NextPage = () => {
             </h2>
           </div>
           <div className="flex flex-col w-5/12">
-            <a href="sell" className="mt-10">
+            <a href="buy" className="mt-10">
               <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-medium text-xl py-2 px-8 rounded-lg shadow-indigo w-full">
                explore
               </button>
