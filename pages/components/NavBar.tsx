@@ -1,15 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFireAlt, faStore, faCoins, faGraduationCap, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import NavBarItem from './NavBarItem'
+import AppContext from './AppContext'
 
 const NavBar = () => {
-  const [navIsOpen, setNavIsOpen] = useState(false);
-
-  const changeNav = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setNavIsOpen(!navIsOpen);
-  }
+  const navContext = useContext(AppContext);
   
   return (
     <>
@@ -22,13 +19,13 @@ const NavBar = () => {
                 <h1 className="ml-2 text-4xl">firechain</h1>
               </a>
             </Link>
-            <button className="text-4xl text-gray-50 mr-8" onClick={e => changeNav(e)}>
+            <button className="text-4xl text-gray-50 mr-8" onClick={e => navContext?.setNavIsOpen(!navContext?.navIsOpen)}>
             ☰
             </button>
           </div>
         </div> 
       </nav>
-      <div className={`bg-gray-800 mobile-side-bar w-full absolute inset-y-0 top-16 left-0 transform-gpu transition duration-200 ease-in-out z-10 ${navIsOpen ? '-translate-x-full' : ''}`}>
+      <div className={`bg-gray-800 mobile-side-bar w-full absolute inset-y-0 top-16 left-0 transform-gpu transition duration-200 ease-in-out z-10 ${!navContext?.navIsOpen ? '-translate-x-full' : ''}`}>
         <NavBarItem icon={faStore} title='buy'/>
         <NavBarItem icon={faCoins} title='sell'/>
         <NavBarItem icon={faGraduationCap} title='learn'/>
