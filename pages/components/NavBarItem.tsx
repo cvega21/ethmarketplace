@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const NavBarItem = (props: any) => {
   return (
-    <a href='#' className='flex w-full text-gray-50 text-2xl font-light pl-6 h-16 items-center hover:bg-indigo-500 hover:cursor-pointer hover:text-white transition duration-150'>
+    <a href={props.title} className='flex w-full text-gray-50 text-2xl font-light pl-6 h-16 items-center hover:bg-indigo-500 hover:cursor-pointer hover:text-white transition duration-150'>
       <div className='w-12'>
         <FontAwesomeIcon icon={props.icon}/> 
       </div>
