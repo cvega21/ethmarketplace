@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFireAlt } from '@fortawesome/free-solid-svg-icons'
+import { faFireAlt, faStore, faCoins, faGraduationCap, faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import NavBarItem from './NavBarItem'
 
 const NavBar = () => {
   const [navIsOpen, setNavIsOpen] = useState(false);
@@ -28,7 +29,10 @@ const NavBar = () => {
         </div> 
       </nav>
       <div className={`bg-gray-800 mobile-side-bar w-full absolute inset-y-0 top-16 left-0 transform-gpu transition duration-200 ease-in-out z-10 ${navIsOpen ? '-translate-x-full' : ''}`}>
-        
+        <NavBarItem icon={faStore} title='buy'/>
+        <NavBarItem icon={faCoins} title='sell'/>
+        <NavBarItem icon={faGraduationCap} title='learn'/>
+        <NavBarItem icon={faUserCircle} title='account'/>
       </div>
     </>
   )
