@@ -94,7 +94,7 @@ const Home: NextPage = () => {
             </div>
             <div className="flex flex-col w-5/12">
               <a href="buy" className="mt-10">
-                <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-medium text-xl py-2 px-8 rounded-lg shadow-indigo w-full">
+                <button className="bg-indigo-200 hover:bg-indigo-100 text-indigo-800 hover:text-indigo-700 font-medium text-xl py-2 px-8 rounded-lg shadow-indigo w-full">
                 explore
                 </button>
               </a>
