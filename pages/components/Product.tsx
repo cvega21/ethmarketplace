@@ -10,20 +10,14 @@ interface propsInterface {
   price: number,
   image: string,
   action: string,
-  location: string
+  location: string,
+  uid: number
 }
 
 const Product = (props: propsInterface) => {
-  // const testFirebase = async () => {
-  //   const querySnapshot = await getDocs(collection(db, 'products'));
-  //   querySnapshot.forEach(doc => {
-  //     console.log(doc.id, ' => ', doc.data());
-  //   })
-  // }
   
   return (
-    <div className="border mt-6 mb-6 transform hover:shadow-xl hover:-translate-y-2 transition-all text-white bg-gray-800">
-      {/* <h2 className="text-7xl">{props.image}</h2> */}
+    <a href={props.title} className="border mt-6 mb-6 transform hover:shadow-xl hover:-translate-y-2 transition-all text-white bg-gray-800 hover:cursor-pointer">
       <Image src={`/${props.image}`} alt='' width={60} height={40} layout='responsive' objectFit='cover'></Image>
       <div className="bg-gray-800 w-full pt-4 pb-4 flex items-center justify-around">
         <div>
@@ -32,7 +26,7 @@ const Product = (props: propsInterface) => {
         </div>
         <EthPrice price={props.price}/>
       </div>
-    </div>
+    </a>
   )
 }
 
