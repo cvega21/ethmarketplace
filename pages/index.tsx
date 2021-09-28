@@ -51,10 +51,10 @@ const Home: NextPage = () => {
   
   useEffect(() => {
     const options = {
-      strings: ['^300 gucci belts^400','^300 used iPhones^400', '^300 furniture^400', '^100a^100n^100y^100t^100h^100i^100n^100g^1000'],
+      strings: ['^300 gucci belts^400', '^300 yeezys^400', '^300 iPhones^400', '^100a^100n^100y^100t^100h^100i^100n^100g^1000'],
       typeSpeed: 38,
       backSpeed: 18,
-      loop: true
+      loop: false
     };
     
     typed.current = new Typed(typedElement.current as Element, options);
@@ -86,10 +86,10 @@ const Home: NextPage = () => {
             <div className="w-11/12 flex flex-col">
               <h2 className="font-extralight text-gray-500 text-xl mt-8">
                 buy and sell your real life stuff as NFTs, powered by
-                <p className="inline">
-                  <div className="inline-flex items-center ml-1 font-semibold"> Ethereum. 
-                  </div>
-                </p>
+                <div className="inline">
+                  <p className="inline-flex items-center ml-1 font-normal"> Ethereum. 
+                  </p>
+                </div>
               </h2>
             </div>
             <div className="flex flex-col w-5/12">
