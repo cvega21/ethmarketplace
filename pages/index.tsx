@@ -2,14 +2,14 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import ActionButton from './components/ActionButton';
-import Product from './components/Product';
+import ActionButton from '../components/ActionButton';
+import Product from '../components/Product';
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import Web3 from 'web3';
 import abi from './api/sample_abi';
-import NavBar from './components/NavBar'
+import NavBar from '../components/NavBar'
 import Typed from 'typed.js';
-import AppContext from './components/AppContext'
+import AppContext from '../contexts/AppContext'
 
 declare global {
   interface Window {

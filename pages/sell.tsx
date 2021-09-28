@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import NavBar from './components/NavBar'
+import NavBar from '../components/NavBar'
 import Image from 'next/image'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";

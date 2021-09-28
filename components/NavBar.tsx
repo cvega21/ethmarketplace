@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFireAlt, faStore, faCoins, faGraduationCap, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import NavBarItem from './NavBarItem'
-import AppContext from './AppContext'
+import AppContext from '../contexts/AppContext'
 
 const NavBar = () => {
   const navContext = useContext(AppContext);
