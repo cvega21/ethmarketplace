@@ -1,8 +1,13 @@
 import '../styles/globals.css'
 import 'tailwindcss/tailwind.css'
 import type { AppProps } from 'next/app'
+import { AppWrapper } from '../contexts/AppContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <AppWrapper>
+      <Component {...pageProps} />
+    </AppWrapper>
+  )
 }
 export default MyApp

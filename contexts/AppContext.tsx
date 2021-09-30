@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createContext, useContext, useState} from 'react'
 
 interface IAppContext {
   navIsOpen: boolean,
@@ -7,4 +7,22 @@ interface IAppContext {
 
 const AppContext = React.createContext<IAppContext | null>(null);
 
-export default AppContext;
+export const AppWrapper: React.FC = ({ children }) => {
+  const [navIsOpen, setNavIsOpen] = useState(false);
+  
+  let navContext = {
+      navIsOpen: navIsOpen,
+      setNavIsOpen: setNavIsOpen
+  }
+
+  return (
+    <AppContext.Provider value={navContext}>
+      {children}
+    </AppContext.Provider>
+  ) 
+
+}
+
+export const useAppContext = () => {
+  return useContext(AppContext);
+};
