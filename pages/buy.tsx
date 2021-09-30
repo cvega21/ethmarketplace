@@ -6,7 +6,6 @@ import NavBar from '../components/NavBar';
 const buy = () => {
   return (
   <PageLayout>
-      <NavBar/>
       <h1 className="font-light justify-self-start text-left text-gray-50 text-2xl ml-4">top picks near you</h1>
       <div className="flex flex-col">
         <Product
