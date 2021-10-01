@@ -91,17 +91,13 @@ const Home: NextPage = () => {
               </div>
             </h2>
           </div>
-          <div className="flex flex-col w-5/12">
-            <a href="buy" className="mt-10">
-              <button className="bg-indigo-200 hover:bg-indigo-100 text-indigo-800 hover:text-indigo-700 font-medium text-xl py-2 px-8 rounded-lg shadow-indigo w-full">
+          <div className="flex flex-col w-5/12 mt-10">
+            <ActionButton theme='light' link='buy'>
               explore
-              </button>
-            </a>
-            <a href="sell" className="mt-8 mb-5">
-              <button className="bg-indigo-700 rounded-lg hover:bg-indigo-600 text-gray-100 hover:text-white font-medium text-xl py-2 px-8 shadow-indigo w-full">
-                sell stuff
-              </button>
-            </a>
+            </ActionButton>
+            <ActionButton theme='dark' link='sell'>
+              sell stuff
+            </ActionButton>
           </div>
         </div>
       </main>
