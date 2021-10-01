@@ -7,8 +7,8 @@ const buy = () => {
   return (
   <PageLayout>
     <div className="w-10/12 mt-6">
-      <h1 className="text-white text-4xl font-semibold pb-8">
-        Explore Real Life NFT's
+      <h1 className="text-white text-4xl font-semibold py-8">
+        Explore Real Life NFT&apos;s
       </h1>
       <h2 className="font-light justify-self-start text-center text-gray-50 text-xl ml-4">
         top picks near you
