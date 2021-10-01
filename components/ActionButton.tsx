@@ -1,16 +1,29 @@
 import React, { JSXElementConstructor } from 'react';
 import Link from 'next/link'
 
-const ActionButton = (props: any) => {
+interface IProps {
+  theme: string,
+  link?: string,
+  children?: React.ReactNode
+}
+
+const ActionButton = (props: IProps) => {
+  
   
   return (
-    <div>
-      <Link href={`/${props.action}`}>
-        <a>
-          <button className="bg-indigo-200 hover:bg-indigo-600 text-indigo-800 hover:text-white font-medium py-2 px-4 rounded w-24">{props.text}</button>
-        </a>
+    props.theme === 'light' ?
+      <Link href={`/${props.link}`} passHref={true}>
+          <button className="bg-indigo-200 hover:bg-indigo-100 text-indigo-800 hover:text-indigo-700 font-medium text-xl py-2 px-8 my-4 rounded-lg shadow-indigo w-full">
+            {props.children}
+          </button>
       </Link>
-    </div>
+    : props.theme === 'dark' ?
+      <Link href={`/${props.link}`} passHref={true}>
+          <button className="bg-indigo-700 rounded-lg hover:bg-indigo-800 text-gray-100 hover:text-white font-medium text-xl py-2 px-8 my-4 shadow-indigo w-full">
+            {props.children}
+          </button>
+      </Link>
+    : <></>
   )
 }
 
