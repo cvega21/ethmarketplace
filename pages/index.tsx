@@ -74,24 +74,20 @@ const Home: NextPage = () => {
       <main className={`text-center dark flex flex-1 flex-col items-center bg-gray-900 relative ${navContext?.navIsOpen ? 'min-h-screen overflow-hidden' : 'min-h-screen'}`}>
         <NavBar/>
         <div className="text-center flex w-full flex-col justify-center items-center">
-          <div className="font-bold text-5xl w-10/12 mt-6 text-white tracking-tighter">
-            <h1>the</h1> 
-            <h1>metaverse</h1> 
-            <h1>for</h1> 
+          <div className="font-bold text-5xl md:text-7xl w-10/12 mt-6 text-white tracking-tighter">
+            <h1>the metaverse for</h1> 
+            {/* <h1>metaverse</h1>  */}
+            {/* <h1>for</h1>  */}
             <div className="text-indigo-400">
               <span ref={typedElement}></span>
             </div>
           </div>
-          <div className="w-11/12 flex flex-col">
-            <h2 className="font-extralight text-gray-500 text-xl mt-8">
-              buy and sell your real life stuff as NFTs, powered by
-              <div className="inline">
-                <p className="inline-flex items-center ml-1 font-normal"> Ethereum. 
-                </p>
-              </div>
+          <div className="w-11/12  md:w-4/12 lg:w-4/12 flex flex-col">
+            <h2 className="font-extralight text-gray-500 text-xl md:text-4xl mt-8">
+              buy and sell your real-life stuff as NFT's.
             </h2>
           </div>
-          <div className="flex flex-col w-5/12 mt-10">
+          <div className="flex flex-col w-6/12 min-w-min md:w-3/12 lg:w-2/12 mt-6">
             <ActionButton theme='light' link='buy'>
               explore
             </ActionButton>
