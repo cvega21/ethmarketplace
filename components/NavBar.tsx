@@ -21,11 +21,8 @@ const NavBar = () => {
               </Link>
               <button className="text-4xl text-gray-50 mr-8" onClick={e => {
                 navContext?.setNavIsOpen(!navContext?.navIsOpen);
-                console.log(`nav is open? ${navContext?.navIsOpen}`);       
-                console.log(navContext);       
-              }
-            }>
-              ☰
+              }}>
+              {navContext?.navIsOpen ? 'x' : '☰'}
               </button>
             </div>
           </div> 
