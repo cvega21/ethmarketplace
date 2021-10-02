@@ -73,11 +73,13 @@ const Home: NextPage = () => {
       </Head>
       <main className={`text-center dark flex flex-1 flex-col items-center bg-gray-900 relative ${navContext?.navIsOpen ? 'min-h-screen overflow-hidden' : 'min-h-screen'}`}>
         <NavBar/>
-        <div className="text-center flex w-full flex-col justify-center items-center">
-          <div className="font-bold text-5xl md:text-7xl w-10/12 mt-6 text-white tracking-tighter">
-            <h1>the metaverse for</h1> 
-            {/* <h1>metaverse</h1>  */}
-            {/* <h1>for</h1>  */}
+        <div className="text-center flex w-full flex-col lg:flex-1 justify-center items-center h-full">
+          <div className="font-bold text-5xl md:text-7xl lg:text-8xl w-10/12 mt-6 lg:mt-0 text-white tracking-tighter">
+            <div className='justify-center md:flex'>
+              <h1 className='px-1'>the</h1> 
+              <h1 className='px-3'>metaverse</h1> 
+              <h1 className='px-1'>for</h1> 
+            </div>
             <div className="text-indigo-400">
               <span ref={typedElement}></span>
             </div>
@@ -87,7 +89,7 @@ const Home: NextPage = () => {
               buy and sell your real-life stuff as NFT's.
             </h2>
           </div>
-          <div className="flex flex-col w-6/12 min-w-min md:w-3/12 lg:w-2/12 mt-6">
+          <div className="flex flex-col w-6/12 min-w-min md:w-3/12 lg:w-2/12 mt-6 lg:mt-32">
             <ActionButton theme='light' link='buy'>
               explore
             </ActionButton>
