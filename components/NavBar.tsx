@@ -17,7 +17,7 @@ const NavBar = () => {
               <Link href="/" passHref={true}>
                 <a className="font-bold ml-6 text-3xl font-dramatic flex items-center py-3">
                   <FontAwesomeIcon icon={faFireAlt} className="text-red-400"/> 
-                  <h1 className="ml-2 text-4xl">firechain</h1>
+                  <h1 className="ml-2 text-4xl hover:text-red-100 transition duration-200 ease-in-out">firechain</h1>
                 </a>
               </Link>
               <button className="text-4xl text-gray-50 mr-8m transform-gpu transition-all duration-200 ease-in-out md:-translate-y-full absolute md:static right-8 top-3" onClick={e => {

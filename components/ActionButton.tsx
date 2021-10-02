@@ -13,7 +13,7 @@ const ActionButton = (props: IProps) => {
   return (
     props.theme === 'light' ?
       <Link href={`/${props.link}`} passHref={true}>
-          <button className="bg-indigo-200 hover:bg-indigo-100 text-indigo-800 hover:text-indigo-900 font-medium text-xl py-2 px-8 my-4 rounded-lg shadow-indigo w-full transition-all duration-200 ease-in-out">
+          <button className="bg-indigo-200 hover:bg-indigo-300 text-indigo-800 hover:text-indigo-900 font-medium text-xl py-2 px-8 my-4 rounded-lg shadow-indigo w-full transition-all duration-200 ease-in-out">
             {props.children}
           </button>
       </Link>
