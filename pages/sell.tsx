@@ -9,6 +9,9 @@ import { db } from './api/firebase'
 import { fill } from './api/sample_abi';
 import { useAppContext } from '../contexts/AppContext';
 import PageLayout from '../constants/PageLayout'
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Router from 'next/router';
 
 interface IProduct {
   title: string;
@@ -30,25 +33,35 @@ const Sell = () => {
   const [imagePath, setImagePath] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const [location, setLocation] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [productUploaded, setProductUploaded] = useState(false);
   
+  const product: IProduct = {
+    title: title,
+    description: description,
+    startingPrice: startingPrice,
+    buyNowPrice: buyNowPrice,
+    location: location,
+    imagePath: imagePath
+  }
+
   const listItem = async () => {
-    const product: IProduct = {
-      title: title,
-      description: description,
-      startingPrice: startingPrice,
-      buyNowPrice: buyNowPrice,
-      location: location,
-      imagePath: imagePath
-    }
+    setIsLoading(true);  
     
     try {
+      window.scrollTo(0, 0);
       const filePath = `listed-products/${image?.name}`;
       const storageRef = ref(storage, filePath);
       const fileUpload = await uploadBytes(storageRef, image as File);
       const downloadURL = await getDownloadURL(ref(storageRef));
       console.log('file download link: ', downloadURL);
       await setDoc(doc(db, 'products', title), {product});
-
+      console.log(fileUpload);
+      setProductUploaded(true);
+      setIsLoading(false);
+      setTimeout(() => {
+        Router.push('/buy');
+      }, 2000)
     } catch (e) {
       console.error('error!!!' + e)
     }
@@ -74,8 +87,25 @@ const Sell = () => {
   return (
     <PageLayout>
       <div className="flex flex-col w-full items-center text-center bg-gray-900">
-        <div className="flex flex-col items-center text-center w-full">
+        <div className="flex flex-col items-center text-center w-full relative overflow-hidden">
           <h1 className="font-bold text-5xl mt-10 mb-6 text-white">List an item</h1>
+          {isLoading ? 
+            <>
+            <div className='text-white absolute overflow-hidden z-40'>
+              <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
+            </div>
+            <FontAwesomeIcon icon={faCircleNotch} className='text-indigo-500 z-50 absolute top-64 text-7xl animate-spin'/>
+            </>
+            : productUploaded ?
+            <>
+              <div className='text-white absolute overflow-hidden z-40'>
+                <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
+              </div>
+              <h1 className='text-white absolute top-64 text-6xl bg-green-600 z-50 rounded-xl p-4'>🎉  {`${product.title}`} is now live!</h1>
+            </>
+            :
+          <></>
+          }
           <div className="md:mt-0 w-11/12 lg:w-5/12">
             <form action="#" method="POST">
               <div className="shadow sm:rounded-md sm:overflow-hidden">
@@ -213,8 +243,9 @@ const Sell = () => {
                 <div className="px-4 py-3 text-right sm:px-6 mb-10">
                   <button 
                     type='button'
-                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                     onClick={listItem}  
+                    disabled={isLoading}
                     >
                     List For Sale
                   </button>
