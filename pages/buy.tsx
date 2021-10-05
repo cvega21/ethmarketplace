@@ -14,6 +14,14 @@ const buy = () => {
         top picks near you
       </h2>
       <div className="flex flex-col">
+      <Product
+        image="jordan1.webp"
+        title="jordan 1's"
+        price={0.00001}
+        action={'buy'}
+        location="austin, tx"
+        uid={123}
+        />
         <Product
         image="coffee_table.jpeg"
         title="modern coffee table"
@@ -28,14 +36,6 @@ const buy = () => {
         price={0.000095}
         action={'buy'}
         location="san marcos, tx"
-        uid={123}
-        />
-       <Product
-        image="jordans.jpeg"
-        title="jordan 1's"
-        price={0.00004}
-        action={'buy'}
-        location="round rock, tx"
         uid={123}
         />
       </div>

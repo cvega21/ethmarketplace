@@ -61,7 +61,7 @@ const Sell = () => {
       setIsLoading(false);
       setTimeout(() => {
         Router.push('/buy');
-      }, 2000)
+      }, 2500)
     } catch (e) {
       console.error('error!!!' + e)
     }
@@ -101,7 +101,10 @@ const Sell = () => {
               <div className='text-white absolute overflow-hidden z-40'>
                 <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
               </div>
-              <h1 className='text-white absolute top-64 text-6xl bg-green-600 z-50 rounded-xl p-4'>🎉  {`${product.title}`} is now live!</h1>
+              <div className='text-white font-extralight absolute top-64 text-6xl bg-green-600 z-50 rounded-xl p-4 w-10/12 lg:w-8/12'>
+                <h2 className='pb-4'>🎉</h2>  
+                <h2><p className='font-normal'>{`${product.title}`}</p> is now live!</h2>
+              </div>
             </>
             :
           <></>
