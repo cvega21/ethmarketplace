@@ -3,6 +3,7 @@ import NavBar from '../components/NavBar'
 import Image from 'next/image'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { collection, getFirestore, doc, setDoc, addDoc  } from "firebase/firestore";
 import { db } from './api/firebase'
 import { fill } from './api/sample_abi';
@@ -15,14 +16,19 @@ interface IProduct {
   startingPrice: number;
   buyNowPrice: number;
   location: string;
+  imagePath: string;
 }
+
+const storage = getStorage();
 
 const Sell = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [startingPrice, setStartingPrice] = useState(0.0001);
-  const [buyNowPrice, setBuyNowPrice] = useState(0.0001);
-  const [image, setImage] = useState('');
+  const [buyNowPrice, setBuyNowPrice] = useState(0.0005);
+  const [image, setImage] = useState<File|null>(null);
+  const [imagePath, setImagePath] = useState('');
+  const [imagePreview, setImagePreview] = useState('');
   const [location, setLocation] = useState('');
   
   const listItem = async () => {
@@ -31,11 +37,18 @@ const Sell = () => {
       description: description,
       startingPrice: startingPrice,
       buyNowPrice: buyNowPrice,
-      location: location
+      location: location,
+      imagePath: imagePath
     }
-
+    
     try {
+      const filePath = `listed-products/${image?.name}`;
+      const storageRef = ref(storage, filePath);
+      const fileUpload = await uploadBytes(storageRef, image as File);
+      const downloadURL = await getDownloadURL(ref(storageRef));
+      console.log('file download link: ', downloadURL);
       await setDoc(doc(db, 'products', title), {product});
+
     } catch (e) {
       console.error('error!!!' + e)
     }
@@ -54,7 +67,8 @@ const Sell = () => {
   const changeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
     if (!fileList) return;
-    setImage(URL.createObjectURL(fileList[0]));
+    setImagePreview(URL.createObjectURL(fileList[0]));
+    setImage(fileList[0]);
   }
 
   return (
@@ -169,10 +183,10 @@ const Sell = () => {
                     </label>
                     <div className="relative min-h-48">
                       {
-                        image ?
+                        imagePreview ?
                         <div className="mt-1 flex flex-col items-center pt-6 h-auto">
                           <div className="relative h-40 w-full">
-                            <Image src={image} alt={image} layout='fill' objectFit='cover'></Image>
+                            <Image src={imagePreview} alt={imagePreview} layout='fill' objectFit='cover'></Image>
                           </div>
                         </div>
                             :

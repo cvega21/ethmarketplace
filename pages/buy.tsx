@@ -6,7 +6,7 @@ import NavBar from '../components/NavBar';
 const buy = () => {
   return (
   <PageLayout>
-    <div className="w-10/12 mt-6">
+    <div className="w-10/12 lg:w-4/12 mt-6">
       <h1 className="text-white text-4xl font-semibold py-8">
         Explore Real Life NFT&apos;s
       </h1>

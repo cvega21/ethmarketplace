@@ -86,7 +86,7 @@ const Home: NextPage = () => {
           </div>
           <div className="w-11/12  md:w-4/12 lg:w-4/12 flex flex-col">
             <h2 className="font-extralight text-gray-500 text-xl md:text-4xl mt-8">
-              buy and sell your real-life stuff as NFT's.
+              buy and sell your real-life stuff as NFT&apos;s.
             </h2>
           </div>
           <div className="flex flex-col w-6/12 min-w-min md:w-3/12 lg:w-2/12 mt-6 lg:mt-32">
