@@ -101,7 +101,7 @@ const Sell = () => {
               <div className='text-white absolute overflow-hidden z-40'>
                 <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
               </div>
-              <div className='text-white font-extralight absolute top-64 text-6xl bg-green-600 z-50 rounded-xl p-4 w-10/12 lg:w-8/12'>
+              <div className='text-white font-extralight absolute top-64 text-6xl bg-green-600 z-50 rounded-xl p-4 w-10/12 lg:w-auto lg:max-w-2xl'>
                 <h2 className='pb-4'>🎉</h2>  
                 <h2><p className='font-normal'>{`${product.title}`}</p> is now live!</h2>
               </div>
