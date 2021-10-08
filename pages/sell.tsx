@@ -58,7 +58,7 @@ const Sell = () => {
         imagePath: downloadURL
       }
 
-      await setDoc(doc(db, 'products', title), {product});
+      await setDoc(doc(db, 'products', title), product);
       setProductUploaded(true);
       setIsLoading(false);
       setTimeout(() => {
