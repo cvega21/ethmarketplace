@@ -36,15 +36,7 @@ const Sell = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [productUploaded, setProductUploaded] = useState(false);
   
-  const product: IProduct = {
-    title: title,
-    description: description,
-    startingPrice: startingPrice,
-    buyNowPrice: buyNowPrice,
-    location: location,
-    imagePath: imagePath
-  }
-
+  
   const listItem = async () => {
     setIsLoading(true);  
     
@@ -55,8 +47,18 @@ const Sell = () => {
       const fileUpload = await uploadBytes(storageRef, image as File);
       const downloadURL = await getDownloadURL(ref(storageRef));
       console.log('file download link: ', downloadURL);
+      setImagePath(downloadURL);
+      
+      const product: IProduct = {
+        title: title,
+        description: description,
+        startingPrice: startingPrice,
+        buyNowPrice: buyNowPrice,
+        location: location,
+        imagePath: downloadURL
+      }
+
       await setDoc(doc(db, 'products', title), {product});
-      console.log(fileUpload);
       setProductUploaded(true);
       setIsLoading(false);
       setTimeout(() => {
@@ -103,7 +105,7 @@ const Sell = () => {
               </div>
               <div className='text-white font-extralight absolute top-64 text-6xl bg-green-600 z-50 rounded-xl p-4 w-10/12 lg:w-auto lg:max-w-2xl'>
                 <h2 className='pb-4'>🎉</h2>  
-                <h2><p className='font-normal'>{`${product.title}`}</p> is now live!</h2>
+                <h2><p className='font-normal'>{`${title}`}</p> is now live!</h2>
               </div>
             </>
             :

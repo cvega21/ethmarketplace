@@ -1,7 +1,6 @@
 import React from 'react';
 import ActionButton from './ActionButton';
 import { collection, doc, setDoc, getDoc, getDocs } from "firebase/firestore";
-import { db } from '../api/firebase'
 import EthPrice from './EthPrice'
 import Image from 'next/image'
 
