@@ -1,9 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Product from "../components/Product";
 import PageLayout from '../constants/PageLayout';
 import NavBar from '../components/NavBar';
+import { db } from './api/firebase'
+import { collection, doc, getDoc, getDocs, limit, query, where } from '@firebase/firestore';
 
-const buy = () => {
+
+const Buy = () => {
+  const [products, setProducts] = useState<Object[]>([]);
+  
+  useEffect(() => {
+    (async () => {
+        await getProducts();
+    })()
+  }, [])
+
+  
+  const getProducts = async () => {
+    const productsArr: Array<Object> = [];
+    const productsQuery = query(collection(db, 'products'), limit(3));
+    const productsDocs = await getDocs(productsQuery);
+    productsDocs.forEach((doc) => {
+      const product = doc.data();
+      productsArr.push(product);
+    });
+
+    setProducts(productsArr)
+    return productsArr
+  }
+  
   return (
   <PageLayout>
     <div className="w-10/12 lg:w-4/12 mt-6">
@@ -14,6 +39,14 @@ const buy = () => {
         top picks near you
       </h2>
       <div className="flex flex-col">
+      {/* {
+        products ? 
+
+        products.forEach((product) => {
+          
+        }) : 
+        <h1 className='text-7xl text-white'></h1>
+      } */}
       <Product
         image="jordan1.webp"
         title="jordan 1's"
@@ -38,10 +71,11 @@ const buy = () => {
         location="san marcos, tx"
         uid={123}
         />
+        {/* {products ?? products.forE} */}
       </div>
     </div>
   </PageLayout>
   )
 }
 
-export default buy
+export default Buy
