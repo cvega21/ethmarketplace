@@ -15,29 +15,6 @@ interface IProduct {
 }
 
 const Buy = ({ productsArr } : any) => {
-  console.log('hi')
-  console.log(productsArr)
-  const [products, setProducts] = useState<IProduct[]>([]);
-  
-  useEffect(() => {
-    (async () => {
-        await getProducts();
-    })()
-  }, [])
-
-  
-  const getProducts = async () => {
-    const productsArr: Array<IProduct> = [];
-    const productsQuery = query(collection(db, 'products'), limit(3));
-    const productsDocs = await getDocs(productsQuery);
-    productsDocs.forEach((doc) => {
-      const product = doc.data();
-      productsArr.push(product as IProduct);
-    });
-
-    setProducts(productsArr)
-    return productsArr
-  }
   
   return (
   <PageLayout>
@@ -52,13 +29,13 @@ const Buy = ({ productsArr } : any) => {
         {productsArr.map((product: IProduct) => {
           return (
             <Product
-            image={product.imagePath}
-            title={product.title}
-            price={product.buyNowPrice}
-            action={'buy'}
-            location={product.location}
-            uid={123}
-            key={product.imagePath}
+              image={product.imagePath}
+              title={product.title}
+              price={product.buyNowPrice}
+              action={'buy'}
+              location={product.location}
+              uid={123}
+              key={product.imagePath}
             />
           )
         })}
