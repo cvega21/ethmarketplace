@@ -5,9 +5,19 @@ import NavBar from '../components/NavBar';
 import { db } from './api/firebase'
 import { collection, doc, getDoc, getDocs, limit, query, where } from '@firebase/firestore';
 
+interface IProduct {
+  buyNowPrice: number,
+  startingPrice: number,
+  title: string,
+  location: string,
+  description: string,
+  imagePath: string,
+}
 
-const Buy = () => {
-  const [products, setProducts] = useState<Object[]>([]);
+const Buy = ({ productsArr } : any) => {
+  console.log('hi')
+  console.log(productsArr)
+  const [products, setProducts] = useState<IProduct[]>([]);
   
   useEffect(() => {
     (async () => {
@@ -17,12 +27,12 @@ const Buy = () => {
 
   
   const getProducts = async () => {
-    const productsArr: Array<Object> = [];
+    const productsArr: Array<IProduct> = [];
     const productsQuery = query(collection(db, 'products'), limit(3));
     const productsDocs = await getDocs(productsQuery);
     productsDocs.forEach((doc) => {
       const product = doc.data();
-      productsArr.push(product);
+      productsArr.push(product as IProduct);
     });
 
     setProducts(productsArr)
@@ -39,43 +49,40 @@ const Buy = () => {
         top picks near you
       </h2>
       <div className="flex flex-col">
-      {/* {
-        products ? 
-
-        products.forEach((product) => {
-          
-        }) : 
-        <h1 className='text-7xl text-white'></h1>
-      } */}
-      <Product
-        image="jordan1.webp"
-        title="jordan 1's"
-        price={0.00001}
-        action={'buy'}
-        location="austin, tx"
-        uid={123}
-        />
-        <Product
-        image="coffee_table.jpeg"
-        title="modern coffee table"
-        price={0.000042}
-        action={'buy'}
-        location="austin, tx"
-        uid={123}
-        />
-       <Product
-        image="iphone.jpeg"
-        title="iphone 12"
-        price={0.000095}
-        action={'buy'}
-        location="san marcos, tx"
-        uid={123}
-        />
-        {/* {products ?? products.forE} */}
+        {productsArr.map((product: IProduct) => {
+          return (
+            <Product
+            image={product.imagePath}
+            title={product.title}
+            price={product.buyNowPrice}
+            action={'buy'}
+            location={product.location}
+            uid={123}
+            key={product.imagePath}
+            />
+          )
+        })}
       </div>
     </div>
   </PageLayout>
   )
 }
+
+export async function getStaticProps() {
+  const productsArr: Array<IProduct> = [];
+  const productsQuery = query(collection(db, 'products'), limit(3));
+  const productsDocs = await getDocs(productsQuery);
+  productsDocs.forEach((doc) => {
+    const product = doc.data();
+    productsArr.push(product as IProduct);
+  });
+
+  return {
+    props: {
+      productsArr,
+    },
+  }
+}
+
 
 export default Buy
