@@ -15,17 +15,14 @@ interface IProduct {
 }
 
 const Buy = ({ productsArr } : any) => {
-  
+
   return (
   <PageLayout>
-    <div className="w-10/12 lg:w-4/12 mt-6">
-      <h1 className="text-white text-4xl font-semibold py-8">
-        Explore Real Life NFT&apos;s
+    <div className="w-full lg:w-9/12 mt-6">
+      <h1 className="text-white text-4xl font-light py-8">
+        top picks for you
       </h1>
-      <h2 className="font-light justify-self-start text-center text-gray-50 text-xl ml-4">
-        top picks near you
-      </h2>
-      <div className="flex flex-col">
+      <div className="grid grid-cols-3 gap-12">
         {productsArr.map((product: IProduct) => {
           return (
             <Product
