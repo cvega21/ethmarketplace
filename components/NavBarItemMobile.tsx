@@ -7,7 +7,7 @@ const NavBarItemMobile = (props: any) => {
   const navContext = useAppContext();
   
   return (
-    <Link href={props.title} passHref={true}>
+    <Link href={`/${props.title}`} passHref={true}>
       <a className='flex w-full text-gray-50 text-2xl font-light pl-6 h-16 items-center hover:bg-indigo-500 hover:cursor-pointer hover:text-white transition duration-150' onClick={() => navContext?.setNavIsOpen(!navContext.navIsOpen)}>
         <div className='w-10 text-xl'>
           <FontAwesomeIcon icon={props.icon}/> 
