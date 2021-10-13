@@ -12,15 +12,7 @@ import PageLayout from '../constants/PageLayout'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Router from 'next/router';
-
-interface IProduct {
-  title: string;
-  description: string;
-  startingPrice: number;
-  buyNowPrice: number;
-  location: string;
-  imagePath: string;
-}
+import { IProduct } from '../types/types'
 
 const storage = getStorage();
 
@@ -46,8 +38,8 @@ const Sell = () => {
       const storageRef = ref(storage, filePath);
       const fileUpload = await uploadBytes(storageRef, image as File);
       const downloadURL = await getDownloadURL(ref(storageRef));
-      console.log('file download link: ', downloadURL);
       setImagePath(downloadURL);
+      const newProductRef = doc(collection(db, 'products'));
       
       const product: IProduct = {
         title: title,
@@ -55,10 +47,11 @@ const Sell = () => {
         startingPrice: startingPrice,
         buyNowPrice: buyNowPrice,
         location: location,
-        imagePath: downloadURL
+        imagePath: downloadURL,
+        refString: newProductRef.id
       }
 
-      await setDoc(doc(db, 'products', title), product);
+      await addDoc(collection(db, 'products'), product);
       setProductUploaded(true);
       setIsLoading(false);
       setTimeout(() => {
