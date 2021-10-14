@@ -3,11 +3,14 @@ import Product from "../components/Product";
 import PageLayout from '../constants/PageLayout';
 import NavBar from '../components/NavBar';
 import { db } from './api/firebase'
-import { collection, doc, getDoc, getDocs, limit, query, where } from '@firebase/firestore';
+import { collection, doc, getDoc, getDocs, limit, onSnapshot, query, where } from '@firebase/firestore';
 import { IProduct } from '../types/types'
 
-const Buy = ({ productsArr }: any) => {
+const Buy = ({ productsArr, queryArr }: any) => {
+  console.log(productsArr);
+  console.log(queryArr);
 
+  
   return (
   <PageLayout>
     <div className="w-11/12 lg:w-9/12">
@@ -18,12 +21,13 @@ const Buy = ({ productsArr }: any) => {
         {productsArr.map((product: IProduct) => {
           return (
             <Product
-              image={product.imagePath}
+              buyNowPrice={product.buyNowPrice}
+              startingPrice={product.startingPrice}
               title={product.title}
-              price={product.buyNowPrice}
-              action={'buy'}
               location={product.location}
-              uid={123}
+              description={product.description}
+              imagePath={product.imagePath}
+              refString={product.refString}
               key={product.imagePath}
             />
           )
@@ -36,8 +40,18 @@ const Buy = ({ productsArr }: any) => {
 
 export async function getStaticProps() {
   const productsArr: Array<IProduct> = [];
+  const queryArr: any = [];
   const productsQuery = query(collection(db, 'products'), limit(6));
   const productsDocs = await getDocs(productsQuery);
+    // const unsub = onSnapshot(productsQuery, (querySnapshot) => {
+  //   querySnapshot.forEach((doc) => {
+  //     const product = doc.data();
+  //     queryArr.push(product);
+  //   });
+  // })
+
+  // unsub();
+
   productsDocs.forEach((doc) => {
     const product = doc.data();
     productsArr.push(product as IProduct);
@@ -46,6 +60,7 @@ export async function getStaticProps() {
   return {
     props: {
       productsArr,
+      queryArr,
     },
   }
 }
