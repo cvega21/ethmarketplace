@@ -4,49 +4,51 @@ import PageLayout from '../../constants/PageLayout'
 import { useRouter } from 'next/router'
 import Product from '../../components/Product'
 import { db } from '../api/firebase'
-import { collection, getDocs, limit, query, where } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore'
 import { IProduct } from '../../types/types'
 
+interface IProps {
+  product: IProduct
+}
 
-const ProductPage = ({ productsArr }: any ) => {
+const ProductPage = ({ product }: IProps) => {
   const router = useRouter();
   const { id } = router.query;
 
   return (
     <PageLayout>
-      <h1>{id}</h1>
-      <Product
-        buyNowPrice={productsArr[0].buyNowPrice}
-        startingPrice={productsArr[0].startingPrice}
-        title={productsArr[0].title}
-        location={productsArr[0].location}
-        description={productsArr[0].description}
-        imagePath={productsArr[0].imagePath}
-        refString={productsArr[0].refString}
-        key={productsArr[0].imagePath}
-      />
+      <div className='flex flex-col p-16 border w-full h-full'>
+        <div className='border border-red-400'>
+          <h1 className='text-white text-3xl'>{product.title}</h1>
+          <Product
+            buyNowPrice={product.buyNowPrice}
+            startingPrice={product.startingPrice}
+            title={product.title}
+            location={product.location}
+            description={product.description}
+            imagePath={product.imagePath}
+            refString={product.refString}
+            key={product.imagePath}
+          />
+        </div>
+      </div>
     </PageLayout>
   )
 }
 
-export async function getStaticProps( { params }: any) {
-  const productsArr: Array<IProduct> = [];
-  const productsQuery = query(collection(db, 'products'), where('refString', '==', params.id));
-  const productsDocs = await getDocs(productsQuery);
-  productsDocs.forEach((doc) => {
-    const product = doc.data();
-    productsArr.push(product as IProduct);
-  });
+export async function getStaticProps({ params }: any) {
+  const productRef = doc(db, 'products', `${params.id}`);
+  const productRefValue = await getDoc(productRef);
+  const product = productRefValue.data() as IProduct;
 
   return {
     props: {
-      productsArr,
+      product,
     },
   }
 }
 
 export async function getStaticPaths() {
-  const productsArr: Array<IProduct> = [];
   const productsQuery = query(collection(db, 'products'));
   const productsDocs = await getDocs(productsQuery);
   

@@ -7,9 +7,6 @@ import { collection, doc, getDoc, getDocs, limit, onSnapshot, query, where } fro
 import { IProduct } from '../types/types'
 
 const Buy = ({ productsArr, queryArr }: any) => {
-  console.log(productsArr);
-  console.log(queryArr);
-
   
   return (
   <PageLayout>
