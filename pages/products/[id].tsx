@@ -4,7 +4,7 @@ import PageLayout from '../../constants/PageLayout'
 import { useRouter } from 'next/router'
 import Product from '../../components/Product'
 import { db } from '../api/firebase'
-import { collection, getDocs, limit, query } from 'firebase/firestore'
+import { collection, getDocs, limit, query, where } from 'firebase/firestore'
 import { IProduct } from '../../types/types'
 
 
@@ -29,9 +29,9 @@ const ProductPage = ({ productsArr }: any ) => {
   )
 }
 
-export async function getStaticProps() {
+export async function getStaticProps( { params }: any) {
   const productsArr: Array<IProduct> = [];
-  const productsQuery = query(collection(db, 'products'), limit(1));
+  const productsQuery = query(collection(db, 'products'), where('refString', '==', params.id));
   const productsDocs = await getDocs(productsQuery);
   productsDocs.forEach((doc) => {
     const product = doc.data();
@@ -47,7 +47,7 @@ export async function getStaticProps() {
 
 export async function getStaticPaths() {
   const productsArr: Array<IProduct> = [];
-  const productsQuery = query(collection(db, 'products'), limit(6));
+  const productsQuery = query(collection(db, 'products'));
   const productsDocs = await getDocs(productsQuery);
   
   const paths = productsDocs.docs.map((doc) => {
