@@ -40,17 +40,8 @@ const Buy = ({ productsArr, queryArr }: any) => {
 
 export async function getStaticProps() {
   const productsArr: Array<IProduct> = [];
-  const queryArr: any = [];
   const productsQuery = query(collection(db, 'products'), limit(6));
   const productsDocs = await getDocs(productsQuery);
-    // const unsub = onSnapshot(productsQuery, (querySnapshot) => {
-  //   querySnapshot.forEach((doc) => {
-  //     const product = doc.data();
-  //     queryArr.push(product);
-  //   });
-  // })
-
-  // unsub();
 
   productsDocs.forEach((doc) => {
     const product = doc.data();
@@ -60,10 +51,8 @@ export async function getStaticProps() {
   return {
     props: {
       productsArr,
-      queryArr,
     },
   }
 }
-
 
 export default Buy
