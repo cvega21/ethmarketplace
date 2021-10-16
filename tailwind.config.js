@@ -8,6 +8,9 @@ module.exports = {
       boxShadow: {
         indigo: '0 4px 14px 0 rgba(0, 78, 255, 0.27)',
       },
+      width: {
+        '200': '200px'
+      }
     },
     fontFamily: {
       'dramatic': ['Gemunu Libre', ...defaultTheme.fontFamily.sans],

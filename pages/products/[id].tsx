@@ -1,11 +1,13 @@
 import React from 'react'
-import styles from '../styles/Home.module.css'
 import PageLayout from '../../constants/PageLayout'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 import Product from '../../components/Product'
 import { db } from '../api/firebase'
 import { collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore'
 import { IProduct } from '../../types/types'
+import styles from '../../styles/Product.module.css'
+import ActionButton from '../../components/ActionButton'
 
 interface IProps {
   product: IProduct
@@ -17,19 +19,27 @@ const ProductPage = ({ product }: IProps) => {
 
   return (
     <PageLayout>
-      <div className='flex flex-col p-16 border w-full h-full'>
-        <div className='border border-red-400'>
-          <h1 className='text-white text-3xl'>{product.title}</h1>
-          <Product
-            buyNowPrice={product.buyNowPrice}
-            startingPrice={product.startingPrice}
-            title={product.title}
-            location={product.location}
-            description={product.description}
-            imagePath={product.imagePath}
-            refString={product.refString}
-            key={product.imagePath}
-          />
+      <div className='flex flex-col w-full items-center'>
+        <div className='w-11/12'>
+          <h1 className='text-white text-3xl font-medium text-left ml-8 my-4'>{product.title}</h1>
+          <div className='w-full flex flex-col items-center'>
+            <div className={styles.imageContainer}>
+              <Image 
+                src={product.imagePath}
+                alt={product.title} 
+                layout='fill'
+                className={styles.image}
+              />
+            </div>
+          </div>
+          <div className='flex flex-col items-center'>
+            <p className='text-white '>{product.buyNowPrice} eth</p>
+            <div className='w-10/12'>
+              <ActionButton theme='dark'>
+                <p>buy</p>
+              </ActionButton>
+            </div>
+          </div>
         </div>
       </div>
     </PageLayout>

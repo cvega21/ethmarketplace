@@ -9,7 +9,6 @@ interface IProps {
 
 const ActionButton = (props: IProps) => {
   
-  
   return (
     props.theme === 'light' ?
       <Link href={`/${props.link}`} passHref={true}>

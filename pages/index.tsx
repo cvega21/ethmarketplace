@@ -84,7 +84,7 @@ const Home: NextPage = () => {
               <span ref={typedElement}></span>
             </div>
           </div>
-          <div className="w-11/12  md:w-4/12 lg:w-5/12 flex flex-col">
+          <div className="w-11/12  md:w-8/12 lg:w-5/12 flex flex-col">
             <h2 className="font-extralight text-gray-500 text-xl md:text-4xl mt-8">
               buy and sell your real-life stuff as NFT&apos;s.
             </h2>
