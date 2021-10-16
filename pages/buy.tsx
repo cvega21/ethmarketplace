@@ -37,7 +37,7 @@ const Buy = ({ productsArr, queryArr }: any) => {
 
 export async function getStaticProps() {
   const productsArr: Array<IProduct> = [];
-  const productsQuery = query(collection(db, 'products'), limit(6));
+  const productsQuery = query(collection(db, 'products'));
   const productsDocs = await getDocs(productsQuery);
 
   productsDocs.forEach((doc) => {

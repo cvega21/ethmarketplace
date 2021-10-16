@@ -51,7 +51,8 @@ const Sell = () => {
         refString: newProductRef.id
       }
 
-      await addDoc(collection(db, 'products'), product);
+      await setDoc(newProductRef, product);
+      // await addDoc(collection(db, 'products'), product);
       setProductUploaded(true);
       setIsLoading(false);
       setTimeout(() => {

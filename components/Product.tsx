@@ -11,9 +11,9 @@ const Product = (props: IProduct) => {
   return (
     <Link href={`/products/${props.refString}`} passHref>
       <a href={`/products/${props.refString}`}>
-        <div className="flex flex-col border my-6 lg:my-0 transform hover:shadow-xl hover:-translate-y-2 transition-all text-white bg-gray-800 hover:cursor-pointer">
-          <Image src={props.imagePath} alt='' width={60} height={40} layout='responsive' objectFit='cover' placeholder='blur' blurDataURL={props.imagePath}></Image>
-          <div className="bg-gray-800 w-full pt-4 pb-4 flex items-center justify-around">
+        <div className="flex flex-col border rounded-xl my-6 lg:my-0 transform hover:shadow-xl hover:-translate-y-2 transition-all text-white bg-gray-800 hover:cursor-pointer">
+          <Image src={props.imagePath} alt='' width={60} height={40} layout='responsive' objectFit='cover' placeholder='blur' blurDataURL={props.imagePath} className='rounded-xl'></Image>
+          <div className="bg-gray-800 w-full pt-4 pb-4 flex items-center justify-around transform -translate-y-2">
             <div>
               <h3 className="font-normal text-md">{props.title}</h3>
               <h4 className="font-light text-gray-400 text-sm">{props.location}</h4>
