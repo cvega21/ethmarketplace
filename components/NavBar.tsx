@@ -20,7 +20,7 @@ const NavBar = () => {
                   <h1 className="ml-2 text-4xl hover:text-red-100 transition duration-200 ease-in-out">firechain</h1>
                 </a>
               </Link>
-              <button className="text-4xl text-gray-50 mr-8m transform-gpu transition-all duration-200 ease-in-out md:-translate-y-full absolute md:static right-8 top-3" onClick={e => {
+              <button className={`text-4xl text-gray-50 transform-gpu ease-in-out md:-translate-y-full absolute md:static right-8 top-3 ${navContext?.navIsOpen ? 'mr-3' : 'mr-0'}`} onClick={e => {
                 navContext?.setNavIsOpen(!navContext?.navIsOpen);
               }}>
               {navContext?.navIsOpen ? 'x' : '☰'}
