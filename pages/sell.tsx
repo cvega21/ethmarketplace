@@ -6,7 +6,6 @@ import { initializeApp } from "firebase/app";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { collection, getFirestore, doc, setDoc, addDoc  } from "firebase/firestore";
 import { db } from './api/firebase'
-import { fill } from './api/sample_abi';
 import { useAppContext } from '../contexts/AppContext';
 import PageLayout from '../constants/PageLayout'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';

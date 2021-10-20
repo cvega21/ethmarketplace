@@ -6,7 +6,6 @@ import ActionButton from '../components/ActionButton';
 import Product from '../components/Product';
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import Web3 from 'web3';
-import abi from './api/sample_abi';
 import NavBar from '../components/NavBar'
 import Typed from 'typed.js';
 import { useAppContext } from '../contexts/AppContext'
