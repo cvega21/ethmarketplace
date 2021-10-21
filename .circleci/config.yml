@@ -4,15 +4,7 @@ jobs:
     docker:
       - image: cimg/node:14.10.1 # the primary container, where your job's commands are run
         auth:
-<<<<<<< HEAD:.circleci/config.yml
           username: cvegamun
-=======
-<<<<<<< HEAD
-          username: cvegamun
-=======
-          username: mydockerhub-user
->>>>>>> 75c1f815b94cbd4d4cb450ebbd38ef5f63c984cf
->>>>>>> 348831dd92d9e53ff83ae96b53fe7f09031a23cc:.circleci/config.yaml
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout # check out the code in the project directory
