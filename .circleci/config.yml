@@ -9,11 +9,7 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout # check out the code in the project directory
-      - run: echo "hello world" # run the `echo` command
-      - run: pwd
-      - run: uname
       - run: yarn install
-      - run: yarn build
   
   test:
     docker:
@@ -22,7 +18,7 @@ jobs:
           username: cvegamun
           password: $DOCKERHUB_PASSWORD
     steps:
-      - run: echo 'no tests to run as of yet, but at least the code is built'
+      - run: npx truffle test
 
 workflows:
   build-and-test:
