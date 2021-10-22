@@ -1,18 +1,6 @@
 version: 2.1
 
 jobs:
-  install:
-    docker:
-      - image: cimg/node:14.17 # the primary container, where your job's commands are run
-        auth:
-          username: cvegamun
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-    steps:
-      - checkout # check out the code in the project directory
-      - run: 
-          name: install node_modules
-          command: yarn install
-  
   test:
     docker:
       - image: cimg/node:14.17 
@@ -20,9 +8,13 @@ jobs:
           username: cvegamun
           password: $DOCKERHUB_PASSWORD
     steps:
+      - checkout
       - run:
           name: symlink python -> python3.8
-          command: sudo ln -s /bin/python3.8 /bin/python 
+          command: sudo ln -s /bin/python3.8 /bin/python
+      - run: 
+          name: install node_modules
+          command: yarn install 
       - run:
           name: compile smart contracts
           command: npx truffle compile 
@@ -34,7 +26,4 @@ workflows:
   version: 2
   build-and-test:
     jobs:
-      - install
-      - test:
-          requires:
-            - install
+      - test
