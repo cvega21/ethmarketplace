@@ -12,9 +12,6 @@ jobs:
       - run: 
           name: install node_modules
           command: yarn install
-      - run:
-          name: symlink python -> python3.8
-          command: sudo ln -s /bin/python3.8 /bin/python 
   
   test:
     docker:
@@ -23,7 +20,15 @@ jobs:
           username: cvegamun
           password: $DOCKERHUB_PASSWORD
     steps:
-      - run: npx truffle test
+      - run:
+          name: symlink python -> python3.8
+          command: sudo ln -s /bin/python3.8 /bin/python 
+      - run:
+          name: compile smart contracts
+          command: npx truffle compile 
+      - run:
+          name: run smart contract tests
+          command: npx truffle test 
 
 workflows:
   version: 2
