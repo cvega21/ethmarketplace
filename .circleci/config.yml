@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build:
+  install:
     docker:
       - image: cimg/node:14.17 # the primary container, where your job's commands are run
         auth:
@@ -23,5 +23,7 @@ jobs:
 workflows:
   build-and-test:
     jobs:
-      - build
-      - test
+      - install
+      - test:
+        requires:
+          - install
