@@ -9,7 +9,12 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout # check out the code in the project directory
-      - run: yarn install
+      - run: 
+          name: install node_modules
+          command: yarn install
+      - run:
+          name: symlink python -> python3.8
+          command: sudo ln -s /bin/python3.8 /bin/python 
   
   test:
     docker:
