@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PageLayout from '../constants/PageLayout';
 import ActionButton from '../components/ActionButton';
 import Web3 from "web3";
@@ -9,29 +9,34 @@ const providerOptions = {
 };
 
 
-let web3Modal: any;
-if (typeof window !== 'undefined') {
-  web3Modal = new Web3Modal({
-    network: 'mainnet', // optional
-    cacheProvider: true,
-    providerOptions, // required
-  })
-}
 
 
 const Account = () => {
+  const [account, setAccount] = useState('');
+
+  const connectMetamask = async () => {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'});
+    const account = accounts[0];
+    setAccount(account);
+  }
   
 
   return (
     <PageLayout>
       <div className="text-center flex w-full flex-col lg:flex-1 justify-center items-center h-full">
         <div className="flex flex-col w-6/12 min-w-min md:w-3/12 lg:w-2/12">
-          <ActionButton theme='dark' link='#'>
-          </ActionButton>
-          <button className='text-white'>
-            <div>
+          {account ? 
+          <div className='text-white'>
+            <p>{account}</p>
+          </div>
+          :
+          <></>
+          }
+          <button 
+            className='bg-indigo-700 rounded-lg hover:bg-indigo-800 text-gray-100 hover:text-white font-medium text-xl py-2 px-8 my-4 shadow-indigo w-full transition-all duration-200 ease-in-out'
+            onClick={connectMetamask}
+            >
               connect to metamask
-            </div>
           </button>
         </div>
       </div>
