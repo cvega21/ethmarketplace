@@ -32,11 +32,11 @@ const Home: NextPage = () => {
     setNavIsOpen(!navIsOpen);
   }
 
-  useEffect(() => {
-    window.ethereum ? setWeb3IsEnabled(true) : void(0);
-    web3js.current = new Web3(window.ethereum.currentProvider);
-    console.log(web3js.current);
-  }, [])
+  // useEffect(() => {
+  //   window.ethereum ? setWeb3IsEnabled(true) : void(0);
+  //   web3js.current = new Web3(window.ethereum.currentProvider);
+  //   console.log(web3js.current);
+  // }, [])
   
   setTimeout(() => {
     startContract();
