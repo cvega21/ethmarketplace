@@ -6,5 +6,5 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract FireChainNFT is ERC721 {
     constructor() ERC721("FireChainNFT", "MNFT") {
-    }
+    } 
 }
