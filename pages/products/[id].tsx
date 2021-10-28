@@ -101,10 +101,6 @@ const ProductPage = ({ product }: IProps) => {
                 <h2 className='text-gray-200 font-light'>contract address</h2>
                 <h1 className='text-indigo-400 font-extralight'>0x2j1ido..21ka</h1>
               </div>
-              {/* <div className='flex justify-between'>
-                <h2 className='text-gray-200 font-light'>Token (NFT) ID</h2>
-                <h1 className='text-indigo-400 font-extralight'>1212401152...</h1>
-              </div> */}
               <div className='flex flex-col items-start'>
                 <h2 className='text-gray-200 font-medium'>product description</h2>
                 <h1 className='text-gray-400 font-extralight text-left'>{product.description}</h1>

@@ -4,6 +4,9 @@ import ActionButton from '../components/ActionButton';
 import Web3 from "web3";
 import Web3Modal from "web3modal";
 import { useAppContext } from '../contexts/AppContext'
+import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faList, faQuoteLeft } from '@fortawesome/free-solid-svg-icons'
 
 const providerOptions = {
   /* See Provider Options Section */
@@ -30,6 +33,17 @@ const Account = () => {
     <PageLayout>
       <div className="text-center flex w-full flex-col lg:flex-1 justify-center items-center h-full">
         <div className="flex flex-col w-6/12 min-w-min md:w-3/12 lg:w-2/12">
+          <div className='rounded-full'>
+            <Image 
+              src='/avi_placeholder.png' 
+              height='400' 
+              width='400' 
+              alt='avatar placeholder'
+              className='rounded-full hover:opacity-60 cursor-pointer'
+            />
+            
+          </div>
+          
           {appContext?.account ? 
           <div className='text-white'>
             <p>{appContext?.account}</p>
