@@ -6,7 +6,11 @@ import Web3Modal from "web3modal";
 import { useAppContext } from '../contexts/AppContext'
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+<<<<<<< HEAD
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
+=======
+import { faList, faQuoteLeft } from '@fortawesome/free-solid-svg-icons'
+>>>>>>> 2b229a6879c537551e0f3367203209f7c3640658
 
 const providerOptions = {
   /* See Provider Options Section */
