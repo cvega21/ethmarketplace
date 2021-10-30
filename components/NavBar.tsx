@@ -28,7 +28,7 @@ const NavBar = () => {
               <ul className='flex text-xl transform-gpu transition-all duration-200 ease-in-out -translate-y-full md:translate-y-0 md:absolute md:right-0 h-full'>
                 <NavBarItem title='buy'/>
                 <NavBarItem title='sell'/>
-                <NavBarItem title='learn'/>
+                {/* <NavBarItem title='learn'/> */}
                 <NavBarItem title='account'/>
               </ul>
             </div>
@@ -37,7 +37,7 @@ const NavBar = () => {
         <div className={`bg-gray-800 mobile-side-bar w-full absolute inset-y-0 top-16 left-0 transform-gpu transition duration-200 ease-in-out z-10 ${!navContext?.navIsOpen ? '-translate-x-full' : ''}`}>
           <NavBarItemMobile icon={faStore} title='buy'/>
           <NavBarItemMobile icon={faCoins} title='sell'/>
-          <NavBarItemMobile icon={faGraduationCap} title='learn'/>
+          {/* <NavBarItemMobile icon={faGraduationCap} title='learn'/> */}
           <NavBarItemMobile icon={faUserCircle} title='account'/>
         </div>
       </>
