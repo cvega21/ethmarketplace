@@ -7,7 +7,8 @@ import { useAppContext } from '../contexts/AppContext'
 import Image from 'next/image';
 import BN from 'bn.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { getShortAddress, getMediumAddress } from '../utils/utils'
 
 const providerOptions = {
   /* See Provider Options Section */
@@ -30,6 +31,7 @@ const Account = () => {
         const weiBalance = await window.ethereum.request({ method: 'eth_getBalance', params: [appContext?.account, 'latest'] });
         const ethBalance = web3.utils.fromWei(weiBalance, 'ether')
         setEthBalance(parseInt(ethBalance));
+        setShortAccount(getMediumAddress(appContext?.account as string));
       }
     }
     
@@ -48,7 +50,7 @@ const Account = () => {
           {appContext?.account ? 
           <div className='flex flex-col items-center'>
             <div className='flex w-6/12 min-w-full'>
-              <div className='rounded-full relative group cursor-pointer w-60 flex'>
+              <div className='rounded-full relative group cursor-pointer w-72 flex'>
                 <Image 
                   src='/avi_placeholder.png' 
                   height='200' 
