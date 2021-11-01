@@ -1,6 +1,6 @@
 // migrations/2_deploy.js
-const Box = artifacts.require('Box');
+const MyNFT = artifacts.require('MyNFT');
 
 module.exports = async function (deployer) {
-  await deployer.deploy(Box);
+  await deployer.deploy(MyNFT);
 };
