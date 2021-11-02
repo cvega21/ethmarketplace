@@ -74,14 +74,6 @@ const ProductPage = ({ product }: IProps) => {
                 </ActionButton>
               </div>
             </div>
-            <div className='text-black w-10/12 flex items-center justify-start border-t border-gray-700 mt-6'>
-              {/* <div className='px-3 bg-gray-100 border'> */}
-                {/* <div className='flex w-full items-center justify-start h-10 text-base'> */}
-                  {/* <FontAwesomeIcon icon={faQuoteLeft} className="mr-3"/>  */}
-                  {/* <p className='font-medium'>product details</p> */}
-                {/* </div> */}
-              {/* </div> */}
-            </div>
             <div className='flex justify-start w-10/12 my-4'>
               <h2 className='text-white font-normal text-xl'>product details</h2>
             </div>
