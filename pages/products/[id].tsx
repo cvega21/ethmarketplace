@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PageLayout from '../../constants/PageLayout'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -9,17 +9,46 @@ import { IProduct } from '../../types/types'
 import styles from '../../styles/Product.module.css'
 import ActionButton from '../../components/ActionButton'
 import EthPrice from '../../components/EthPrice'
+import EthButton from '../../components/EthButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faQuoteLeft } from '@fortawesome/free-solid-svg-icons'
 import { getShortAddress, getMediumAddress } from '../../utils/utils'
+import { useAppContext } from '../../contexts/AppContext';
+import contractAbi from '../../build/contracts/MyNFT.json'
+
 
 interface IProps {
   product: IProduct
 }
 
 const ProductPage = ({ product }: IProps) => {
+  const appContext = useAppContext();
+  const [status, setStatus] = useState("");
+  const [url, setURL] = useState("");
   const router = useRouter();
   const { id } = router.query;
+
+  useEffect(() => {
+    const initEthereum = async () => {
+      if (window.ethereum.selectedAddress) {
+        await appContext?.connectMetamask();
+        console.log(window.ethereum.selectedAddress);
+      }
+    }
+    
+    initEthereum();
+
+    // appContext?.refreshMetamask();
+    // console.log(appContext?.account)
+    // console.log('reeeee')
+
+    return () => {
+    }
+  }, [appContext])
+
+  const mintNFT = async () => {
+    
+  }
 
   return (
     <PageLayout>
@@ -44,7 +73,7 @@ const ProductPage = ({ product }: IProps) => {
               <h1 className='text-gray-300 font-extralight text-xl'>listed by </h1>
               <a className='text-indigo-400 font-extralight text-xl ml-1'>@person12341</a>
             </div>
-            <div className='w-full flex items-center justify-around mt-2'>
+            {/* <div className='w-full flex items-center justify-around mt-2'>
               <div className='w-10/12'>
                 <ActionButton theme='light'>
                   <div className='flex w-full items-center justify-between h-9'>
@@ -58,20 +87,10 @@ const ProductPage = ({ product }: IProps) => {
                   </div>
                 </ActionButton>
               </div>
-            </div>
+            </div> */}
             <div className='w-full flex items-center justify-around'>
               <div className='w-10/12'>
-                <ActionButton theme='dark'>
-                  <div className='flex w-full items-center justify-between h-9'>
-                    <p className='text-2xl font-light w-24'>buy now</p>
-                    <div className='flex'>
-                      <Image src="/eth.svg" height={28} width={28} alt="ethereum" />
-                      <div className='flex items-center'>
-                        <h1 className='text-xl font-normal ml-1'>{product.buyNowPrice}</h1>  
-                      </div>
-                    </div>
-                  </div>
-                </ActionButton>
+                <EthButton buyNowPrice={product.buyNowPrice} mintNFT={mintNFT} product={product}/>
               </div>
             </div>
             <div className='flex justify-start w-10/12 my-4'>

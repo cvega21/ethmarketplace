@@ -3,12 +3,69 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Web3 from "web3";
 import { useAppContext } from '../contexts/AppContext';
+import pinJSONToIPFS from '../utils/pinJSONtoIPFS';
+import contractABI from '../build/contracts/MyNFT.json'
+import { IProduct } from '../types/types';
 
-const EthButton = (props: any) => {
+interface IEthButton {
+  buyNowPrice: Number,
+  children?: React.ReactNode,
+  mintNFT: Function,
+  product: IProduct
+}
+
+interface successfulPinataResponse {
+  success: boolean,
+  pinataUrl: string
+}
+
+const EthButton = (props: IEthButton) => {
   const appContext = useAppContext();
   const web3 = new Web3;
-  
-  const sendTransaction = () => {
+  const contractAddress = '0x5bB6CD5309eF94d49BeCE60D06Ad63581e5a3f10';
+
+  const mintNFT = async (title: string, description: string, image: string) => {
+    const metadata = {
+      name: title,
+      image: image,
+      description: description
+    }    
+    
+    //pinata pin request
+    const pinataResponse = await pinJSONToIPFS(metadata);
+    if (!pinataResponse.success) {
+        return {
+            success: false,
+            status: "😢 Something went wrong while uploading your tokenURI.",
+        }
+    } 
+    const tokenURI = pinataResponse.pinataUrl; 
+
+    window.contract = await new web3.eth.Contract(contractABI.abi as any, contractAddress);//loadContract();
+
+    const transactionParameters = {
+      to: contractAddress, // Required except during contract publications.
+      from: appContext?.account, // must match user's active address.
+      'data': window.contract.methods.mintNFT(window.ethereum.selectedAddress, tokenURI).encodeABI() //make call to NFT smart contract 
+    };
+    
+    
+    try {
+      const txHash = await window.ethereum
+          .request({
+              method: 'eth_sendTransaction',
+              params: [transactionParameters],
+          });
+      return {
+          success: true,
+          status: "✅ Check out your transaction on Etherscan: https://ropsten.etherscan.io/tx/" + txHash
+      }
+    } catch (error) {
+        return {
+            success: false,
+            status: "😥 Something went wrong: " + error.message
+        }
+    }
   }
 
   useEffect(() => {
@@ -26,8 +83,8 @@ const EthButton = (props: any) => {
 
   return (
     <button 
-      className="bg-indigo-200 hover:bg-indigo-300 text-indigo-800 hover:text-indigo-900 font-medium text-xl py-2 px-8 my-4 rounded-lg shadow-indigo w-full transition-all duration-200 ease-in-out"
-      onClick={sendTransaction}
+      className="bg-indigo-700 rounded-lg hover:bg-indigo-800 text-gray-100 hover:text-white font-medium text-xl py-2 px-8 my-4 shadow-indigo w-full transition-all duration-200 ease-in-out"
+      onClick={() => mintNFT(props.product.title, props.product.description, props.product.imagePath)}
       >
       <div className='flex w-full items-center justify-between h-9'>
         <p className='text-2xl font-light w-24'>buy now</p>

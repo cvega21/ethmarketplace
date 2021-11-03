@@ -13,6 +13,7 @@ import { useAppContext } from '../contexts/AppContext'
 declare global {
   interface Window {
       ethereum: any;
+      contract: any;
   }
 }
 

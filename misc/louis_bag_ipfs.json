@@ -1,0 +1,15 @@
+{
+  "attributes": [
+    {
+      "trait_type": "Brand",
+      "value": "Louis Vuitton"
+    },
+    {
+      "trait_type": "Item Type",
+      "value": "Bag"
+    }
+  ],
+  "description": "Some drip for your shoulder.",
+  "image": "https://gateway.pinata.cloud/ipfs/Qme3aQwP5kEJtWvYnfw1tUri5LWNCBDimJvZjpz5xu7QkT",
+  "name": "Louis Bag 3"
+}
