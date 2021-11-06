@@ -7,3 +7,9 @@ export interface IProduct {
   imagePath: string,
   refString: string;
 }
+
+export interface INFTMetadata {
+  title: string,
+  description: string,
+  imagePath: string
+}
