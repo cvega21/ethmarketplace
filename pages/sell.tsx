@@ -5,13 +5,16 @@ import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { collection, getFirestore, doc, setDoc, addDoc  } from "firebase/firestore";
-import { db } from './api/firebase'
+import { db } from '../constants/firebase'
 import { useAppContext } from '../contexts/AppContext';
 import PageLayout from '../constants/PageLayout'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Router from 'next/router';
-import { IProduct } from '../types/types'
+import { IProduct, INFTMetadata } from '../types/types'
+import pinJSONToIPFS from '../utils/pinJSONToIPFS';
+import axios from 'axios';
+
 
 const storage = getStorage();
 
@@ -21,7 +24,7 @@ const Sell = () => {
   const [startingPrice, setStartingPrice] = useState(0.0001);
   const [buyNowPrice, setBuyNowPrice] = useState(0.0005);
   const [image, setImage] = useState<File|null>(null);
-  const [imagePath, setImagePath] = useState('');
+  // const [imagePath, setImagePath] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const [location, setLocation] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -37,8 +40,22 @@ const Sell = () => {
       const storageRef = ref(storage, filePath);
       const fileUpload = await uploadBytes(storageRef, image as File);
       const downloadURL = await getDownloadURL(ref(storageRef));
-      setImagePath(downloadURL);
+      // setImagePath(downloadURL);
       const newProductRef = doc(collection(db, 'products'));
+
+      const pinataResponse = await axios.post(`/api/metadata/post`, {
+        title: title,
+        description: description,
+        imagePath: downloadURL
+      })
+
+      // const pinataResponse = await pinJSONToIPFS(NFTMetadata);
+      if (pinataResponse.status !== 200) {
+          return {
+              success: false,
+              status: "😢 Something went wrong while uploading your tokenURI.",
+          }
+      } 
       
       const product: IProduct = {
         title: title,
@@ -47,11 +64,11 @@ const Sell = () => {
         buyNowPrice: buyNowPrice,
         location: location,
         imagePath: downloadURL,
-        refString: newProductRef.id
+        refString: newProductRef.id,
+        tokenURI: pinataResponse.data.tokenURI
       }
 
       await setDoc(newProductRef, product);
-      // await addDoc(collection(db, 'products'), product);
       setProductUploaded(true);
       setIsLoading(false);
       setTimeout(() => {

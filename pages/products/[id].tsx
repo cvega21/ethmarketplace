@@ -3,7 +3,7 @@ import PageLayout from '../../constants/PageLayout'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Product from '../../components/Product'
-import { db } from '../api/firebase'
+import { db } from '../../constants/firebase'
 import { collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore'
 import { IProduct } from '../../types/types'
 import styles from '../../styles/Product.module.css'
@@ -90,7 +90,7 @@ const ProductPage = ({ product }: IProps) => {
             </div> */}
             <div className='w-full flex items-center justify-around'>
               <div className='w-10/12'>
-                <EthButton buyNowPrice={product.buyNowPrice} mintNFT={mintNFT} product={product}/>
+                <EthButton buyNowPrice={product.buyNowPrice} product={product}/>
               </div>
             </div>
             <div className='flex justify-start w-10/12 my-4'>

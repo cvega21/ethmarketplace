@@ -7,8 +7,6 @@ import axios from 'axios'
 const pinJSONToIPFS = async(JSONBody: any) => {
     const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
 
-    console.log(key, secret);
-
     try {
       const response = await axios.post(url, JSONBody, {
         headers: {

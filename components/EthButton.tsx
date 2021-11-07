@@ -3,15 +3,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Web3 from "web3";
 import { useAppContext } from '../contexts/AppContext';
-import pinJSONToIPFS from '../utils/pinJSONtoIPFS';
+import pinJSONToIPFS from '../utils/pinJSONToIPFS';
 import contractABI from '../build/contracts/MyNFT.json'
 import { IProduct } from '../types/types';
 
 interface IEthButton {
   buyNowPrice: Number,
   children?: React.ReactNode,
-  mintNFT: Function,
-  product: IProduct
+  product: IProduct,
+  // refString: string
 }
 
 interface successfulPinataResponse {
@@ -25,28 +25,30 @@ const EthButton = (props: IEthButton) => {
   const contractAddress = '0x5bB6CD5309eF94d49BeCE60D06Ad63581e5a3f10';
 
   const mintNFT = async (title: string, description: string, image: string) => {
-    const metadata = {
-      name: title,
-      image: image,
-      description: description
-    }    
+    // const metadata = {
+    //   name: title,
+    //   image: image,
+    //   description: description
+    // }    
     
-    //pinata pin request
-    const pinataResponse = await pinJSONToIPFS(metadata);
-    if (!pinataResponse.success) {
-        return {
-            success: false,
-            status: "😢 Something went wrong while uploading your tokenURI.",
-        }
-    } 
-    const tokenURI = pinataResponse.pinataUrl; 
+    // //pinata pin request
+    // const pinataResponse = await pinJSONToIPFS(metadata);
+    // if (!pinataResponse.success) {
+    //     return {
+    //         success: false,
+    //         status: "😢 Something went wrong while uploading your tokenURI.",
+    //     }
+    // } 
+    // const tokenURI = pinataResponse.pinataUrl;
+    
+    
 
     window.contract = await new web3.eth.Contract(contractABI.abi as any, contractAddress);//loadContract();
 
     const transactionParameters = {
       to: contractAddress, // Required except during contract publications.
       from: appContext?.account, // must match user's active address.
-      'data': window.contract.methods.mintNFT(window.ethereum.selectedAddress, tokenURI).encodeABI() //make call to NFT smart contract 
+      'data': window.contract.methods.mintNFT(window.ethereum.selectedAddress, props.product.tokenURI).encodeABI() //make call to NFT smart contract 
     };
     
     

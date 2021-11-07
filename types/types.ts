@@ -5,7 +5,8 @@ export interface IProduct {
   location: string,
   description: string,
   imagePath: string,
-  refString: string;
+  refString: string,
+  tokenURI: string,
 }
 
 export interface INFTMetadata {

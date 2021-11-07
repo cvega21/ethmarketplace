@@ -1,15 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '../../../constants/firebase'
 import { collection, doc, getDoc, getDocs, limit, onSnapshot, query, where } from '@firebase/firestore';
-import { IProduct } from '../../../types/types';
+import { IProduct, INFTMetadata } from '../../../types/types';
 import pinJSONToIPFS from '../../../utils/pinJSONToIPFS';
-
-
-interface INFTMetadata {
-  title: string,
-  description: string,
-  imagePath: string
-}
 
 interface IPinataRes {
   tokenURI: string
@@ -25,7 +18,7 @@ export default async function getMetadata(req: NextApiRequest, res: NextApiRespo
     // IPFS (Decentralized) Implementation
     console.log(req.body)
     const NFTMetadata: INFTMetadata = req.body;
-    const pinataResponse = await pinJSONToIPFS(NFTMetadata);
+    const pinataResponse = await pinJSONToIPFS(req.body);
 
     if (!pinataResponse.success) {
       res.status(400).json({error: 'error calling pinata.'});
