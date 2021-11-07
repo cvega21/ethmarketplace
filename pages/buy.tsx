@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Product from "../components/Product";
 import PageLayout from '../constants/PageLayout';
 import NavBar from '../components/NavBar';
-import { db } from './api/firebase'
+import { db } from '../constants/firebase'
 import { collection, doc, getDoc, getDocs, limit, onSnapshot, query, where } from '@firebase/firestore';
 import { IProduct } from '../types/types'
 
