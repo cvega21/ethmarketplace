@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import ReactDOM from 'react-dom'
 import PageLayout from '../constants/PageLayout';
 import ActionButton from '../components/ActionButton';
 import Web3 from "web3";
@@ -8,38 +9,85 @@ import Image from 'next/image';
 import BN from 'bn.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { getShortAddress, getMediumAddress } from '../utils/utils'
+import { getShortAddress, getMediumAddress } from '../utils/utils';
+const ModelViewer = require('@metamask/logo');
+const meshJson = require('../misc/metamask-logo/flask-fox.json');
 
-const providerOptions = {
-  /* See Provider Options Section */
-};
+const MetamaskLogo = () => {
+  let fox = useRef();
 
+  useEffect(() => {
+    fox.current = ModelViewer({
+      pxNotRatio: true,
+      width: 500,
+      height: 400,
+      followMouse: true,
+      slowDrift: false,
+      meshJson
+    }).container  
 
+    return () => {
+    }
+  }, [])
 
+  // ReactDOM.render(fox.current,)
+}
 
 const Account = () => {
   const appContext = useAppContext();
   const [shortAccount, setShortAccount] = useState<String>('');
   const [ethBalance, setEthBalance] = useState<Number>();
+  const [MetamaskLogo, setMetamaskLogo] = useState<any>();
+  const metamask = useRef(null);
   
   useEffect(() => {
     const initEthereum = async () => {
       if (window.ethereum.selectedAddress) {
         const web3 = new Web3;
-
+        
         await appContext?.connectMetamask();
         const weiBalance = await window.ethereum.request({ method: 'eth_getBalance', params: [appContext?.account, 'latest'] });
         const ethBalance = web3.utils.fromWei(weiBalance, 'ether')
         setEthBalance(parseInt(ethBalance));
         setShortAccount(getMediumAddress(appContext?.account as string));
+        const metamaskSVG = document.getElementById('metamask-svg');
       }
     }
-    
-    initEthereum();
 
-    return () => {
-    }
+    initEthereum();
+    
+    appContext?.addWalletListener();
+
   }, [appContext])
+  
+  // useEffect(() => {
+  //   if (metamask.current && !window.ethereum.selectedAddress) {
+  //     const viewer = ModelViewer({
+  //       pxNotRatio: true,
+  //       width: 500,
+  //       height: 400,
+  //       followMouse: true,
+  //       slowDrift: false,
+  //       meshJson
+  //     });
+
+  //     viewer.container.setAttribute('id', 'metamask-svg');
+  //     console.log(viewer.container);
+  //     // @ts-ignore: Object is possibly 'null'.
+  //     metamask.current.appendChild(viewer.container);
+  //   } else if (window.ethereum.selectedAddress) {
+  //     try {
+  //       const metamaskContainer = document.getElementById('metamask-container');
+  //       // @ts-ignore: Object is possibly 'null'.
+  //       metamaskContainer.removeChild(metamask.current);
+  //       const metamaskSVG = document.getElementById('metamask-svg');
+  //       // @ts-ignore: Object is possibly 'null'.
+  //       // metamask.current.removeChild(metamaskSVG);
+  //     } catch (e) {
+  //       console.error(e);
+  //     }
+  //   }
+  // }, [appContext])
 
   
 
@@ -78,12 +126,18 @@ const Account = () => {
             </div>
           </div>
           :
-          <button 
-            className='bg-indigo-700 rounded-lg hover:bg-indigo-800 text-gray-100 hover:text-white font-medium text-xl py-2 px-8 my-4 shadow-indigo w-full transition-all duration-200 ease-in-out'
-            onClick={() => appContext?.connectMetamask()}
-          >
-              <p>connect to metamask</p>
-          </button>
+
+          <>
+          <div id='metamask-container'>
+            <div ref={metamask}/>
+          </div>
+            <button 
+              className='bg-indigo-700 rounded-lg hover:bg-indigo-800 text-gray-100 hover:text-white font-medium text-xl py-2 px-8 my-4 shadow-indigo w-full transition-all duration-200 ease-in-out'
+              onClick={() => appContext?.connectMetamask()}
+            >
+                <p>connect to metamask</p>
+            </button>
+          </>
           }
         </div>
       </div>
