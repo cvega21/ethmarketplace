@@ -12,7 +12,7 @@ import EthPrice from '../../components/EthPrice'
 import EthButton from '../../components/EthButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faQuoteLeft } from '@fortawesome/free-solid-svg-icons'
-import { getShortAddress, getMediumAddress } from '../../utils/utils'
+import { getShortAddress, getMediumAddress, getMdTokenURI } from '../../utils/utils'
 import { useAppContext } from '../../contexts/AppContext';
 import contractAbi from '../../build/contracts/MyNFT.json'
 
@@ -96,7 +96,11 @@ const ProductPage = ({ product }: IProps) => {
               </div>
               <div className='flex justify-between'>
                 <h2 className='text-gray-200 font-light'>owner address</h2>
-                <h1 className='text-indigo-400 font-extralight'>{getMediumAddress(product.ownerAddress)}</h1>
+                <a className='text-indigo-400 font-extralight' href={`https://etherscan.io/address/${product.ownerAddress}`} target="_blank" rel="noreferrer">{getMediumAddress(product.ownerAddress)}</a>
+              </div>
+              <div className='flex justify-between'>
+                <h2 className='text-gray-200 font-light'>token URI</h2>
+                <a className='text-indigo-400 font-extralight' href={product.tokenURI} target="_blank" rel="noreferrer">{getMdTokenURI(product.tokenURI)}</a>
               </div>
               <div className='flex flex-col items-start'>
                 <h2 className='text-gray-200 font-medium'>product description</h2>
