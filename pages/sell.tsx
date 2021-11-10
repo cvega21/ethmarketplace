@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import NavBar from '../components/NavBar'
+import TextInput from '../components/TextInput'
+import EthInput from '../components/EthInput'
 import Image from 'next/image'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
@@ -19,14 +21,15 @@ import axios from 'axios';
 const storage = getStorage();
 
 const Sell = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [startingPrice, setStartingPrice] = useState(0.0001);
   const [buyNowPrice, setBuyNowPrice] = useState(0.0005);
-  const [image, setImage] = useState<File|null>(null);
-  // const [imagePath, setImagePath] = useState('');
-  const [imagePreview, setImagePreview] = useState('');
+  const [startingPrice, setStartingPrice] = useState(0.0001);
+  const [title, setTitle] = useState('');
   const [location, setLocation] = useState('');
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState<File|null>(null);
+  const [imagePreview, setImagePreview] = useState('');
+  const [condition, setCondition] = useState('');
+  const [deliveryOpts, setDeliveryOpts] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [productUploaded, setProductUploaded] = useState(false);
   
@@ -36,6 +39,7 @@ const Sell = () => {
     
     try {
       window.scrollTo(0, 0);
+      const currentDate = Date();
       const filePath = `listed-products/${image?.name}`;
       const storageRef = ref(storage, filePath);
       const fileUpload = await uploadBytes(storageRef, image as File);
@@ -55,7 +59,8 @@ const Sell = () => {
               success: false,
               status: "😢 Something went wrong while uploading your tokenURI.",
           }
-      } 
+      }
+      
       
       const product: IProduct = {
         title: title,
@@ -65,7 +70,11 @@ const Sell = () => {
         location: location,
         imagePath: downloadURL,
         refString: newProductRef.id,
-        tokenURI: pinataResponse.data.tokenURI
+        tokenURI: pinataResponse.data.tokenURI,
+        listedSince: currentDate,
+        listedBy: '',
+        condition: '',
+        deliveryOpts: ''
       }
 
       await setDoc(newProductRef, product);
@@ -125,103 +134,40 @@ const Sell = () => {
             <form action="#" method="POST">
               <div className="shadow sm:rounded-md sm:overflow-hidden">
                 <div className="px-4 py-5 space-y-6 sm:p-6">
-                  <div className="grid grid-cols-3 gap-6">
-                    <div className="col-span-3 sm:col-span-3 w-full">
-                      <label htmlFor="company-website" className="block text-md text-left font-medium text-white">
-                        I&apos;m selling a...
-                      </label>
-                      <div className="mt-1 flex rounded-md shadow-sm w-full">
-                        <input
-                          type="text"
-                          name="company-website"
-                          id="company-website"
-                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2 bg-gray-700 text-white"
-                          placeholder="e.g. Louis Vuitton Bag"
-                          onChange={e => changeInput(e, setTitle)}
-                          />
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <label htmlFor="about" className="block text-md text-left font-medium text-white">
-                      Description
-                    </label>
-                    <div className="mt-1">
-                      <textarea
-                        id="about" 
-                        name="about" 
-                        rows={3} 
-                        className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2 bg-gray-700 text-white" 
-                        placeholder="e.g. These sneakers are straight fire"
-                        onChange={e => changeTextArea(e, setDescription)}
-                        />
-                    </div>
-                  </div>
-                  <div className="">
-                    <div className="">
-                      <div className="flex flex-col justify-between">
-                        <div className="w-full mb-5">
-                          <label htmlFor="company-website" className="block text-md text-left font-medium text-white">
-                            Starting Price
-                        </label>
-                          <div className="mt-1 flex rounded-md shadow-sm w-full">
-                            <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-800 text-gray-50 text-sm">
-                              ETH
-                          <Image src="/eth.svg" height={20} width={30} alt="ethereum" />
-                            </span>
-                            <input
-                              type="number"
-                              name="company-website"
-                              id="company-website"
-                              className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2 bg-gray-700 text-white"
-                              placeholder="0.0001"
-                              defaultValue="0.0001"
-                              step="0.0001"
-                              onChange={e => changeInput(e, setStartingPrice)}
-                              />
-                          </div>
-                        </div>
-                        <div className="w-full">
-                          <label htmlFor="company-website" className="block text-md text-left font-medium text-white">
-                            Buy Now Price
-                        </label>
-                          <div className="mt-1 flex rounded-md shadow-sm w-full">
-                            <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-800 text-gray-50 text-sm">
-                              ETH
-                          <Image src="/eth.svg" height={20} width={30} alt="ethereum" />
-                            </span>
-                            <input
-                              type="number"
-                              name="company-website"
-                              id="company-website"
-                              className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2 bg-gray-700 text-white"
-                              placeholder="0.0005"
-                              defaultValue="0.0005"
-                              step="0.0001"
-                              onChange={e => changeInput(e, setBuyNowPrice)}
-                              />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-6">
-                    <div className="col-span-3 sm:col-span-3 w-full">
-                      <label htmlFor="company-website" className="block text-md text-left font-medium text-white">
-                        Location
-                      </label>
-                      <div className="mt-1 flex rounded-md shadow-sm w-full">
-                        <input
-                          type="text"
-                          name="company-website"
-                          id="company-website"
-                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2 bg-gray-700 text-white"
-                          placeholder="e.g. Austin, TX"
-                          onChange={e => changeInput(e, setLocation)}
-                          />
-                      </div>
-                    </div>
-                  </div>
+                  <TextInput 
+                    changeInput={changeInput} 
+                    setState={setTitle}
+                    currentState={title} 
+                    title={"I'm selling a..."} 
+                    placeholder={'e.g. Louis Vuitton Bag'} 
+                    options={[]} 
+                    textArea={false}
+                  />
+                  <TextInput 
+                    changeInput={changeInput} 
+                    setState={setDescription}
+                    currentState={description} 
+                    title={"Description"} 
+                    placeholder={'e.g. These sneakers are straight fire'} 
+                    options={[]} 
+                    textArea={true} 
+                  />
+                  <EthInput
+                    changeInput={changeInput}
+                    setState={setBuyNowPrice}
+                    currentState={buyNowPrice}
+                    title={'Buy Now Price'}
+                    defaultVal={'0.0001'}
+                  />
+                  <TextInput 
+                    changeInput={changeInput} 
+                    setState={setLocation}
+                    currentState={location} 
+                    title={"Location"} 
+                    placeholder={'e.g. Austin, TX'} 
+                    options={[]} 
+                    textArea={false} 
+                  />
                   <div>
                     <label className="block text-md text-left font-medium text-white mb-2">
                       Photo
