@@ -53,7 +53,7 @@ const ProductPage = ({ product }: IProps) => {
   return (
     <PageLayout>
       <div className='flex flex-col w-full items-center'>
-        <div className='w-full sm:w-11/12 md:w-10/12 lg:w-4/12'>
+        <div className='w-full sm:w-11/12 md:w-10/12 lg:w-4/12 fadeUp'>
           <div className='ml-8'>
             <h1 className='text-white text-3xl font-medium text-left mt-4'>{product.title}</h1>
             <p className='text-gray-400 font-light text-left'>{product.location}</p>

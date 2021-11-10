@@ -111,7 +111,7 @@ const Sell = () => {
     <PageLayout>
       <div className="flex flex-col w-full items-center text-center bg-gray-900">
         <div className="flex flex-col items-center text-center w-full relative overflow-hidden">
-          <h1 className="font-bold text-5xl mt-10 mb-6 text-white">list a thing</h1>
+          <h1 className="text-white text-4xl font-light my-14">sell your stuff</h1>
           {isLoading ? 
             <>
             <div className='text-white absolute overflow-hidden z-40'>
@@ -132,7 +132,7 @@ const Sell = () => {
             :
           <></>
           }
-          <div className="md:mt-0 w-11/12 lg:w-5/12">
+          <div className="md:mt-0 w-11/12 lg:w-5/12 fadeDown">
             <form action="#" method="POST">
               <div className="shadow sm:rounded-md sm:overflow-hidden">
                 <div className="px-4 py-5 space-y-6 sm:p-6">

@@ -96,7 +96,7 @@ const Account = () => {
       <div className="text-center flex w-full flex-col lg:flex-1 justify-center items-center h-full">
         <div className="flex flex-col w-6/12 min-w-min md:w-3/12 lg:w-2/12">
           {appContext?.account ? 
-          <div className='flex flex-col items-center'>
+          <div className='flex flex-col items-center fadeDown'>
             <div className='flex w-6/12 min-w-full'>
               <div className='rounded-full relative group cursor-pointer w-72 flex'>
                 <Image 

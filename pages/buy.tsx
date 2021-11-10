@@ -5,6 +5,7 @@ import NavBar from '../components/NavBar';
 import { db } from '../constants/firebase'
 import { collection, doc, getDoc, getDocs, limit, onSnapshot, query, where } from '@firebase/firestore';
 import { IProduct } from '../types/types'
+import styles from '../styles/Home.module.css'
 
 const Buy = ({ productsArr, queryArr }: any) => {
   
@@ -14,7 +15,7 @@ const Buy = ({ productsArr, queryArr }: any) => {
       <h1 className="text-white text-4xl font-light py-14">
         top picks for you
       </h1>
-      <div className="flex flex-col lg:grid lg:grid-cols-3 lg:gap-12">
+      <div className="flex flex-col lg:grid lg:grid-cols-3 lg:gap-12 fadeDown">
         {productsArr.map((product: IProduct) => {
           return (
             <Product

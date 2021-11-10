@@ -73,7 +73,7 @@ const Home: NextPage = () => {
       </Head>
       <main className={`text-center dark flex flex-1 flex-col items-center bg-gray-900 relative ${navContext?.navIsOpen ? 'min-h-screen overflow-hidden' : 'min-h-screen'}`}>
         <NavBar/>
-        <div className="text-center flex w-full flex-col lg:flex-1 justify-center items-center h-full">
+        <div className="text-center flex w-full flex-col lg:flex-1 justify-center items-center h-full fadeDown">
           <div className="font-bold text-5xl md:text-7xl lg:text-8xl w-10/12 mt-6 lg:mt-0 text-white tracking-tighter">
             <div className='justify-center md:flex'>
               <h1 className='px-1'>the</h1> 
