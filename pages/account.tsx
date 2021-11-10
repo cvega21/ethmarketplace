@@ -36,7 +36,7 @@ const MetamaskLogo = () => {
 const Account = () => {
   const appContext = useAppContext();
   const [shortAccount, setShortAccount] = useState<String>('');
-  const [ethBalance, setEthBalance] = useState<Number>();
+  const [ethBalance, setEthBalance] = useState<String>();
   const [MetamaskLogo, setMetamaskLogo] = useState<any>();
   const metamask = useRef(null);
   
@@ -48,7 +48,7 @@ const Account = () => {
         await appContext?.connectMetamask();
         const weiBalance = await window.ethereum.request({ method: 'eth_getBalance', params: [appContext?.account, 'latest'] });
         const ethBalance = web3.utils.fromWei(weiBalance, 'ether')
-        setEthBalance(parseInt(ethBalance));
+        setEthBalance(parseFloat(ethBalance).toFixed(2));
         setShortAccount(getMediumAddress(appContext?.account as string));
         const metamaskSVG = document.getElementById('metamask-svg');
       }

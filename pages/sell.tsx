@@ -21,6 +21,7 @@ import axios from 'axios';
 const storage = getStorage();
 
 const Sell = () => {
+  const appContext = useAppContext();
   const [buyNowPrice, setBuyNowPrice] = useState(0.0005);
   const [startingPrice, setStartingPrice] = useState(0.0001);
   const [title, setTitle] = useState('');
@@ -28,8 +29,8 @@ const Sell = () => {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState<File|null>(null);
   const [imagePreview, setImagePreview] = useState('');
-  const [condition, setCondition] = useState('');
-  const [deliveryOpts, setDeliveryOpts] = useState('');
+  const [condition, setCondition] = useState('brand new');
+  const [deliveryOpts, setDeliveryOpts] = useState('shipping + pickup');
   const [isLoading, setIsLoading] = useState(false);
   const [productUploaded, setProductUploaded] = useState(false);
   
@@ -39,7 +40,7 @@ const Sell = () => {
     
     try {
       window.scrollTo(0, 0);
-      const currentDate = Date();
+      const currentDate = new Date().toLocaleDateString();
       const filePath = `listed-products/${image?.name}`;
       const storageRef = ref(storage, filePath);
       const fileUpload = await uploadBytes(storageRef, image as File);
@@ -72,9 +73,10 @@ const Sell = () => {
         refString: newProductRef.id,
         tokenURI: pinataResponse.data.tokenURI,
         listedSince: currentDate,
-        listedBy: '',
-        condition: '',
-        deliveryOpts: ''
+        listedBy: '@placeholder',
+        ownerAddress: appContext?.account as string,
+        condition: condition,
+        deliveryOpts: deliveryOpts
       }
 
       await setDoc(newProductRef, product);
@@ -109,7 +111,7 @@ const Sell = () => {
     <PageLayout>
       <div className="flex flex-col w-full items-center text-center bg-gray-900">
         <div className="flex flex-col items-center text-center w-full relative overflow-hidden">
-          <h1 className="font-bold text-5xl mt-10 mb-6 text-white">List an item</h1>
+          <h1 className="font-bold text-5xl mt-10 mb-6 text-white">list a thing</h1>
           {isLoading ? 
             <>
             <div className='text-white absolute overflow-hidden z-40'>
@@ -138,16 +140,25 @@ const Sell = () => {
                     changeInput={changeInput} 
                     setState={setTitle}
                     currentState={title} 
-                    title={"I'm selling a..."} 
-                    placeholder={'e.g. Louis Vuitton Bag'} 
+                    title={"i'm selling a..."} 
+                    placeholder={'e.g. louis bag'} 
                     options={[]} 
+                    textArea={false}
+                  />
+                  <TextInput 
+                    changeInput={changeInput} 
+                    setState={setCondition}
+                    currentState={condition} 
+                    title={"condition"} 
+                    placeholder={''} 
+                    options={['brand new', 'like new', 'decent', 'rugged', 'near death']} 
                     textArea={false}
                   />
                   <TextInput 
                     changeInput={changeInput} 
                     setState={setDescription}
                     currentState={description} 
-                    title={"Description"} 
+                    title={"description"} 
                     placeholder={'e.g. These sneakers are straight fire'} 
                     options={[]} 
                     textArea={true} 
@@ -156,17 +167,26 @@ const Sell = () => {
                     changeInput={changeInput}
                     setState={setBuyNowPrice}
                     currentState={buyNowPrice}
-                    title={'Buy Now Price'}
+                    title={'price'}
                     defaultVal={'0.0001'}
                   />
                   <TextInput 
                     changeInput={changeInput} 
                     setState={setLocation}
                     currentState={location} 
-                    title={"Location"} 
+                    title={"location"} 
                     placeholder={'e.g. Austin, TX'} 
                     options={[]} 
                     textArea={false} 
+                  />
+                  <TextInput 
+                    changeInput={changeInput} 
+                    setState={setDeliveryOpts}
+                    currentState={deliveryOpts} 
+                    title={"delivery options"} 
+                    placeholder={''} 
+                    options={['shipping + pickup', 'shipping only', 'pickup only']} 
+                    textArea={false}
                   />
                   <div>
                     <label className="block text-md text-left font-medium text-white mb-2">

@@ -25,7 +25,13 @@ const Buy = ({ productsArr, queryArr }: any) => {
               description={product.description}
               imagePath={product.imagePath}
               refString={product.refString}
+              tokenURI={product.tokenURI}
+              listedSince={product.listedSince}
               key={product.imagePath}
+              listedBy={''}
+              condition={''}
+              deliveryOpts={''}
+              ownerAddress={''}
             />
           )
         })}

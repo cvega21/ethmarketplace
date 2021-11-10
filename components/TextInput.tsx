@@ -6,7 +6,8 @@ interface ITextInput {
   currentState: string,
   title: string,
   placeholder: string,
-  options: string[]
+  options: string[],
+  textArea: boolean
 }
 
 const TextInput = (props: ITextInput) => {
@@ -18,22 +19,30 @@ const TextInput = (props: ITextInput) => {
           {props.title}
         </label>
         {props.options.length > 0 ? 
-          <select className='text-white bg-gray-700 border rounded-md p-2 w-full'>
+          <select className='text-white bg-gray-700 border rounded-md p-2 w-full' onChange={e => props.changeInput(e, props.setState)} value={props.currentState}>
             {props.options?.map((option) => {
               return <option key={option}>{option}</option>
             })}
           </select>
         :
         <div className="mt-1 flex rounded-md shadow-sm w-full">
-          <input
-            type="text"
-            name="company-website"
-            id="company-website"
-            className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2 bg-gray-700 text-white"
-            placeholder={props.placeholder}
-            onChange={e => props.changeInput(e, props.setState)}
-            value={props.currentState}
-            />
+          {props.textArea ? 
+              <textarea
+              rows={3} 
+              className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2 bg-gray-700 text-white" 
+              placeholder={props.placeholder}
+              onChange={e => props.changeInput(e, props.setState)}
+              value={props.currentState}
+              />
+              :
+              <input
+                type="text"
+                className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300 border p-2 bg-gray-700 text-white"
+                placeholder={props.placeholder}
+                onChange={e => props.changeInput(e, props.setState)}
+                value={props.currentState}
+              />
+          }
         </div>
       }
       </div>

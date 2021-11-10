@@ -71,23 +71,8 @@ const ProductPage = ({ product }: IProps) => {
           <div className='flex flex-col items-center'>
             <div className='w-10/12 flex items-start'>
               <h1 className='text-gray-300 font-extralight text-xl'>listed by </h1>
-              <a className='text-indigo-400 font-extralight text-xl ml-1'>@person12341</a>
+              <a className='text-indigo-400 font-extralight text-xl ml-1'>{product.listedBy}</a>
             </div>
-            {/* <div className='w-full flex items-center justify-around mt-2'>
-              <div className='w-10/12'>
-                <ActionButton theme='light'>
-                  <div className='flex w-full items-center justify-between h-9'>
-                    <p className='text-2xl font-light'>place bid</p>
-                    <div className='flex'>
-                      <Image src="/eth.svg" height={28} width={28} alt="ethereum" />
-                      <div className='flex items-center'>
-                        <h1 className='text-indigo-800 text-xl font-normal ml-1'>{product.startingPrice}</h1>  
-                      </div>
-                    </div>
-                  </div>
-                </ActionButton>
-              </div>
-            </div> */}
             <div className='w-full flex items-center justify-around'>
               <div className='w-10/12'>
                 <EthButton buyNowPrice={product.buyNowPrice} product={product}/>
@@ -99,19 +84,19 @@ const ProductPage = ({ product }: IProps) => {
             <div className='text-white w-10/12'>
               <div className='flex justify-between'>
                 <h2 className='text-gray-200 font-light'>listed since</h2>
-                <h1 className='text-gray-400 font-extralight'>Aug. 13, 2021</h1>
+                <h1 className='text-gray-400 font-extralight'>{product.listedSince}</h1>
               </div>
               <div className='flex justify-between'>
                 <h2 className='text-gray-200 font-light'>condition</h2>
-                <h1 className='text-gray-400 font-extralight'>like new</h1>
+                <h1 className='text-gray-400 font-extralight'>{product.condition}</h1>
               </div>
               <div className='flex justify-between'>
                 <h2 className='text-gray-200 font-light'>delivery options</h2>
-                <h1 className='text-gray-400 font-extralight'>pick up only</h1>
+                <h1 className='text-gray-400 font-extralight'>{product.deliveryOpts}</h1>
               </div>
               <div className='flex justify-between'>
-                <h2 className='text-gray-200 font-light'>contract address</h2>
-                <h1 className='text-indigo-400 font-extralight'>{getMediumAddress('0x12d0jf3i2od3210dko')}</h1>
+                <h2 className='text-gray-200 font-light'>owner address</h2>
+                <h1 className='text-indigo-400 font-extralight'>{getMediumAddress(product.ownerAddress)}</h1>
               </div>
               <div className='flex flex-col items-start'>
                 <h2 className='text-gray-200 font-medium'>product description</h2>
