@@ -8,10 +8,14 @@ import { useAppContext } from '../contexts/AppContext'
 import Image from 'next/image';
 import BN from 'bn.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faUserAstronaut } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faEdit, faUserAstronaut } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { getShortAddress, getMediumAddress } from '../utils/utils';
+import { IUser } from '../types/types'
 import { changeInput } from '../utils/utils'
+import { db } from '../constants/firebase'
+import { collection, getFirestore, doc, setDoc, addDoc  } from "firebase/firestore";
+
 const ModelViewer = require('@metamask/logo');
 const meshJson = require('../misc/metamask-logo/flask-fox.json');
 
@@ -44,6 +48,7 @@ const Account = () => {
   const [twitter, setTwitter] = useState<string>('');
   const [ethBalance, setEthBalance] = useState<string>();
   // const [MetamaskLogo, setMetamaskLogo] = useState<any>();
+  const [isLoading, setIsLoading] = useState(false);
   const metamask = useRef(null);
   
   useEffect(() => {
@@ -80,6 +85,28 @@ const Account = () => {
     return () => {
     }
   }, [name, twitter, newUser])
+
+  const saveChanges = async () => {
+    setIsLoading(true);  
+    
+    try {
+      const newUserRef = doc(collection(db, 'users'));
+      const newUser: IUser = {
+        address: appContext?.account as string,
+        permissions: 'user',
+        name: name,
+        twitter: twitter
+      }
+  
+      await setDoc(newUserRef, newUser);
+    } catch (e) {
+      console.error('uh-oh. error: ', e);
+    }
+
+    setInfoHasChanged(false);  
+    setNewUser(false);  
+    setIsLoading(false);  
+  }
   
   // useEffect(() => {
   //   if (metamask.current && !window.ethereum.selectedAddress) {
@@ -114,10 +141,21 @@ const Account = () => {
 
   return (
     <PageLayout>
-      <div className="text-center flex w-full flex-col lg:flex-1 justify-center items-center h-full">
-        <div className="flex flex-col w-6/12 min-w-min md:w-3/12 lg:w-2/12">
+      <div className="text-center flex w-full flex-col lg:flex-1 justify-start items-center h-full">
+        <div className="flex flex-col w-6/12 min-w-min md:w-3/12 lg:w-full items-center">
+          {isLoading ? 
+            <>
+              <div className='absolute overflow-hidden z-40'>
+                <div className='bg-gray-900 w-screen h-screen opacity-50'></div>
+              </div>
+              <FontAwesomeIcon icon={faCircleNotch} className='text-indigo-500 text-7xl animate-spin absolute z-50 top-48'/>
+            </>
+          : 
+            <></>
+          }
+          
           {appContext?.account ? 
-          <div className='flex flex-col items-center fadeDown'>
+          <div className='flex flex-col items-center fadeDown mt-20'>
             <div className='flex w-6/12 min-w-full'>
               <div className='rounded-full relative group cursor-pointer w-72 '>
                 <Image 
@@ -141,7 +179,11 @@ const Account = () => {
                   <input 
                     className='text-gray-100 font-semibold text-5xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-gray-600' 
                     placeholder="enter your name"
-                    onChange={e => changeInput(e, setName)}
+                    onChange={e => {
+                      changeInput(e, setName);
+                      setInfoHasChanged(true);
+                    }}
+                    disabled={newUser ? false : true}
                     value={name}
                     ></input>
                 </div>
@@ -154,17 +196,27 @@ const Account = () => {
                   <input 
                     className='text-indigo-400 font-thin text-4xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-indigo-400 placeholder-opacity-40 w-full group-focus:text-white' 
                     placeholder="enter your twitter handle"
-                    onChange={e => changeInput(e, setTwitter)}
+                    onChange={e => {
+                      changeInput(e, setTwitter);
+                      setInfoHasChanged(true);
+                    }}
+                    disabled={newUser ? false : true}
                     value={twitter}
                     />
                 </div>
                 <h1 className='text-gray-500 font-light text-xl my-2'>{appContext?.account}</h1>
                 {infoHasChanged ? 
-                  <button className='w-1/2 bg-indigo-700 rounded-lg hover:bg-indigo-800 text-gray-100 hover:text-white font-medium text-xl py-2 px-8 my-4 shadow-indigo transition-all duration-200 ease-in-out'>
+                  <button 
+                    className='w-1/2 bg-indigo-700 rounded-lg hover:bg-indigo-800 text-gray-100 hover:text-white font-medium text-xl py-2 px-8 my-4 shadow-indigo transition-all duration-200 ease-in-out'
+                    onClick={() => saveChanges()}
+                    >
                     <p>save changes</p>
                   </button>
+
                   :
+
                   <></>
+                  
                 }
               </div>
             </div>

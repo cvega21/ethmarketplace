@@ -19,3 +19,10 @@ export interface INFTMetadata {
   description: string,
   imagePath: string
 }
+
+export interface IUser {
+  address: string,
+  permissions: string,
+  name: string,
+  twitter: string
+}
