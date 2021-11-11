@@ -272,7 +272,7 @@ const Account = () => {
   )
 }
 
-export const AccountBox = (props: any) => {
+export const AccountBox = ({ name, twitter, address}: IUser) => {
   return (
     <div className='flex flex-col items-center fadeDown mt-20 w-full justify-center'>
       <div className='flex flex-col w-full h-auto items-center justify-center md:flex-row lg:flex-row'>
@@ -294,7 +294,7 @@ export const AccountBox = (props: any) => {
               />
             </div>
             <h1 className='text-gray-100 font-semibold text-5xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-gray-600'>
-              {props.name}
+              {name}
             </h1>
           </div>
           <div className="flex items-center text-white ">
@@ -304,9 +304,14 @@ export const AccountBox = (props: any) => {
                 className={`text-3xl transition-all duration-300`}
               />
             </div>
-            <h1 className='text-indigo-400 font-thin text-4xl my-2 bg-transparent outline-none focus:ring-indigo-800'>
-              {`@${props.twitter}`}
-            </h1>
+            <a 
+              className='text-indigo-400 font-thin text-4xl my-2 bg-transparent outline-none focus:ring-indigo-800'
+              href={`https://www.twitter.com/${twitter}`}
+              target="_blank"
+              rel="noreferrer"
+              >
+              {`@${twitter}`}
+            </a>
           </div>
           <div className="flex items-center text-white ">
             <div className='pr-8 flex justify-start'>
@@ -315,9 +320,14 @@ export const AccountBox = (props: any) => {
                 className={`text-3xl transition-all duration-300`}
               />
             </div>
-            <h1 className='text-indigo-400 font-thin text-xl my-2 bg-transparent outline-none focus:ring-indigo-800 break-all'>
-              {props.address}
-            </h1>
+            <a 
+              className='text-indigo-400 font-thin text-xl my-2 bg-transparent outline-none focus:ring-indigo-800 break-all'
+              href={`https://etherscan.io/address/${address}`} 
+              target="_blank" 
+              rel="noreferrer"
+              >
+              {address}
+            </a>
           </div>
         </div>
       </div>

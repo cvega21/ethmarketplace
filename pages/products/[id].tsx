@@ -15,6 +15,7 @@ import { faList, faQuoteLeft } from '@fortawesome/free-solid-svg-icons'
 import { getShortAddress, getMediumAddress, getMdTokenURI } from '../../utils/utils'
 import { useAppContext } from '../../contexts/AppContext';
 import contractAbi from '../../build/contracts/MyNFT.json'
+import Link from 'next/link'
 
 
 interface IProps {
@@ -71,7 +72,9 @@ const ProductPage = ({ product }: IProps) => {
           <div className='flex flex-col items-center'>
             <div className='w-10/12 flex items-start'>
               <h1 className='text-gray-300 font-extralight text-xl'>listed by </h1>
-              <a className='text-indigo-400 font-extralight text-xl ml-1' href={`/people/${product.ownerAddress}`}>{product.ownerName.toLowerCase()}</a>
+              <Link href={`/people/${product.ownerAddress}`}>
+                <a className='text-indigo-400 font-extralight text-xl ml-1'>{product.ownerName.toLowerCase()}</a>
+              </Link>
             </div>
             <div className='w-full flex items-center justify-around'>
               <div className='w-10/12'>
@@ -96,11 +99,25 @@ const ProductPage = ({ product }: IProps) => {
               </div>
               <div className='flex justify-between'>
                 <h2 className='text-gray-200 font-light'>owner address</h2>
-                <a className='text-indigo-400 font-extralight' href={`https://etherscan.io/address/${product.ownerAddress}`} target="_blank" rel="noreferrer">{getMediumAddress(product.ownerAddress)}</a>
+                <a 
+                  className='text-indigo-400 font-extralight' 
+                  href={`https://etherscan.io/address/${product.ownerAddress}`} 
+                  target="_blank" 
+                  rel="noreferrer"
+                  >
+                  {getMediumAddress(product.ownerAddress)}
+                </a>
               </div>
               <div className='flex justify-between'>
                 <h2 className='text-gray-200 font-light'>token URI</h2>
-                <a className='text-indigo-400 font-extralight' href={product.tokenURI} target="_blank" rel="noreferrer">{getMdTokenURI(product.tokenURI)}</a>
+                <a 
+                  className='text-indigo-400 font-extralight' 
+                  href={product.tokenURI}
+                  target="_blank"
+                  rel="noreferrer"
+                  >
+                    {getMdTokenURI(product.tokenURI)}
+                </a>
               </div>
               <div className='flex flex-col items-start'>
                 <h2 className='text-gray-200 font-medium'>product description</h2>

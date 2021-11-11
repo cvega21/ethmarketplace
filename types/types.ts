@@ -26,6 +26,6 @@ export interface INFTMetadata {
 export interface IUser {
   address: string,
   name: string,
-  permissions: string,
+  permissions?: string,
   twitter: string,
 }
