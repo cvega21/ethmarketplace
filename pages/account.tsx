@@ -118,7 +118,7 @@ const Account = () => {
       const newUser: IUser = {
         address: appContext?.account as string,
         permissions: 'user',
-        name: name,
+        name: appContext?.name as string,
         twitter: twitter
       }
   
