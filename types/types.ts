@@ -1,28 +1,31 @@
+import { StringFormat } from "@firebase/storage";
+
 export interface IProduct {
   buyNowPrice: number,
-  startingPrice?: number,
-  title: string,
-  location: string,
+  condition: string,
+  deliveryOpts: string
   description: string,
   imagePath: string,
-  refString: string,
-  tokenURI: string,
-  listedSince: string
   listedBy: string
-  ownerAddress: string
-  condition: string
-  deliveryOpts: string
+  listedSince: string
+  location: string,
+  ownerAddress: string,
+  ownerName: string,
+  refString: string,
+  startingPrice?: number,
+  title: string,
+  tokenURI: string,
 }
 
 export interface INFTMetadata {
-  title: string,
   description: string,
-  imagePath: string
+  imagePath: string,
+  title: string,
 }
 
 export interface IUser {
   address: string,
-  permissions: string,
   name: string,
-  twitter: string
+  permissions: string,
+  twitter: string,
 }

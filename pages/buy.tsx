@@ -33,6 +33,7 @@ const Buy = ({ productsArr, queryArr }: any) => {
               condition={''}
               deliveryOpts={''}
               ownerAddress={''}
+              ownerName={''}
             />
           )
         })}

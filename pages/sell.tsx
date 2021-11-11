@@ -45,7 +45,6 @@ const Sell = () => {
       const storageRef = ref(storage, filePath);
       const fileUpload = await uploadBytes(storageRef, image as File);
       const downloadURL = await getDownloadURL(ref(storageRef));
-      // setImagePath(downloadURL);
       const newProductRef = doc(collection(db, 'products'));
 
       const pinataResponse = await axios.post(`/api/metadata/post`, {
@@ -75,6 +74,7 @@ const Sell = () => {
         listedSince: currentDate,
         listedBy: '@placeholder',
         ownerAddress: appContext?.account as string,
+        ownerName: appContext?.name as string,
         condition: condition,
         deliveryOpts: deliveryOpts
       }

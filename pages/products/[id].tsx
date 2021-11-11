@@ -71,7 +71,7 @@ const ProductPage = ({ product }: IProps) => {
           <div className='flex flex-col items-center'>
             <div className='w-10/12 flex items-start'>
               <h1 className='text-gray-300 font-extralight text-xl'>listed by </h1>
-              <a className='text-indigo-400 font-extralight text-xl ml-1'>{product.listedBy}</a>
+              <a className='text-indigo-400 font-extralight text-xl ml-1' href={`/people/${product.ownerAddress}`}>{product.ownerName.toLowerCase()}</a>
             </div>
             <div className='w-full flex items-center justify-around'>
               <div className='w-10/12'>
@@ -132,6 +132,7 @@ export async function getStaticPaths() {
   
   const paths = productsDocs.docs.map((doc) => {
     const product = doc.data();
+
     return { params: 
       { id: product.refString }
     } ;
