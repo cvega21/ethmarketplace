@@ -1,12 +1,14 @@
 import React, { createContext, useContext, useState} from 'react'
 
 interface IAppContext {
-  navIsOpen: boolean,
-  setNavIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  account: string
   addWalletListener: Function,
   connectMetamask: Function,
+  navIsOpen: boolean,
+  setNavIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  name: string,
+  setName: React.Dispatch<React.SetStateAction<string>>,
   refreshMetamask: Function,
-  account: string
 }
 
 const AppContext = React.createContext<IAppContext | null>(null);
@@ -14,6 +16,7 @@ const AppContext = React.createContext<IAppContext | null>(null);
 export const AppWrapper: React.FC = ({ children }) => {
   const [navIsOpen, setNavIsOpen] = useState(false);
   const [account, setAccount] = useState('');
+  const [name, setName] = useState('');
   
   const connectMetamask = async () => {
     try {
@@ -48,12 +51,14 @@ export const AppWrapper: React.FC = ({ children }) => {
 
   
   let appContext: IAppContext = {
-      navIsOpen: navIsOpen,
-      setNavIsOpen: setNavIsOpen,
+      account: account,
       addWalletListener: addWalletListener,
       connectMetamask: connectMetamask,
+      navIsOpen: navIsOpen,
+      name: name,
+      setName: setName,
+      setNavIsOpen: setNavIsOpen,
       refreshMetamask: refreshMetamask,
-      account: account
   }
 
   return (

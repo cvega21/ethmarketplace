@@ -75,7 +75,7 @@ const Account = () => {
       setNewUser(true);
       setUserID('');
       setInfoHasChanged(false);
-      setName('');
+      appContext.setName('');
       setTwitter('');
     }
 
@@ -85,7 +85,7 @@ const Account = () => {
   useEffect(() => {
     //does the account already exist in the DB? if it does, load its info in state. If it doesn't, load empty profile and create a new record in DB
     setIsLoading(true);
-    
+
     console.log(appContext?.account);
     const q = query(collection(db, 'users'), where('address','==',appContext?.account));
     
@@ -93,18 +93,14 @@ const Account = () => {
       const queryRef = await getDocs(q);
       const querySnapshot = queryRef.docs;
       let counter = 0;
-      
-      localStorage.setItem('name',name);
-      
+            
       querySnapshot.forEach((doc) => {
         const { name, twitter } = doc.data();
-        console.log('checking for name and twitter...')
-        console.log(name);
-        console.log(twitter);
         
         if (counter === 0) {
           setUserID(doc.id)
-          setName(name);
+          // setName(name);
+          appContext?.setName(name);
           setTwitter(twitter);
           setNewUser(false);
         }
@@ -202,17 +198,17 @@ const Account = () => {
                 <div className="flex items-center group text-gray-500 focus-within:text-white">
                   <FontAwesomeIcon 
                     icon={faUserAstronaut}
-                    className={`text-3xl mr-4 ${name ? 'text-white' : ''} transition-all duration-300`}
+                    className={`text-3xl mr-4 ${appContext.name ? 'text-white' : ''} transition-all duration-300`}
                   />
                   <input 
                     className='text-gray-100 font-semibold text-5xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-gray-600' 
                     placeholder="enter your name"
                     onChange={e => {
-                      changeInput(e, setName);
+                      changeInput(e, appContext.setName);
                       setInfoHasChanged(true);
                     }}
                     disabled={newUser ? false : true}
-                    value={name}
+                    value={appContext.name}
                     ></input>
                 </div>
                 <div className='flex items-center group text-gray-500 focus-within:text-white'>
