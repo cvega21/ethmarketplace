@@ -8,8 +8,10 @@ import { useAppContext } from '../contexts/AppContext'
 import Image from 'next/image';
 import BN from 'bn.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faUserAstronaut } from '@fortawesome/free-solid-svg-icons';
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { getShortAddress, getMediumAddress } from '../utils/utils';
+import { changeInput } from '../utils/utils'
 const ModelViewer = require('@metamask/logo');
 const meshJson = require('../misc/metamask-logo/flask-fox.json');
 
@@ -35,9 +37,13 @@ const MetamaskLogo = () => {
 
 const Account = () => {
   const appContext = useAppContext();
-  const [shortAccount, setShortAccount] = useState<String>('');
-  const [ethBalance, setEthBalance] = useState<String>();
-  const [MetamaskLogo, setMetamaskLogo] = useState<any>();
+  const [shortAccount, setShortAccount] = useState<string>('');
+  const [newUser, setNewUser] = useState<boolean>(true);
+  const [infoHasChanged, setInfoHasChanged] = useState<boolean>(false);
+  const [name, setName] = useState<string>('');
+  const [twitter, setTwitter] = useState<string>('');
+  const [ethBalance, setEthBalance] = useState<string>();
+  // const [MetamaskLogo, setMetamaskLogo] = useState<any>();
   const metamask = useRef(null);
   
   useEffect(() => {
@@ -58,7 +64,22 @@ const Account = () => {
     
     appContext?.addWalletListener();
 
+    // add use effect: does the account already exist in the DB? if it does, load its info in state. If it doesn't, load empty profile and create a new record in DB
+
   }, [appContext])
+
+  useEffect(() => {
+    if (newUser) {
+      if (name !== '' || twitter !== '') {
+        setInfoHasChanged(true)
+      } else if (name === '' && twitter === '') {
+        setInfoHasChanged(false);
+      }
+    }
+    
+    return () => {
+    }
+  }, [name, twitter, newUser])
   
   // useEffect(() => {
   //   if (metamask.current && !window.ethereum.selectedAddress) {
@@ -98,7 +119,7 @@ const Account = () => {
           {appContext?.account ? 
           <div className='flex flex-col items-center fadeDown'>
             <div className='flex w-6/12 min-w-full'>
-              <div className='rounded-full relative group cursor-pointer w-72 flex'>
+              <div className='rounded-full relative group cursor-pointer w-72 '>
                 <Image 
                   src='/avi_placeholder.png' 
                   height='200' 
@@ -111,13 +132,43 @@ const Account = () => {
                   className='absolute left-1/2 top-1/2 text-white text-3xl opacity-0 group-hover:opacity-100 transform -translate-x-6 -translate-y-2'
                 />
               </div>
-              <div className='flex flex-col justify-center text-left'>
-                <h1 className='text-gray-100 font-bold text-5xl my-2'>Vitalik Buterin</h1>
-                <h2 className='text-indigo-400 font-thin text-4xl'>@vbuterin</h2>
+              <div className='flex h-60 flex-col justify-start text-left'>
+                <div className="flex items-center group text-gray-500 focus-within:text-white" tabIndex={0}>
+                  <FontAwesomeIcon 
+                    icon={faUserAstronaut}
+                    className={`text-3xl mr-4 ${name ? 'text-white' : ''}`}
+                  />
+                  <input 
+                    className='text-gray-100 font-semibold text-5xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-gray-600' 
+                    placeholder="enter your name"
+                    onChange={e => changeInput(e, setName)}
+                    value={name}
+                    ></input>
+                </div>
+                <div className='flex items-center group text-gray-500 focus-within:text-white'>
+                  <FontAwesomeIcon 
+                    icon={faTwitter}
+                    className={`text-3xl mr-4 ${twitter ? 'text-white' : ''}`}
+                  />
+                  <h2 className={`text-indigo-400 text-opacity-40 font-thin text-4xl ${twitter ? 'text-opacity-100' : ''}`}>@</h2>
+                  <input 
+                    className='text-indigo-400 font-thin text-4xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-indigo-400 placeholder-opacity-40 w-full group-focus:text-white' 
+                    placeholder="enter your twitter handle"
+                    onChange={e => changeInput(e, setTwitter)}
+                    value={twitter}
+                    />
+                </div>
                 <h1 className='text-gray-500 font-light text-xl my-2'>{appContext?.account}</h1>
+                {infoHasChanged ? 
+                  <button className='w-1/2 bg-indigo-700 rounded-lg hover:bg-indigo-800 text-gray-100 hover:text-white font-medium text-xl py-2 px-8 my-4 shadow-indigo transition-all duration-200 ease-in-out'>
+                    <p>save changes</p>
+                  </button>
+                  :
+                  <></>
+                }
               </div>
             </div>
-            <div className='flex mt-12 items-center w-full h-24 border-t border-gray-500'>
+            <div className='flex mt-6 items-center w-full h-24 border-t border-gray-500'>
               <h1 className='text-gray-300 font-medium text-4xl mr-2'>total balance: </h1>
               <h1 className='text-gray-500 font-light text-3xl mt-1 flex items-center justify-center'>
                 <Image src="/eth.svg" height={28} width={28} alt="ethereum" />
