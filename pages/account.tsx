@@ -8,7 +8,7 @@ import { useAppContext } from '../contexts/AppContext'
 import Image from 'next/image';
 import BN from 'bn.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleNotch, faEdit, faUserAstronaut } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faEdit, faUserAstronaut, faLocationArrow, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { getShortAddress, getMediumAddress } from '../utils/utils';
 import { IUser } from '../types/types'
@@ -269,6 +269,59 @@ const Account = () => {
         </div>
       </div>
     </PageLayout>
+  )
+}
+
+export const AccountBox = (props: any) => {
+  return (
+    <div className='flex flex-col items-center fadeDown mt-20 w-full justify-center'>
+      <div className='flex flex-col w-full h-auto items-center justify-center md:flex-row lg:flex-row'>
+        <div className='rounded-full relative group cursor-pointer h-full mr-12'>
+          <Image 
+            src='/avi_placeholder.png' 
+            height='200' 
+            width='200' 
+            alt='avatar placeholder'
+            className='rounded-full min-w-full min-h-full'
+          />
+        </div>
+        <div className='flex  lg:w-auto px-8 flex-col justify-center text-left'>
+          <div className="flex items-center text-white ">
+            <div className='pr-8 '>
+              <FontAwesomeIcon 
+                icon={faUserAstronaut}
+                className={`text-3xl transition-all duration-300`}
+              />
+            </div>
+            <h1 className='text-gray-100 font-semibold text-5xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-gray-600'>
+              {props.name}
+            </h1>
+          </div>
+          <div className="flex items-center text-white ">
+            <div className='pr-8 '>
+              <FontAwesomeIcon 
+                icon={faTwitter}
+                className={`text-3xl transition-all duration-300`}
+              />
+            </div>
+            <h1 className='text-indigo-400 font-thin text-4xl my-2 bg-transparent outline-none focus:ring-indigo-800'>
+              {`@${props.twitter}`}
+            </h1>
+          </div>
+          <div className="flex items-center text-white ">
+            <div className='pr-8 flex justify-start'>
+              <FontAwesomeIcon 
+                icon={faLocationArrow}
+                className={`text-3xl transition-all duration-300`}
+              />
+            </div>
+            <h1 className='text-indigo-400 font-thin text-xl my-2 bg-transparent outline-none focus:ring-indigo-800 break-all'>
+              {props.address}
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
