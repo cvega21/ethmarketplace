@@ -16,13 +16,13 @@ describe('Firechain', () => {
   })
 
   it('mints NFTs at .0001 ETH', async () => {
-    const item = await this.contract.mintNFT(minter, 'https://gateway.pinata.cloud/ipfs/QmRAgikmBpNAErmZ4L6vqkabQVzTgFBgAmrUDy8fxAMFdQ', { from: minter, value: 100000000000000 });
+    const item = await this.contract.mintNFT('https://gateway.pinata.cloud/ipfs/QmRAgikmBpNAErmZ4L6vqkabQVzTgFBgAmrUDy8fxAMFdQ', { from: minter, value: 100000000000000 });
     
     expect((await this.contract.ownerOf(1)).toString()).to.equal(minter);
   })
   
   it('minter can list their NFT for sale', async () => {
-    const item = await this.contract.mintNFT(minter, 'https://gateway.pinata.cloud/ipfs/QmRAgikmBpNAErmZ4L6vqkabQVzTgFBgAmrUDy8fxAMFdQ', { from: minter, value: 100000000000000 });
+    const item = await this.contract.mintNFT('https://gateway.pinata.cloud/ipfs/QmRAgikmBpNAErmZ4L6vqkabQVzTgFBgAmrUDy8fxAMFdQ', { from: minter, value: 100000000000000 });
 
     await this.contract.listForSale(1, sellingPrice, { from: minter });
     
@@ -30,7 +30,7 @@ describe('Firechain', () => {
   })
 
   it('has a listing struct', async () => {
-    const item = await this.contract.mintNFT(minter, 'https://gateway.pinata.cloud/ipfs/QmRAgikmBpNAErmZ4L6vqkabQVzTgFBgAmrUDy8fxAMFdQ', { from: minter, value: 100000000000000 });
+    const item = await this.contract.mintNFT('https://gateway.pinata.cloud/ipfs/QmRAgikmBpNAErmZ4L6vqkabQVzTgFBgAmrUDy8fxAMFdQ', { from: minter, value: 100000000000000 });
 
     await this.contract.listForSale(1, sellingPrice, { from: minter });
     const testArr = ['1',true,sellingPrice]
@@ -59,7 +59,7 @@ describe('Firechain', () => {
   })
   
   it('random person cannot list someone elses NFT for sale', async () => {
-    const item = await this.contract.mintNFT(minter, 'https://gateway.pinata.cloud/ipfs/QmRAgikmBpNAErmZ4L6vqkabQVzTgFBgAmrUDy8fxAMFdQ', { from: minter, value: 100000000000000 });
+    const item = await this.contract.mintNFT('https://gateway.pinata.cloud/ipfs/QmRAgikmBpNAErmZ4L6vqkabQVzTgFBgAmrUDy8fxAMFdQ', { from: minter, value: 100000000000000 });
 
     try {
       await this.contract.listForSale(1, { from: buyer });

@@ -19,13 +19,13 @@ contract Firechain is ERC721URIStorage {
 
     constructor() ERC721("Firechain", "FIRE") {}
 
-    function mintNFT(address recipient, string memory tokenURI) public payable returns (uint256) {
+    function mintNFT(string memory tokenURI) public payable returns (uint256) {
         _tokenIds.increment();
 
         require(msg.value >= 100000000000000, "Not enough ETH sent. Minting price is 0.0001!");
 
         uint256 newItemId = _tokenIds.current();
-        _safeMint(recipient, newItemId);
+        _safeMint(msg.sender, newItemId);
         _setTokenURI(newItemId, tokenURI);
 
         items[newItemId].tokenID = newItemId;
@@ -52,6 +52,10 @@ contract Firechain is ERC721URIStorage {
     function getItemInfo(uint256 tokenID) public view returns (Listing memory) {
         return items[tokenID];
     }
+
+    // function buyItem(uint256 tokenID) public {
+
+    // }
 
 
 
