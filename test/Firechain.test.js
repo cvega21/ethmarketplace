@@ -33,7 +33,6 @@ describe('Firechain', () => {
     const item = await this.contract.mintNFT(minter, 'https://gateway.pinata.cloud/ipfs/QmRAgikmBpNAErmZ4L6vqkabQVzTgFBgAmrUDy8fxAMFdQ', { from: minter, value: 100000000000000 });
 
     await this.contract.listForSale(1, sellingPrice, { from: minter });
-    const test = await this.contract.itemStruct(1);
     const testArr = ['1',true,sellingPrice]
     testArr.tokenID = '1';
     testArr.forSale = true;
@@ -56,7 +55,7 @@ describe('Firechain', () => {
     // console.log(Object.keys(test));
     // console.log('type of test:', typeof(test))
     
-    expect((await this.contract.itemStruct(1))).to.eql(testArr);
+    expect((await this.contract.getItemInfo(1))).to.eql(testArr);
   })
   
   it('random person cannot list someone elses NFT for sale', async () => {
@@ -66,7 +65,6 @@ describe('Firechain', () => {
       await this.contract.listForSale(1, { from: buyer });
     } catch (e) {
       // [EXPECTED] the transaction above will revert and throw an error, since someone else other than the owner is trying to list the NFT for sale
-
       void(0)
     }
     

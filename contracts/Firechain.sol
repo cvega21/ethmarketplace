@@ -15,9 +15,6 @@ contract Firechain is ERC721URIStorage {
         uint256 price;
     }
 
-    // mapping (uint256 => bool) public listingStatus;
-    mapping (uint256 => bool) public listingPrice;
-
     mapping (uint256 => Listing) public items;
 
     constructor() ERC721("Firechain", "FIRE") {}
@@ -31,16 +28,20 @@ contract Firechain is ERC721URIStorage {
         _safeMint(recipient, newItemId);
         _setTokenURI(newItemId, tokenURI);
 
+        items[newItemId].tokenID = newItemId;
+        items[newItemId].forSale = false;
+        items[newItemId].price = 0;
+
         return newItemId;
     }
 
     function listForSale(uint256 tokenID, uint256 price) public returns(bool) {
         require(msg.sender == this.ownerOf(tokenID));
-        // listingStatus[tokenID] = true;
 
         items[tokenID].tokenID = tokenID;
         items[tokenID].forSale = true;
         items[tokenID].price = price;
+
         return true;
     }
 
@@ -48,8 +49,7 @@ contract Firechain is ERC721URIStorage {
         return items[tokenID].forSale;
     }
 
-    function itemStruct(uint256 tokenID) public view returns (Listing memory) {
-        // return (items[tokenID].tokenID, items[tokenID].forSale, items[tokenID].price);
+    function getItemInfo(uint256 tokenID) public view returns (Listing memory) {
         return items[tokenID];
     }
 
