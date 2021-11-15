@@ -8,7 +8,17 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract Firechain is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
-    mapping (uint256 => bool) public listingStatus;
+
+    struct Listing {
+        uint256 tokenID;
+        bool forSale;
+        uint256 price;
+    }
+
+    // mapping (uint256 => bool) public listingStatus;
+    mapping (uint256 => bool) public listingPrice;
+
+    mapping (uint256 => Listing) public items;
 
     constructor() ERC721("Firechain", "FIRE") {}
 
@@ -24,14 +34,26 @@ contract Firechain is ERC721URIStorage {
         return newItemId;
     }
 
-    function listForSale(uint256 tokenID) public {
+    function listForSale(uint256 tokenID, uint256 price) public returns(bool) {
         require(msg.sender == this.ownerOf(tokenID));
-        listingStatus[tokenID] = true;
+        // listingStatus[tokenID] = true;
+
+        items[tokenID].tokenID = tokenID;
+        items[tokenID].forSale = true;
+        items[tokenID].price = price;
+        return true;
     }
 
     function itemIsForSale(uint256 tokenID) public view returns (bool) {
-        return listingStatus[tokenID];
+        return items[tokenID].forSale;
     }
+
+    function itemStruct(uint256 tokenID) public view returns (Listing memory) {
+        // return (items[tokenID].tokenID, items[tokenID].forSale, items[tokenID].price);
+        return items[tokenID];
+    }
+
+
 
 
 }
