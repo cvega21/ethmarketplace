@@ -53,9 +53,24 @@ contract Firechain is ERC721URIStorage {
         return items[tokenID];
     }
 
-    // function buyItem(uint256 tokenID) public {
+    function buyItem(uint256 tokenID) external payable returns (bool) {
+        require(items[tokenID].forSale == true, "Item is not for sale.");
+        require(msg.value >= items[tokenID].price, "Not enough ETH sent. Check the item's selling price.");
+        require(msg.sender != this.ownerOf(tokenID), "You cannot buy your own NFT!");
 
-    // }
+        address owner = this.ownerOf(tokenID);
+
+        _safeTransfer(this.ownerOf(tokenID), msg.sender, tokenID, "buying thing!");
+
+        items[tokenID].forSale = false;
+        items[tokenID].price = 0;
+
+        (bool success, ) = owner.call{value: msg.value}("");
+        require(success, "Transfer failed.");
+
+        return success;
+
+    }
 
 
 
