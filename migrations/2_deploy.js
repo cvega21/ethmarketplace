@@ -1,6 +1,6 @@
 // migrations/2_deploy.js
-const MyNFT = artifacts.require('MyNFT');
+const Firechain = artifacts.require('Firechain');
 
 module.exports = async function (deployer) {
-  await deployer.deploy(MyNFT);
+  await deployer.deploy(Firechain);
 };
