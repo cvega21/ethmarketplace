@@ -274,9 +274,9 @@ const Account = () => {
 
 export const AccountBox = ({ name, twitter, address}: IUser) => {
   return (
-    <div className='flex flex-col items-center fadeDown mt-20 w-full justify-center'>
+    <div className='flex flex-col items-center fadeDown lg:mt-20 mt-8 w-full justify-center'>
       <div className='flex flex-col w-full h-auto items-center justify-center md:flex-row lg:flex-row'>
-        <div className='rounded-full relative group cursor-pointer h-full mr-12'>
+        <div className='rounded-full relative group cursor-pointer h-full lg:mr-12'>
           <Image 
             src='/avi_placeholder.png' 
             height='200' 
@@ -297,15 +297,15 @@ export const AccountBox = ({ name, twitter, address}: IUser) => {
               {name}
             </h1>
           </div>
-          <div className="flex items-center text-white ">
-            <div className='pr-8 '>
+          <div className="flex items-center text-indigo-200">
+            <div className='lg:pr-6 pr-4'>
               <FontAwesomeIcon 
                 icon={faTwitter}
-                className={`text-3xl transition-all duration-300`}
+                className={`lg:text-3xl text-xl transition-all duration-300`}
               />
             </div>
             <a 
-              className='text-indigo-400 font-thin text-4xl my-2 bg-transparent outline-none focus:ring-indigo-800'
+              className='text-indigo-400 font-thin lg:text-4xl text-2xl my-2 bg-transparent outline-none focus:ring-indigo-800'
               href={`https://www.twitter.com/${twitter}`}
               target="_blank"
               rel="noreferrer"
@@ -313,15 +313,15 @@ export const AccountBox = ({ name, twitter, address}: IUser) => {
               {`@${twitter}`}
             </a>
           </div>
-          <div className="flex items-center text-white ">
-            <div className='pr-8 flex justify-start'>
+          <div className="flex items-center text-indigo-200">
+            <div className='lg:pr-6 pr-4 flex justify-start'>
               <FontAwesomeIcon 
                 icon={faLocationArrow}
-                className={`text-3xl transition-all duration-300`}
+                className={`lg:text-3xl text-xl transition-all duration-300`}
               />
             </div>
             <a 
-              className='text-indigo-400 font-thin text-xl my-2 bg-transparent outline-none focus:ring-indigo-800 break-all'
+              className='text-indigo-400 font-thin lg:text-xl text-lg my-2 bg-transparent outline-none focus:ring-indigo-800 break-all'
               href={`https://etherscan.io/address/${address}`} 
               target="_blank" 
               rel="noreferrer"

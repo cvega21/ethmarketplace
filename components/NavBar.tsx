@@ -26,10 +26,9 @@ const NavBar = () => {
               {navContext?.navIsOpen ? 'x' : '☰'}
               </button>
               <ul className='flex text-xl transform-gpu transition-all duration-200 ease-in-out -translate-y-full md:translate-y-0 md:absolute md:right-0 h-full'>
-                <NavBarItem title='buy'/>
-                <NavBarItem title='sell'/>
-                {/* <NavBarItem title='learn'/> */}
-                <NavBarItem title='account'/>
+                <NavBarItem title='buy' collapse={true}/>
+                <NavBarItem title='sell' collapse={true}/>
+                <NavBarItem title='account' collapse={true}/>
               </ul>
             </div>
           </div> 
