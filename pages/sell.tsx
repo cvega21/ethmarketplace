@@ -16,6 +16,7 @@ import Router from 'next/router';
 import { IProduct, INFTMetadata } from '../types/types'
 import pinJSONToIPFS from '../utils/pinJSONToIPFS';
 import axios from 'axios';
+import app from 'next/app'
 
 
 const storage = getStorage();
@@ -23,7 +24,6 @@ const storage = getStorage();
 const Sell = () => {
   const appContext = useAppContext();
   const [buyNowPrice, setBuyNowPrice] = useState(0.0005);
-  const [startingPrice, setStartingPrice] = useState(0.0001);
   const [title, setTitle] = useState('');
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
@@ -60,19 +60,23 @@ const Sell = () => {
               status: "😢 Something went wrong while uploading your tokenURI.",
           }
       }
+
+      if (appContext?.account === '' || appContext?.name === '') {
+        console.log('error. account or name not defined.')
+        setIsLoading(false);
+        return 'error. account or name not defined'
+      }
       
       
       const product: IProduct = {
         title: title,
         description: description,
-        startingPrice: startingPrice,
         buyNowPrice: buyNowPrice,
         location: location,
         imagePath: downloadURL,
         refString: newProductRef.id,
         tokenURI: pinataResponse.data.tokenURI,
         listedSince: currentDate,
-        listedBy: '@placeholder',
         ownerAddress: appContext?.account as string,
         ownerName: appContext?.name as string,
         condition: condition,

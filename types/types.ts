@@ -6,13 +6,11 @@ export interface IProduct {
   deliveryOpts: string
   description: string,
   imagePath: string,
-  listedBy: string
-  listedSince: string
+  listedSince: string,
   location: string,
   ownerAddress: string,
   ownerName: string,
   refString: string,
-  startingPrice?: number,
   title: string,
   tokenURI: string,
 }

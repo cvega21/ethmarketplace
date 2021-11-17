@@ -23,14 +23,14 @@ const PublicProfile = ({ user, productsArr }: any) => {
         twitter={user.twitter}
         address={user.address}
       />
-      <div className='w-full text-xl flex border-b border-gray-700 justify-center lg:mb-14'>
-        <div className={` border-indigo-400 hover:text-indigo-400 p-5 border-b-2 h-16 transition duration-200 ease-in-out text-gray-300 font-thin cursor-pointer`}>
+      <div className='w-full text-xl flex border-b border-gray-700 justify-center lg:mb-14 h-14'>
+        <div className={` border-indigo-400 hover:text-indigo-400 p-4 lg:mx-4 border-b-2 h-14 transition duration-200 ease-in-out text-gray-300 font-thin cursor-pointer`}>
           <h2>Featured</h2>
         </div>
-        <div className={` hover:border-indigo-400 hover:text-indigo-400 p-5 border-b-2 border-opacity-0 h-16 transition duration-200 ease-in-out text-gray-300 font-thin cursor-pointer`}>
+        <div className={` hover:border-indigo-400 hover:text-indigo-400 p-4 lg:mx-4 border-b-2 border-opacity-0 h-14 transition duration-200 ease-in-out text-gray-300 font-thin cursor-pointer`}>
           <h2>Selling</h2>
         </div>
-        <div className={` hover:border-indigo-400 hover:text-indigo-400 p-5 border-b-2 border-opacity-0 h-16 transition duration-200 ease-in-out text-gray-300 font-thin cursor-pointer`}>
+        <div className={` hover:border-indigo-400 hover:text-indigo-400 p-4 lg:mx-4 border-b-2 border-opacity-0 h-14 transition duration-200 ease-in-out text-gray-300 font-thin cursor-pointer`}>
           <h2>All NFTs</h2>
         </div>
       </div>
@@ -39,7 +39,6 @@ const PublicProfile = ({ user, productsArr }: any) => {
           return (
             <Product
               buyNowPrice={product.buyNowPrice}
-              startingPrice={product.startingPrice}
               title={product.title}
               location={product.location}
               description={product.description}
@@ -48,7 +47,6 @@ const PublicProfile = ({ user, productsArr }: any) => {
               tokenURI={product.tokenURI}
               listedSince={product.listedSince}
               key={product.imagePath}
-              listedBy={''}
               condition={''}
               deliveryOpts={''}
               ownerAddress={''}
