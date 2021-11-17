@@ -285,15 +285,15 @@ export const AccountBox = ({ name, twitter, address}: IUser) => {
             className='rounded-full min-w-full min-h-full'
           />
         </div>
-        <div className='flex  lg:w-auto px-8 flex-col justify-center text-left'>
-          <div className="flex items-center text-white ">
-            <div className='pr-8 '>
+        <div className='flex  lg:w-auto px-8 flex-col justify-center text-left mt-4'>
+          <div className="flex items-center text-white">
+            {/* <div className='pr-8 '>
               <FontAwesomeIcon 
                 icon={faUserAstronaut}
                 className={`text-3xl transition-all duration-300`}
               />
-            </div>
-            <h1 className='text-gray-100 font-semibold text-5xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-gray-600'>
+            </div> */}
+            <h1 className='text-gray-100 font-bold text-5xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-gray-600'>
               {name}
             </h1>
           </div>
