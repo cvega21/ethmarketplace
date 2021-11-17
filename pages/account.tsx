@@ -11,33 +11,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch, faEdit, faUserAstronaut, faLocationArrow, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { getShortAddress, getMediumAddress } from '../utils/utils';
-import { IUser } from '../types/types'
+import { IProduct, IUser } from '../types/types'
 import { changeInput } from '../utils/utils'
 import { db } from '../constants/firebase'
 import { collection, getFirestore, doc, setDoc, addDoc, query, where, getDocs  } from "firebase/firestore";
-
-const ModelViewer = require('@metamask/logo');
-const meshJson = require('../misc/metamask-logo/flask-fox.json');
-
-const MetamaskLogo = () => {
-  let fox = useRef();
-
-  useEffect(() => {
-    fox.current = ModelViewer({
-      pxNotRatio: true,
-      width: 500,
-      height: 400,
-      followMouse: true,
-      slowDrift: false,
-      meshJson
-    }).container  
-
-    return () => {
-    }
-  }, [])
-
-  // ReactDOM.render(fox.current,)
-}
+import Product from '../components/Product';
 
 const Account = () => {
   const appContext = useAppContext();
@@ -48,6 +26,7 @@ const Account = () => {
   const [name, setName] = useState<string>('');
   const [twitter, setTwitter] = useState<string>('');
   const [ethBalance, setEthBalance] = useState<string>('');
+  const [productsArr, setProductsArr] = useState<Array<IProduct>>([]);
   // const [MetamaskLogo, setMetamaskLogo] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
   const metamask = useRef(null);
@@ -62,7 +41,6 @@ const Account = () => {
         const ethBalance = web3.utils.fromWei(weiBalance, 'ether')
         setEthBalance(parseFloat(ethBalance).toFixed(2));
         setShortAccount(getMediumAddress(appContext?.account as string));
-        const metamaskSVG = document.getElementById('metamask-svg');
       }
     }
 
@@ -110,6 +88,25 @@ const Account = () => {
     setIsLoading(false);
   }, [appContext])
 
+  useEffect(() => {
+
+    (async () => {
+      if (appContext?.account && productsArr.length === 0) {
+        const productsQuery = query(collection(db, 'products'), where('ownerAddress','==',appContext?.account));
+        const productsDocs = await getDocs(productsQuery);
+      
+        productsDocs.forEach((doc) => {
+          const product = doc.data();
+          setProductsArr(productsArr => [...productsArr, product as IProduct])
+        });
+      }
+    })()
+    
+    return () => {
+    }
+  }, [appContext?.account, productsArr])
+
+
   const saveChanges = async () => {
     setIsLoading(true);  
     
@@ -131,42 +128,11 @@ const Account = () => {
     setNewUser(false);  
     setIsLoading(false);  
   }
-  
-  // useEffect(() => {
-  //   if (metamask.current && !window.ethereum.selectedAddress) {
-  //     const viewer = ModelViewer({
-  //       pxNotRatio: true,
-  //       width: 500,
-  //       height: 400,
-  //       followMouse: true,
-  //       slowDrift: false,
-  //       meshJson
-  //     });
-
-  //     viewer.container.setAttribute('id', 'metamask-svg');
-  //     console.log(viewer.container);
-  //     // @ts-ignore: Object is possibly 'null'.
-  //     metamask.current.appendChild(viewer.container);
-  //   } else if (window.ethereum.selectedAddress) {
-  //     try {
-  //       const metamaskContainer = document.getElementById('metamask-container');
-  //       // @ts-ignore: Object is possibly 'null'.
-  //       metamaskContainer.removeChild(metamask.current);
-  //       const metamaskSVG = document.getElementById('metamask-svg');
-  //       // @ts-ignore: Object is possibly 'null'.
-  //       // metamask.current.removeChild(metamaskSVG);
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   }
-  // }, [appContext])
-
-  
 
   return (
     <PageLayout>
       <div className="text-center flex w-full flex-col lg:flex-1 justify-start items-center h-full">
-        <div className="flex flex-col w-6/12 min-w-min md:w-3/12 lg:w-full items-center">
+        <div className="flex flex-col min-w-min md:w-3/12 lg:w-full items-center">
           {isLoading ? 
             <>
               <div className='absolute overflow-hidden z-40'>
@@ -178,9 +144,10 @@ const Account = () => {
             <></>
           }
           
-          {appContext?.account ? 
-          <div className='flex flex-col items-center fadeDown mt-20'>
-            <div className='flex w-6/12 min-w-full'>
+          {appContext?.account ?
+           
+          <div className='flex flex-col w-full items-center fadeDown lg:mt-20 mt-12'>
+            <div className='flex flex-col w-full h-auto items-center justify-center md:flex-row lg:flex-row'>
               <div className='rounded-full relative group cursor-pointer w-72 '>
                 <Image 
                   src='/avi_placeholder.png' 
@@ -194,14 +161,10 @@ const Account = () => {
                   className='absolute left-1/2 top-1/2 text-white text-3xl opacity-0 group-hover:opacity-100 transform -translate-x-6 -translate-y-2'
                 />
               </div>
-              <div className='flex h-60 flex-col justify-start text-left'>
-                <div className="flex items-center group text-gray-500 focus-within:text-white">
-                  <FontAwesomeIcon 
-                    icon={faUserAstronaut}
-                    className={`text-3xl mr-4 ${appContext.name ? 'text-white' : ''} transition-all duration-300`}
-                  />
+              <div className='flex lg:w-auto  px-8 flex-col justify-center text-left mt-4'>
+                <div className="flex items-center text-white">
                   <input 
-                    className='text-gray-100 font-semibold text-5xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-gray-600' 
+                    className='text-gray-100 font-bold lg:text-5xl text-3xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-indigo-400 placeholder-opacity-40 w-full' 
                     placeholder="enter your name"
                     onChange={e => {
                       changeInput(e, appContext.setName);
@@ -211,27 +174,65 @@ const Account = () => {
                     value={appContext.name}
                     ></input>
                 </div>
-                <div className='flex items-center group text-gray-500 focus-within:text-white'>
-                  <FontAwesomeIcon 
-                    icon={faTwitter}
-                    className={`text-3xl mr-4 ${twitter ? 'text-white' : ''} transition-all duration-300`}
+                {!newUser ? 
+                  <div className="flex items-center text-indigo-200">
+                    <div className='lg:pr-6 pr-4'>
+                      <FontAwesomeIcon 
+                        icon={faTwitter}
+                        className={`lg:text-3xl text-xl transition-all duration-300`}
+                      />
+                    </div>
+                    <a 
+                      className='text-indigo-400 font-thin lg:text-4xl text-2xl my-2 bg-transparent outline-none focus:ring-indigo-800'
+                      href={`https://www.twitter.com/${twitter}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      >
+                      {`@${twitter}`}
+                    </a>
+                  </div>
+                  
+                  : 
+                  
+                  <div className='flex items-center group text-gray-500 focus-within:text-white'>
+                    <div className='lg:pr-6 pr-4'>
+                      <FontAwesomeIcon 
+                        icon={faTwitter}
+                        className={`lg:text-3xl text-xl ${twitter ? 'text-indigo-200' : ''} transition-all duration-300`}
+                        />
+                    </div>
+                    <h2 className={`text-indigo-400 text-opacity-40 font-thin lg:text-4xl text-xl ${twitter ? 'text-opacity-100' : ''}`}>@</h2>
+                    <input 
+                      className='text-indigo-400 font-thin lg:text-4xl text-xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-indigo-400 placeholder-opacity-40 w-full group-focus:text-white' 
+                      placeholder="enter your twitter"
+                      onChange={e => {
+                        changeInput(e, setTwitter);
+                        setInfoHasChanged(true);
+                      }}
+                      disabled={newUser ? false : true}
+                      value={twitter}
                     />
-                  <h2 className={`text-indigo-400 text-opacity-40 font-thin text-4xl ${twitter ? 'text-opacity-100' : ''}`}>@</h2>
-                  <input 
-                    className='text-indigo-400 font-thin text-4xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-indigo-400 placeholder-opacity-40 w-full group-focus:text-white' 
-                    placeholder="enter your twitter handle"
-                    onChange={e => {
-                      changeInput(e, setTwitter);
-                      setInfoHasChanged(true);
-                    }}
-                    disabled={newUser ? false : true}
-                    value={twitter}
+                  </div>
+                }
+                <div className="flex items-center text-indigo-200">
+                  <div className='lg:pr-6 pr-4 flex justify-start'>
+                    <FontAwesomeIcon 
+                      icon={faLocationArrow}
+                      className={`lg:text-3xl text-xl transition-all duration-300`}
                     />
+                  </div>
+                  <a 
+                    className='text-indigo-400 font-thin lg:text-xl text-lg my-2 bg-transparent outline-none focus:ring-indigo-800 break-all'
+                    href={`https://etherscan.io/address/${appContext?.account}`} 
+                    target="_blank" 
+                    rel="noreferrer"
+                    >
+                    {appContext?.account}
+                  </a>
                 </div>
-                <h1 className='text-gray-500 font-light text-xl my-2'>{appContext?.account}</h1>
                 {infoHasChanged ? 
                   <button 
-                    className='w-1/2 bg-indigo-700 rounded-lg hover:bg-indigo-800 text-gray-100 hover:text-white font-medium text-xl py-2 px-8 my-4 shadow-indigo transition-all duration-200 ease-in-out'
+                    className='w-full lg:w-1/2 bg-indigo-700 rounded-lg hover:bg-indigo-800 text-gray-100 hover:text-white font-medium text-xl py-2 px-8 my-4 shadow-indigo transition-all duration-200 ease-in-out'
                     onClick={() => saveChanges()}
                     >
                     <p>save changes</p>
@@ -244,12 +245,44 @@ const Account = () => {
                 }
               </div>
             </div>
-            <div className='flex mt-6 items-center w-full h-24 border-t border-gray-500'>
-              <h1 className='text-gray-300 font-medium text-4xl mr-2'>total balance: </h1>
-              <h1 className='text-gray-500 font-light text-3xl mt-1 flex items-center justify-center'>
+            <div className='flex my-6 lg:my-12 items-center justify-center w-10/12 lg:w-1/4 bg-black p-4 border border-gray-500 rounded-3xl text-2xl'>
+              <h1 className='text-gray-300 font-medium mr-2'>total balance: </h1>
+              <h1 className='text-gray-500 font-light mt-1 flex items-center justify-center'>
                 <Image src="/eth.svg" height={28} width={28} alt="ethereum" />
                 {ethBalance}
               </h1>
+            </div>
+            <div className='w-full text-xl flex border-b border-gray-700 justify-center lg:mb-14 h-14'>
+              <div className={` border-indigo-400 hover:text-indigo-400 p-4 lg:mx-4 border-b-2 h-14 transition duration-200 ease-in-out text-gray-300 font-thin cursor-pointer`}>
+                <h2>Featured</h2>
+              </div>
+              <div className={` hover:border-indigo-400 hover:text-indigo-400 p-4 lg:mx-4 border-b-2 border-opacity-0 h-14 transition duration-200 ease-in-out text-gray-300 font-thin cursor-pointer`}>
+                <h2>Selling</h2>
+              </div>
+              <div className={` hover:border-indigo-400 hover:text-indigo-400 p-4 lg:mx-4 border-b-2 border-opacity-0 h-14 transition duration-200 ease-in-out text-gray-300 font-thin cursor-pointer`}>
+                <h2>All NFTs</h2>
+              </div>
+            </div>
+            <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-12 w-6/12 mt-4 items-center fadeDown">
+              {productsArr.map((product: IProduct) => {
+                return (
+                  <Product
+                    buyNowPrice={product.buyNowPrice}
+                    title={product.title}
+                    location={product.location}
+                    description={product.description}
+                    imagePath={product.imagePath}
+                    refString={product.refString}
+                    tokenURI={product.tokenURI}
+                    listedSince={product.listedSince}
+                    key={product.imagePath}
+                    condition={''}
+                    deliveryOpts={''}
+                    ownerAddress={''}
+                    ownerName={''}
+                  />
+                )
+              })}
             </div>
           </div>
           :
@@ -287,12 +320,6 @@ export const AccountBox = ({ name, twitter, address}: IUser) => {
         </div>
         <div className='flex  lg:w-auto px-8 flex-col justify-center text-left mt-4'>
           <div className="flex items-center text-white">
-            {/* <div className='pr-8 '>
-              <FontAwesomeIcon 
-                icon={faUserAstronaut}
-                className={`text-3xl transition-all duration-300`}
-              />
-            </div> */}
             <h1 className='text-gray-100 font-bold text-5xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-gray-600'>
               {name}
             </h1>
