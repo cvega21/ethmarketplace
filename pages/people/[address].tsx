@@ -23,7 +23,18 @@ const PublicProfile = ({ user, productsArr }: any) => {
         twitter={user.twitter}
         address={user.address}
       />
-      <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-12 w-6/12 mt-16 items-center fadeDown">
+      <div className='w-full text-xl flex border-b border-gray-700 justify-center lg:mb-14'>
+        <div className={` border-indigo-400 hover:text-indigo-400 p-5 border-b-2 h-16 transition duration-200 ease-in-out text-gray-300 font-thin cursor-pointer`}>
+          <h2>Featured</h2>
+        </div>
+        <div className={` hover:border-indigo-400 hover:text-indigo-400 p-5 border-b-2 border-opacity-0 h-16 transition duration-200 ease-in-out text-gray-300 font-thin cursor-pointer`}>
+          <h2>Selling</h2>
+        </div>
+        <div className={` hover:border-indigo-400 hover:text-indigo-400 p-5 border-b-2 border-opacity-0 h-16 transition duration-200 ease-in-out text-gray-300 font-thin cursor-pointer`}>
+          <h2>All NFTs</h2>
+        </div>
+      </div>
+      <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-12 w-6/12 mt-4 items-center fadeDown">
         {productsArr.map((product: IProduct) => {
           return (
             <Product
