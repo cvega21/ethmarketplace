@@ -35,6 +35,19 @@ const Sell = () => {
   const [productUploaded, setProductUploaded] = useState(false);
   
   
+ useEffect(() => {
+  const initEthereum = async () => {
+    if (window.ethereum.selectedAddress) {
+      await appContext?.connectMetamask();
+    }
+  }
+
+  initEthereum();
+  
+  appContext?.addWalletListener();
+  
+  }, [appContext])
+
   const listItem = async () => {
     setIsLoading(true);  
     
@@ -136,6 +149,15 @@ const Sell = () => {
             :
           <></>
           }
+          {appContext?.account ? 
+          <></>
+          :
+          <div className='text-white'>
+            connect to metamask to proceed.
+            {/* componentize metamask button */}
+          </div>
+          }
+
           <div className="md:mt-0 w-11/12 lg:w-5/12 fadeDown">
             <form action="#" method="POST">
               <div className="shadow sm:rounded-md sm:overflow-hidden">
