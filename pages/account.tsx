@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
 import PageLayout from '../constants/PageLayout';
 import ActionButton from '../components/ActionButton';
 import Web3 from "web3";
 import Web3Modal from "web3modal";
-import { useAppContext } from '../contexts/AppContext'
+import { useAppContext } from '../contexts/AppContext';
 import Image from 'next/image';
-import BN from 'bn.js'
+import BN from 'bn.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch, faEdit, faUserAstronaut, faLocationArrow, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { getShortAddress, getMediumAddress } from '../utils/utils';
-import { IProduct, IUser } from '../types/types'
-import { changeInput } from '../utils/utils'
-import { db } from '../constants/firebase'
+import { IProduct, IUser } from '../types/types';
+import { changeInput } from '../utils/utils';
+import { db } from '../constants/firebase';
 import { collection, getFirestore, doc, setDoc, addDoc, query, where, getDocs  } from "firebase/firestore";
 import Product from '../components/Product';
 
@@ -307,7 +307,7 @@ const Account = () => {
 
 export const AccountBox = ({ name, twitter, address}: IUser) => {
   return (
-    <div className='flex flex-col items-center fadeDown lg:mt-20 mt-8 w-full justify-center'>
+    <div className='flex flex-col items-center fadeDown mt-8 w-full justify-center'>
       <div className='flex flex-col w-full h-auto items-center justify-center md:flex-row lg:flex-row'>
         <div className='rounded-full relative group cursor-pointer h-full lg:mr-12'>
           <Image 
