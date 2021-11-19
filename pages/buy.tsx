@@ -15,12 +15,11 @@ const Buy = ({ productsArr, queryArr }: any) => {
       <h1 className="text-white text-4xl font-light py-14">
         top picks for you
       </h1>
-      <div className="flex flex-col lg:grid lg:grid-cols-3 lg:gap-12 fadeDown">
+      <div className="flex flex-col gap-10 md:grid md:grid-cols-2 md:gap-20 xl:grid-cols-3 fadeDown">
         {productsArr.map((product: IProduct) => {
           return (
             <Product
               buyNowPrice={product.buyNowPrice}
-              startingPrice={product.startingPrice}
               title={product.title}
               location={product.location}
               description={product.description}
@@ -29,7 +28,6 @@ const Buy = ({ productsArr, queryArr }: any) => {
               tokenURI={product.tokenURI}
               listedSince={product.listedSince}
               key={product.imagePath}
-              listedBy={''}
               condition={''}
               deliveryOpts={''}
               ownerAddress={''}
