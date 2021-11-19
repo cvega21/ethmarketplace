@@ -3,6 +3,7 @@ import NavBar from '../components/NavBar'
 import TextInput from '../components/TextInput'
 import EthInput from '../components/EthInput'
 import ConnectMetamask from '../components/ConnectMetamask'
+import ModalView from '../components/ModalView'
 import Image from 'next/image'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
@@ -17,7 +18,7 @@ import Router from 'next/router';
 import { IProduct, INFTMetadata } from '../types/types'
 import pinJSONToIPFS from '../utils/pinJSONToIPFS';
 import axios from 'axios';
-import app from 'next/app'
+import MetamaskFox from '../public/MetaMask_Fox.svg'
 
 
 const storage = getStorage();
@@ -127,38 +128,38 @@ const Sell = () => {
 
   return (
     <PageLayout>
-      <div className="flex flex-col w-full items-center text-center bg-gray-900">
-        <div className="flex flex-col items-center text-center w-full relative overflow-hidden">
+      <div className="flex flex-col w-full items-center text-center">
+        <div className="flex flex-col items-center text-center w-full relative overflow-hidden min-h-screen h-full">
           <h1 className="text-white text-4xl font-light my-14">sell your stuff</h1>
           {isLoading ? 
-            <>
+          <>
+          <div className='text-white absolute overflow-hidden z-40'>
+            <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
+          </div>
+          <FontAwesomeIcon icon={faCircleNotch} className='text-indigo-500 z-50 absolute top-64 text-7xl animate-spin'/>
+          </>
+          : productUploaded ?
+          <>
             <div className='text-white absolute overflow-hidden z-40'>
               <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
             </div>
-            <FontAwesomeIcon icon={faCircleNotch} className='text-indigo-500 z-50 absolute top-64 text-7xl animate-spin'/>
-            </>
-            : productUploaded ?
-            <>
-              <div className='text-white absolute overflow-hidden z-40'>
-                <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
+            <div className='text-white font-extralight absolute top-64 text-6xl bg-green-600 z-50 rounded-xl p-4 w-10/12 lg:w-auto lg:max-w-2xl'>
+              <h2 className='pb-4'>🎉</h2>  
+              <h2><p className='font-normal'>{`${title}`}</p> is now live!</h2>
+            </div>
+          </>
+          : !appContext?.account ? 
+              <ModalView>
+              <div className='w-full bg-black rounded-2xl p-8 flex flex-col items-center justify-between shadow-fire'>
+                <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
+                <div className='my-6'>
+                  <ConnectMetamask/>
+                </div>
               </div>
-              <div className='text-white font-extralight absolute top-64 text-6xl bg-green-600 z-50 rounded-xl p-4 w-10/12 lg:w-auto lg:max-w-2xl'>
-                <h2 className='pb-4'>🎉</h2>  
-                <h2><p className='font-normal'>{`${title}`}</p> is now live!</h2>
-              </div>
-            </>
-            :
-          <></>
-          }
-          {appContext?.account ? 
-          <></>
+            </ModalView>
           :
-          <div className='text-white'>
-            connect to metamask to proceed.
-            <ConnectMetamask/>
-          </div>
+          <></>
           }
-
           <div className="md:mt-0 w-11/12 lg:w-5/12 fadeDown">
             <form action="#" method="POST">
               <div className="shadow sm:rounded-md sm:overflow-hidden">
