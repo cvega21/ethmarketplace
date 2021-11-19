@@ -16,6 +16,7 @@ import { changeInput } from '../utils/utils';
 import { db } from '../constants/firebase';
 import { collection, getFirestore, doc, setDoc, addDoc, query, where, getDocs  } from "firebase/firestore";
 import Product from '../components/Product';
+import ConnectMetamask from '../components/ConnectMetamask'
 
 const Account = () => {
   const appContext = useAppContext();
@@ -291,12 +292,11 @@ const Account = () => {
           <div id='metamask-container'>
             <div ref={metamask}/>
           </div>
-            <button 
-              className='bg-indigo-700 rounded-lg hover:bg-indigo-800 text-gray-100 hover:text-white font-medium text-xl py-2 px-8 my-4 shadow-indigo w-full transition-all duration-200 ease-in-out'
-              onClick={() => appContext?.connectMetamask()}
-            >
-                <p>connect to metamask</p>
-            </button>
+          <div className='h-64 flex items-center justify-center w-1/2'>
+            <div className='flex h-12 w-1/3'>
+              <ConnectMetamask/>
+            </div>
+          </div>
           </>
           }
         </div>

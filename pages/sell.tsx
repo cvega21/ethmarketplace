@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import NavBar from '../components/NavBar'
 import TextInput from '../components/TextInput'
 import EthInput from '../components/EthInput'
+import ConnectMetamask from '../components/ConnectMetamask'
 import Image from 'next/image'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
@@ -154,7 +155,7 @@ const Sell = () => {
           :
           <div className='text-white'>
             connect to metamask to proceed.
-            {/* componentize metamask button */}
+            <ConnectMetamask/>
           </div>
           }
 
