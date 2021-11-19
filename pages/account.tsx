@@ -17,6 +17,8 @@ import { db } from '../constants/firebase';
 import { collection, getFirestore, doc, setDoc, addDoc, query, where, getDocs  } from "firebase/firestore";
 import Product from '../components/Product';
 import ConnectMetamask from '../components/ConnectMetamask'
+import ModalView from '../components/ModalView';
+import MetamaskFox from '../public/MetaMask_Fox.svg'
 
 const Account = () => {
   const appContext = useAppContext();
@@ -132,8 +134,8 @@ const Account = () => {
 
   return (
     <PageLayout>
-      <div className="text-center flex w-full flex-col lg:flex-1 justify-start items-center h-full">
-        <div className="flex flex-col min-w-min md:w-3/12 lg:w-full items-center">
+      <div className="text-center flex w-full flex-col lg:flex-1 justify-center items-center h-full">
+        <div className="flex flex-col items-center w-full overflow-hidden h-full">
           {isLoading ? 
             <>
               <div className='absolute overflow-hidden z-40'>
@@ -145,7 +147,7 @@ const Account = () => {
             <></>
           }
           
-          {appContext?.account ?
+        {appContext?.account ?
            
           <div className='flex flex-col w-full items-center fadeDown lg:mt-20 mt-12'>
             <div className='flex flex-col w-full h-auto items-center justify-center md:flex-row lg:flex-row'>
@@ -176,6 +178,7 @@ const Account = () => {
                     ></input>
                 </div>
                 {!newUser ? 
+
                   <div className="flex items-center text-indigo-200">
                     <div className='lg:pr-6 pr-4'>
                       <FontAwesomeIcon 
@@ -287,18 +290,15 @@ const Account = () => {
             </div>
           </div>
           :
-
-          <>
-          <div id='metamask-container'>
-            <div ref={metamask}/>
-          </div>
-          <div className='h-64 flex items-center justify-center w-1/2'>
-            <div className='flex h-12 w-1/3'>
-              <ConnectMetamask/>
+          <>          
+            <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-fire border border-gray-600'>
+              <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
+              <div className='my-6'>
+                <ConnectMetamask/>
+              </div>
             </div>
-          </div>
           </>
-          }
+        }
         </div>
       </div>
     </PageLayout>
