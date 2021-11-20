@@ -44,6 +44,7 @@ const PublicProfile = ({ user, productsArr }: any) => {
               description={product.description}
               imagePath={product.imagePath}
               refString={product.refString}
+              forSale={product.forSale}
               tokenURI={product.tokenURI}
               listedSince={product.listedSince}
               key={product.imagePath}

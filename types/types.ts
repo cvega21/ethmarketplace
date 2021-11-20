@@ -5,6 +5,7 @@ export interface IProduct {
   condition: string,
   deliveryOpts: string
   description: string,
+  forSale: boolean,
   imagePath: string,
   listedSince: string,
   location: string,

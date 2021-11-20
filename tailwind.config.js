@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       boxShadow: {
         indigo: '0 4px 14px 0 rgba(0, 78, 255, 0.27)',
-        fire: '0 5px 20px 0 rgba(99, 89, 224, 0.4)',
+        indigoDark: '0 0px 20px 0 rgba(99, 89, 224, 0.4)',
       },
       width: {
         '200': '200px'

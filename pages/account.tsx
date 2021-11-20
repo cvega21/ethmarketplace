@@ -278,6 +278,7 @@ const Account = () => {
                     imagePath={product.imagePath}
                     refString={product.refString}
                     tokenURI={product.tokenURI}
+                    forSale={product.forSale}
                     listedSince={product.listedSince}
                     key={product.imagePath}
                     condition={''}
@@ -291,9 +292,9 @@ const Account = () => {
           </div>
           :
           <>          
-            <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-fire border border-gray-600'>
+            <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between  shadow-indigoDark m-8'>
               <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
-              <div className='my-6'>
+              <div className='h-full '>
                 <ConnectMetamask/>
               </div>
             </div>
