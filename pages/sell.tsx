@@ -8,7 +8,7 @@ import Image from 'next/image'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { collection, getFirestore, doc, setDoc, addDoc  } from "firebase/firestore";
+import { collection, getFirestore, doc, setDoc, addDoc, query, where, getDocs  } from "firebase/firestore";
 import { db } from '../constants/firebase'
 import { useAppContext } from '../contexts/AppContext';
 import PageLayout from '../constants/PageLayout'
@@ -19,7 +19,6 @@ import { IProduct, INFTMetadata } from '../types/types'
 import pinJSONToIPFS from '../utils/pinJSONToIPFS';
 import axios from 'axios';
 import MetamaskFox from '../public/MetaMask_Fox.svg'
-
 
 const storage = getStorage();
 
@@ -35,6 +34,8 @@ const Sell = () => {
   const [deliveryOpts, setDeliveryOpts] = useState('shipping + pickup');
   const [isLoading, setIsLoading] = useState(false);
   const [productUploaded, setProductUploaded] = useState(false);
+  const [errorUploading, setErrorUploading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   
   
  useEffect(() => {
@@ -55,12 +56,32 @@ const Sell = () => {
     
     try {
       window.scrollTo(0, 0);
+
+      const productsQuery = query(collection(db, 'products'), where('ownerAddress','==',appContext?.account), where('forSale','==',true));
+      const productsDocs = await getDocs(productsQuery);
+
+      productsDocs.forEach((doc) => {
+        console.log(doc.data());
+      })
+
+      if (productsDocs.size >= 4) {
+        setErrorUploading(true);
+        setIsLoading(false);
+        setErrorMessage('you have hit the limit of 4 active listings.')
+        setTimeout(() => {
+          setErrorUploading(false)
+        }, 5000)
+        return
+      }
+
       const currentDate = new Date().toLocaleDateString();
       const filePath = `listed-products/${image?.name}`;
       const storageRef = ref(storage, filePath);
       const fileUpload = await uploadBytes(storageRef, image as File);
       const downloadURL = await getDownloadURL(ref(storageRef));
       const newProductRef = doc(collection(db, 'products'));
+
+
 
       const pinataResponse = await axios.post(`/api/metadata/post`, {
         title: title,
@@ -77,9 +98,13 @@ const Sell = () => {
       }
 
       if (appContext?.account === '' || appContext?.name === '') {
-        console.log('error. account or name not defined.')
+        setErrorUploading(true);
         setIsLoading(false);
-        return 'error. account or name not defined'
+        setErrorMessage('could not find eth account. please refresh page or re-connect to metamask.')
+        setTimeout(() => {
+          setErrorUploading(false)
+        }, 5000)
+        return
       }
       
       
@@ -95,7 +120,8 @@ const Sell = () => {
         ownerAddress: appContext?.account as string,
         ownerName: appContext?.name as string,
         condition: condition,
-        deliveryOpts: deliveryOpts
+        deliveryOpts: deliveryOpts,
+        forSale: true
       }
 
       await setDoc(newProductRef, product);
@@ -148,9 +174,19 @@ const Sell = () => {
               <h2><p className='font-normal'>{`${title}`}</p> is now live!</h2>
             </div>
           </>
+          : errorUploading ?
+          <>
+            <div className='text-white absolute overflow-hidden z-40'>
+              <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
+            </div>
+            <div className='text-white font-extralight absolute top-64 text-4xl bg-red-300 z-50 rounded-xl p-4 w-10/12 lg:w-auto lg:max-w-2xl'>
+              <h2>error listing item. </h2>
+              <h2>{errorMessage}</h2>
+            </div>
+          </>
           : !appContext?.account ? 
               <ModalView>
-              <div className='w-full bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-fire'>
+              <div className='w-full bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-indigoDark'>
                 <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
                 <div className='my-6'>
                   <ConnectMetamask/>
