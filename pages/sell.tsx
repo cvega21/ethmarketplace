@@ -19,6 +19,7 @@ import { IProduct, INFTMetadata } from '../types/types'
 import pinJSONToIPFS from '../utils/pinJSONToIPFS';
 import axios from 'axios';
 import MetamaskFox from '../public/MetaMask_Fox.svg'
+import { mintNFT } from '../utils/utils'
 
 const storage = getStorage();
 
@@ -42,12 +43,30 @@ const Sell = () => {
   const initEthereum = async () => {
     if (window.ethereum.selectedAddress) {
       await appContext?.connectMetamask();
+      console.log('inside useeffect. account:', appContext?.account);
+      console.log('inside useeffect. name:', appContext?.name);
     }
   }
 
   initEthereum();
   
   appContext?.addWalletListener();
+
+  const q = query(collection(db, 'users'), where('address','==',appContext?.account));
+    
+    (async () => {
+      const queryRef = await getDocs(q);
+      const querySnapshot = queryRef.docs;
+      let counter = 0;
+            
+      querySnapshot.forEach((doc) => {
+        const { name, twitter } = doc.data();
+        
+        if (counter === 0) {
+          appContext?.setName(name);
+        }
+      })
+    })()
   
   }, [appContext])
 
@@ -97,6 +116,7 @@ const Sell = () => {
           }
       }
 
+      
       if (appContext?.account === '' || appContext?.name === '') {
         setErrorUploading(true);
         setIsLoading(false);
@@ -123,8 +143,12 @@ const Sell = () => {
         deliveryOpts: deliveryOpts,
         forSale: true
       }
-
+      
       await setDoc(newProductRef, product);
+      console.log('set doc. minting NFT...')
+      console.log('account:', appContext?.account);
+      console.log('tokenURI:', pinataResponse.data.tokenURI);
+      await mintNFT(appContext?.account as string, pinataResponse.data.tokenURI);
       setProductUploaded(true);
       setIsLoading(false);
       setTimeout(() => {
