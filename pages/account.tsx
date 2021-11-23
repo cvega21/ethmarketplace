@@ -272,19 +272,20 @@ const Account = () => {
                 return (
                   <Product
                     buyNowPrice={product.buyNowPrice}
-                    title={product.title}
-                    location={product.location}
-                    description={product.description}
-                    imagePath={product.imagePath}
-                    refString={product.refString}
-                    tokenURI={product.tokenURI}
-                    forSale={product.forSale}
-                    listedSince={product.listedSince}
-                    key={product.imagePath}
                     condition={''}
                     deliveryOpts={''}
+                    description={product.description}
+                    forSale={product.forSale}
+                    imagePath={product.imagePath}
+                    key={product.imagePath}
+                    listedSince={product.listedSince}
+                    location={product.location}
                     ownerAddress={''}
                     ownerName={''}
+                    refString={product.refString}
+                    title={product.title}
+                    tokenURI={product.tokenURI}
+                    tokenID={1}
                   />
                 )
               })}

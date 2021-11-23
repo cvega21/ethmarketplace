@@ -141,7 +141,8 @@ const Sell = () => {
         ownerName: appContext?.name as string,
         condition: condition,
         deliveryOpts: deliveryOpts,
-        forSale: true
+        forSale: true,
+        tokenID: 1
       }
       
       await setDoc(newProductRef, product);

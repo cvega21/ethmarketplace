@@ -14,6 +14,7 @@ export interface IProduct {
   refString: string,
   title: string,
   tokenURI: string,
+  tokenID: number,
 }
 
 export interface INFTMetadata {
