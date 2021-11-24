@@ -54,3 +54,36 @@ export const mintNFT = async (account: string, tokenURI: string) => {
       }
   }
 }
+
+export const buyNFT = async (tokenID: number, price: string, account: string) => {
+  window.contract = await new web3.eth.Contract(contractABI.abi as any, contractAddress);//loadContract();
+  const amountToSend = web3.utils.toWei(price, "ether");
+
+  const transactionParameters = {
+    to: contractAddress, // Required except during contract publications.
+    from: account, // must match user's active address.,
+    value: web3.utils.toHex(amountToSend),
+    'data': window.contract.methods.buyItem(tokenID).encodeABI() //make call to NFT smart contract 
+  };
+  
+  
+  try {
+    const txHash = await window.ethereum
+        .request({
+            method: 'eth_sendTransaction',
+            params: [transactionParameters],
+        });
+    console.log(`success?!?! check out transaction on Etherscan: https://ropsten.etherscan.io/tx/${txHash}`);
+    return {
+      success: true,
+      status: "✅ Check out your transaction on Etherscan: https://ropsten.etherscan.io/tx/" + txHash
+    }
+  } catch (error) {
+    console.log('error', error);
+      return {
+          success: false,
+          status: "😥 Something went wrong: " + error.message
+      }
+  }
+}
+
