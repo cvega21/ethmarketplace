@@ -72,8 +72,9 @@ describe('Firechain', () => {
     //   console.log(account, balance);
     // })
     
-    // console.log('minting...')
+    console.log('minting...')
     const item = await this.contract.mintNFT('https://gateway.pinata.cloud/ipfs/QmRAgikmBpNAErmZ4L6vqkabQVzTgFBgAmrUDy8fxAMFdQ', { from: minter, value: 100000000000000 });
+    // console.log(item.receipt);
     
     // const isForSale = await this.contract.itemIsForSale(1);
     // console.log('is item 1 for sale?', isForSale);
@@ -124,5 +125,21 @@ describe('Firechain', () => {
     }
     
     expect((await this.contract.ownerOf(1))).to.equal(buyer);
+  })
+
+
+  it('can use the mintNFTAndListForSale function, and someone can buy it', async () => {
+    console.log('calling mintNFTAndListForSale...')
+    const item = await this.contract.mintNFTAndListForSale('https://gateway.pinata.cloud/ipfs/QmRAgikmBpNAErmZ4L6vqkabQVzTgFBgAmrUDy8fxAMFdQ', sellingPrice, { from: minter, value: 100000000000000 });
+    const tokenID = web3.utils.toNumber(item.receipt.logs[0].args.tokenId);
+    console.log(`numberTokenID: ${tokenID}. type: ${typeof(tokenID)}`);
+    
+    try {
+      const success = await this.contract.buyItem(tokenID, {from: buyer, value: sellingPrice});
+    } catch (e) {
+      // console.error('oh no!', e)
+    }
+    
+    expect((await this.contract.ownerOf(tokenID))).to.equal(buyer);
   })
 })

@@ -45,6 +45,22 @@ contract Firechain is ERC721URIStorage {
         return true;
     }
 
+    function mintNFTAndListForSale(string memory tokenURI, uint256 price) public payable returns (uint256) {
+        _tokenIds.increment();
+
+        require(msg.value >= 100000000000000, "Not enough ETH sent. Minting price is 0.0001!");
+
+        uint256 newItemId = _tokenIds.current();
+        _safeMint(msg.sender, newItemId);
+        _setTokenURI(newItemId, tokenURI);
+
+        items[newItemId].tokenID = newItemId;
+        items[newItemId].forSale = true;
+        items[newItemId].price = price;
+
+        return newItemId;
+    }
+
     function itemIsForSale(uint256 tokenID) public view returns (bool) {
         return items[tokenID].forSale;
     }
