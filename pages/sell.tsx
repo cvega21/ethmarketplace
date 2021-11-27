@@ -19,7 +19,7 @@ import { IProduct, INFTMetadata } from '../types/types'
 import pinJSONToIPFS from '../utils/pinJSONToIPFS';
 import axios from 'axios';
 import MetamaskFox from '../public/MetaMask_Fox.svg'
-import { mintNFT } from '../utils/utils'
+import { mintNFT, mintNFTAndListForSale } from '../utils/utils'
 
 const storage = getStorage();
 
@@ -144,12 +144,14 @@ const Sell = () => {
         forSale: true,
         tokenID: 1
       }
-      
+
+
+      // update below to desructure tokenID from response, console log the transactionID.
       await setDoc(newProductRef, product);
       console.log('set doc. minting NFT...')
       console.log('account:', appContext?.account);
       console.log('tokenURI:', pinataResponse.data.tokenURI);
-      await mintNFT(appContext?.account as string, pinataResponse.data.tokenURI);
+      await mintNFTAndListForSale(pinataResponse.data.tokenURI, buyNowPrice.toString(), appContext?.account as string);
       setProductUploaded(true);
       setIsLoading(false);
       setTimeout(() => {
