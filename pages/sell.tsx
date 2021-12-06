@@ -19,10 +19,12 @@ import { IProduct, INFTMetadata } from '../types/types'
 import pinJSONToIPFS from '../utils/pinJSONToIPFS';
 import axios from 'axios';
 import MetamaskFox from '../public/MetaMask_Fox.svg'
-import { mintNFT, mintNFTAndListForSale } from '../utils/utils'
-
-const storage = getStorage();
-
+import { mintNFT, mintNFTAndListForSale, mintNFTAndListForSale2 } from '../utils/utils'
+import Web3 from "web3";
+import contractABI from '../build/contracts/Firechain.json';
+import detectEthereumProvider from '@metamask/detect-provider'
+var Contract = require('web3-eth-contract');
+ 
 const Sell = () => {
   const appContext = useAppContext();
   const [buyNowPrice, setBuyNowPrice] = useState(0.0005);
@@ -37,24 +39,62 @@ const Sell = () => {
   const [productUploaded, setProductUploaded] = useState(false);
   const [errorUploading, setErrorUploading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [txHash, setTxHash] = useState('');
+  const storage = getStorage();
   
-  
- useEffect(() => {
-  const initEthereum = async () => {
-    if (window.ethereum.selectedAddress) {
-      await appContext?.connectMetamask();
-      console.log('inside useeffect. account:', appContext?.account);
-      console.log('inside useeffect. name:', appContext?.name);
+  const mintNFTAndListForSale69 = async (tokenURI: string, price: string, account: string) => {
+    const CONTRACT_ADDRESS = '0x652f6b7bDaD2E4f59152b3D8e16d74F150E7962C';
+    const MINT_PRICE = window.web3.utils.toWei('0.0001', "ether");
+    const fireChainContract = new Contract(contractABI.abi, CONTRACT_ADDRESS);
+    // window.contract = await new web3.eth.Contract(contractABI.abi as any, CONTRACT_ADDRESS);//loadContract();
+    const priceInWei = window.web3.utils.toWei(price, 'ether');
+    console.log('inside mintNFTAndListForSale!!!!!')
+
+    try {
+      await fireChainContract.methods.mintNFTAndListForSale(tokenURI, priceInWei).send({
+        to: CONTRACT_ADDRESS, // Required except during contract publications.
+        from: account, // must match user's active address.,
+        value: window.web3.utils.toHex(MINT_PRICE),
+      })
+      .on('receipt', (receipt: any) => {
+        console.log(receipt)
+        setTxHash(receipt);
+      })
+
+      return {
+        success: true
+      }
+    } catch (e) {
+      console.error(e);
+
+      return {
+        success: false
+      }
     }
+
+
   }
-
-  initEthereum();
-  
-  appContext?.addWalletListener();
-
-  const q = query(collection(db, 'users'), where('address','==',appContext?.account));
-    
-    (async () => {
+            
+    useEffect(() => {
+      const initEthereum = async () => {
+        if (window.ethereum.selectedAddress) {
+          await appContext?.connectMetamask();
+          await window.ethereum.send('eth_requestAccounts');
+          window.web3 = new Web3(window.ethereum);
+          const provider = await detectEthereumProvider();
+          console.log(`provider checked!. value:`)
+          console.log(provider);
+          Contract.setProvider(provider);
+        }
+      }
+      
+      initEthereum();
+      
+      appContext?.addWalletListener();
+      
+      const q = query(collection(db, 'users'), where('address','==',appContext?.account));
+      
+      (async () => {
       const queryRef = await getDocs(q);
       const querySnapshot = queryRef.docs;
       let counter = 0;
@@ -75,48 +115,9 @@ const Sell = () => {
     
     try {
       window.scrollTo(0, 0);
-
-      const productsQuery = query(collection(db, 'products'), where('ownerAddress','==',appContext?.account), where('forSale','==',true));
-      const productsDocs = await getDocs(productsQuery);
-
-      productsDocs.forEach((doc) => {
-        console.log(doc.data());
-      })
-
-      if (productsDocs.size >= 4) {
-        setErrorUploading(true);
-        setIsLoading(false);
-        setErrorMessage('you have hit the limit of 4 active listings.')
-        setTimeout(() => {
-          setErrorUploading(false)
-        }, 5000)
-        return
-      }
-
-      const currentDate = new Date().toLocaleDateString();
-      const filePath = `listed-products/${image?.name}`;
-      const storageRef = ref(storage, filePath);
-      const fileUpload = await uploadBytes(storageRef, image as File);
-      const downloadURL = await getDownloadURL(ref(storageRef));
-      const newProductRef = doc(collection(db, 'products'));
-
-
-
-      const pinataResponse = await axios.post(`/api/metadata/post`, {
-        title: title,
-        description: description,
-        imagePath: downloadURL
-      })
-
-      // const pinataResponse = await pinJSONToIPFS(NFTMetadata);
-      if (pinataResponse.status !== 200) {
-          return {
-              success: false,
-              status: "😢 Something went wrong while uploading your tokenURI.",
-          }
-      }
-
       
+      // Check if metamask is connected with valid account
+
       if (appContext?.account === '' || appContext?.name === '') {
         setErrorUploading(true);
         setIsLoading(false);
@@ -126,7 +127,62 @@ const Sell = () => {
         }, 5000)
         return
       }
+
+      // Check if the user has less than 4 listed items
+
+      // const productsQuery = query(collection(db, 'products'), where('ownerAddress','==',appContext?.account), where('forSale','==',true));
+      // const productsDocs = await getDocs(productsQuery);
+      // productsDocs.forEach((doc) => {
+      //   console.log(doc.data());
+      // })
+      // if (productsDocs.size >= 4) {
+      //   setErrorUploading(true);
+      //   setIsLoading(false);
+      //   setErrorMessage('you have hit the limit of 4 active listings.')
+      //   setTimeout(() => {
+      //     setErrorUploading(false)
+      //   }, 5000)
+      //   return
+      // }
       
+
+      // Upload image to Firebase Storage and retrieve download URL + ref to use for key in DB
+
+      const currentDate = new Date().toLocaleDateString();
+      const filePath = `listed-products/${image?.name}`;
+      const storageRef = ref(storage, filePath);
+      const fileUpload = await uploadBytes(storageRef, image as File);
+      const downloadURL = await getDownloadURL(ref(storageRef));
+      const newProductRef = doc(collection(db, 'products'));
+
+      // Upload metadata JSON onto Pinata/IPFS 
+
+      const pinataResponse = await axios.post(`/api/metadata/post`, {
+        title: title,
+        description: description,
+        imagePath: downloadURL
+      })
+
+      if (pinataResponse.status !== 200) {
+          return {
+              success: false,
+              status: "😢 Something went wrong while uploading your tokenURI.",
+          }
+      }
+
+      // Prompt transaction to mint NFT
+
+      console.log('set doc. minting NFT...')
+      console.log('account:', appContext?.account);
+      console.log('tokenURI:', pinataResponse.data.tokenURI);
+      
+      const promptMint = await mintNFTAndListForSale69(pinataResponse.data.tokenURI, buyNowPrice.toString(), appContext?.account as string);
+      
+      if (!promptMint.success) {
+        return false
+      }
+      
+      // Persist object metadata on Firestore
       
       const product: IProduct = {
         title: title,
@@ -144,22 +200,22 @@ const Sell = () => {
         forSale: true,
         tokenID: 1
       }
-
-
-      // update below to desructure tokenID from response, console log the transactionID.
       await setDoc(newProductRef, product);
-      console.log('set doc. minting NFT...')
-      console.log('account:', appContext?.account);
-      console.log('tokenURI:', pinataResponse.data.tokenURI);
-      await mintNFTAndListForSale(pinataResponse.data.tokenURI, buyNowPrice.toString(), appContext?.account as string);
+
+      // Finish transaction and return to buy page
+
       setProductUploaded(true);
-      setIsLoading(false);
-      setTimeout(() => {
-        Router.push('/buy');
-      }, 2500)
+      exitPage();
     } catch (e) {
       console.error('error!!!' + e)
     }
+  }
+  
+  const exitPage = () => {
+    setIsLoading(false);
+    setTimeout(() => {
+      Router.push('/buy');
+    }, 2500);
   }
 
   const changeInput = (e: React.ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<any>>) => {
