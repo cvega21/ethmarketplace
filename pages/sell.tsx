@@ -19,7 +19,7 @@ import { IProduct, INFTMetadata } from '../types/types'
 import pinJSONToIPFS from '../utils/pinJSONToIPFS';
 import axios from 'axios';
 import MetamaskFox from '../public/MetaMask_Fox.svg'
-import { mintNFT, mintNFTAndListForSale, mintNFTAndListForSale2 } from '../utils/utils'
+// import { mintNFT, mintNFTAndListForSale, mintNFTAndListForSale2 } from '../utils/utils'
 import Web3 from "web3";
 import contractABI from '../build/contracts/Firechain.json';
 import detectEthereumProvider from '@metamask/detect-provider'
@@ -39,36 +39,59 @@ const Sell = () => {
   const [productUploaded, setProductUploaded] = useState(false);
   const [errorUploading, setErrorUploading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [statusMessage, setStatusMessage] = useState('');
   const [txHash, setTxHash] = useState('');
+  const [tokenID, setTokenID] = useState<Number>();
   const storage = getStorage();
   
-  const mintNFTAndListForSale69 = async (tokenURI: string, price: string, account: string) => {
+  const mintNFTAndListForSale = async (tokenURI: string, price: string, account: string) => {
     const CONTRACT_ADDRESS = '0x652f6b7bDaD2E4f59152b3D8e16d74F150E7962C';
     const MINT_PRICE = window.web3.utils.toWei('0.0001', "ether");
     const fireChainContract = new Contract(contractABI.abi, CONTRACT_ADDRESS);
     // window.contract = await new web3.eth.Contract(contractABI.abi as any, CONTRACT_ADDRESS);//loadContract();
     const priceInWei = window.web3.utils.toWei(price, 'ether');
+    let eventTokenID: number = 0;
     console.log('inside mintNFTAndListForSale!!!!!')
 
     try {
-      await fireChainContract.methods.mintNFTAndListForSale(tokenURI, priceInWei).send({
-        to: CONTRACT_ADDRESS, // Required except during contract publications.
-        from: account, // must match user's active address.,
+      const mintEventListener = await fireChainContract.methods.mintNFTAndListForSale(tokenURI, priceInWei).send({
+        to: CONTRACT_ADDRESS,
+        from: account, 
         value: window.web3.utils.toHex(MINT_PRICE),
       })
+      .on('transactionHash', (hash: any) => {
+        console.log('****TX HASH EMITTED****');
+        console.log(hash);
+        setStatusMessage('transaction sent! awaiting confirmation...');  
+        setTxHash(hash);
+      })
       .on('receipt', (receipt: any) => {
-        console.log(receipt)
-        setTxHash(receipt);
+        console.log('****RECEIPT EMITTED | EVENT LISTENER****');
+        console.log(receipt);
+        console.log('****TOKEN ID BELOW | EVENT LISTENER****');
+        console.log(receipt.events.Transfer.returnValues.tokenId);
+        eventTokenID = receipt.events.Transfer.returnValues.tokenId;
+        setTokenID(receipt.events.Transfer.returnValues.tokenId);
+      })
+      .then((receipt: any) => {
+        console.log('****RECEIPT EMITTED | PROMISE****');
+        console.log(receipt);
+        console.log('****TOKEN ID BELOW | PROMISE****');
+        console.log(receipt.events.Transfer.returnValues.tokenId);
+        eventTokenID = receipt.events.Transfer.returnValues.tokenId;
+        setTokenID(receipt.events.Transfer.returnValues.tokenId);
       })
 
       return {
-        success: true
+        sent: true,
+        tokenID: eventTokenID
       }
     } catch (e) {
       console.error(e);
-
+      
       return {
-        success: false
+        sent: false,
+        tokenID: 0
       }
     }
 
@@ -111,9 +134,10 @@ const Sell = () => {
   }, [appContext])
 
   const listItem = async () => {
-    setIsLoading(true);  
+    setIsLoading(true);
     
     try {
+      setStatusMessage('creating transaction...');  
       window.scrollTo(0, 0);
       
       // Check if metamask is connected with valid account
@@ -125,6 +149,7 @@ const Sell = () => {
         setTimeout(() => {
           setErrorUploading(false)
         }, 5000)
+
         return
       }
 
@@ -170,20 +195,25 @@ const Sell = () => {
           }
       }
 
-      // Prompt transaction to mint NFT
+      // Prompt metamask transaction to mint NFT
 
       console.log('set doc. minting NFT...')
       console.log('account:', appContext?.account);
       console.log('tokenURI:', pinataResponse.data.tokenURI);
       
-      const promptMint = await mintNFTAndListForSale69(pinataResponse.data.tokenURI, buyNowPrice.toString(), appContext?.account as string);
+      const promptMint = await mintNFTAndListForSale(pinataResponse.data.tokenURI, buyNowPrice.toString(), appContext?.account as string);
+      console.log('promptMint finished. return value:')
+      console.log(promptMint);
       
-      if (!promptMint.success) {
+      if (!promptMint?.sent) {
         return false
       }
       
+      console.log('prompt mint finalized.');
+      
       // Persist object metadata on Firestore
       
+      console.log('entering set doc...');
       const product: IProduct = {
         title: title,
         description: description,
@@ -198,7 +228,7 @@ const Sell = () => {
         condition: condition,
         deliveryOpts: deliveryOpts,
         forSale: true,
-        tokenID: 1
+        tokenID: promptMint.tokenID as number
       }
       await setDoc(newProductRef, product);
 
@@ -242,17 +272,36 @@ const Sell = () => {
           <h1 className="text-white text-4xl font-light my-14">sell your stuff</h1>
           {isLoading ? 
           <>
-          <div className='text-white absolute overflow-hidden z-40'>
-            <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
-          </div>
-          <FontAwesomeIcon icon={faCircleNotch} className='text-indigo-500 z-50 absolute top-64 text-7xl animate-spin'/>
+            <ModalView>
+              <div className='text-white font-extralight text-3xl bg-black z-50 rounded-xl p-6 w-3/12 shadow-2xl min-h-144'>
+                <FontAwesomeIcon icon={faCircleNotch} className='text-indigo-500 z-50 text-7xl animate-spin'/>
+                <h2 className='my-4'>
+                  {statusMessage}
+                </h2>
+                {txHash ? 
+                  <div className='text-xl'>
+                    <h2 className='font-normal text-lg'>view on etherscan</h2>
+                    <a 
+                      className='break-all text-indigo-400 text-sm' 
+                      href={`https://ropsten.etherscan.io/tx/${txHash}`}
+                      rel='noreferrer'
+                      target='_blank'
+                      >
+                        {txHash}
+                    </a>
+                  </div>
+                  :
+                  <></>
+                }
+              </div>
+            </ModalView>
           </>
           : productUploaded ?
           <>
             <div className='text-white absolute overflow-hidden z-40'>
               <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
             </div>
-            <div className='text-white font-extralight absolute top-64 text-6xl bg-green-600 z-50 rounded-xl p-4 w-10/12 lg:w-auto lg:max-w-2xl'>
+            <div className='text-white font-extralight absolute top-64 text-6xl bg-green-600 z-50 rounded-xl p-4 w-10/12 lg:w-3/12 lg:max-w-2xl'>
               <h2 className='pb-4'>🎉</h2>  
               <h2><p className='font-normal'>{`${title}`}</p> is now live!</h2>
             </div>
@@ -269,13 +318,13 @@ const Sell = () => {
           </>
           : !appContext?.account ? 
               <ModalView>
-              <div className='w-full bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-indigoDark'>
-                <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
-                <div className='my-6'>
-                  <ConnectMetamask/>
+                <div className='w-full bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-indigoDark'>
+                  <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
+                  <div className='my-6'>
+                    <ConnectMetamask/>
+                  </div>
                 </div>
-              </div>
-            </ModalView>
+              </ModalView>
           :
           <></>
           }
