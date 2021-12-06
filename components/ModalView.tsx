@@ -6,7 +6,7 @@ const ModalView: React.FC  = ({ children }) => {
       <div className='text-white absolute overflow-hidden z-40 h-full opacity-50 bg-gray-900'>
         <div className='w-screen opacity-50'></div>
       </div>
-      <div className='absolute top-64 z-50 w-10/12 lg:w-auto'>
+      <div className='absolute top-64 z-50 w-10/12 lg:w-full flex justify-center'>
         {children}
       </div>
     </>

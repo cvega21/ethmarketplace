@@ -2,7 +2,7 @@ import BN from "bn.js";
 import Web3 from "web3";
 import contractABI from '../build/contracts/Firechain.json';
 
-const web3 = new Web3;
+const web3 = new Web3();
 const CONTRACT_ADDRESS = '0x652f6b7bDaD2E4f59152b3D8e16d74F150E7962C';
 const MINT_PRICE = web3.utils.toWei('0.0001', "ether");
 
@@ -90,7 +90,7 @@ export const buyNFT = async (tokenID: number, price: string, account: string) =>
 export const mintNFTAndListForSale = async (tokenURI: string, price: string, account: string) => {
   window.contract = await new web3.eth.Contract(contractABI.abi as any, CONTRACT_ADDRESS);//loadContract();
   const priceInWei = web3.utils.toWei(price, 'ether');
-
+  
   const transactionParameters = {
     to: CONTRACT_ADDRESS, // Required except during contract publications.
     from: account, // must match user's active address.,
@@ -100,16 +100,35 @@ export const mintNFTAndListForSale = async (tokenURI: string, price: string, acc
   
   // change this so it returns the transaction hash and the tokenID as one object. 
   try {
-    const txHash = await window.ethereum
-        .request({
-            method: 'eth_sendTransaction',
-            params: [transactionParameters],
-        });
-    console.log(`success?!?! check out transaction on Etherscan: https://ropsten.etherscan.io/tx/${txHash}`);
-    return {
-      success: true,
-      status: "✅ Check out your transaction on Etherscan: https://ropsten.etherscan.io/tx/" + txHash
-    }
+    const request = await window.ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [transactionParameters],
+    })
+
+    window.ethereum.on('receipt', (receipt: any) => {
+      console.log(receipt);
+      return receipt
+    })
+    // .on('transactionHash', (hash: any) => {
+    //   console.log(hash)
+    // })
+    // .on('confirmation', (confirmationNumber: any, receipt: any) => {
+    //   console.log(confirmationNumber)
+    //   console.log(receipt)
+    // })
+    // .on('receipt', (receipt: any) => {
+    //   console.log(receipt)
+    // })
+    // .on('error', (error: any) => {
+    //   console.log(error)
+    // });
+
+    // return {
+    //   success: true,
+    //   status: 'successful transaction!',
+    //   tx: request,
+    //   URL: `https://ropsten.etherscan.io/tx/${request}`
+    // }
   } catch (error) {
     console.log('error', error);
       return {
@@ -118,4 +137,29 @@ export const mintNFTAndListForSale = async (tokenURI: string, price: string, acc
       }
   }
 }
+
+// export const mintNFTAndListForSale = async (tokenURI: string, price: string, account: string) => {
+//   console.log('inside mintNFTAndListForSale 2!!!');
+//   const firechainContract = new web3.eth.Contract(contractABI.abi as any, CONTRACT_ADDRESS, {
+//     from: account
+//   });
+//   const priceInWei = web3.utils.toWei(price, 'ether');
+
+//   firechainContract.methods.mintNFTAndListForSale(tokenURI, priceInWei).send({
+//     value: web3.utils.toHex(MINT_PRICE)
+//   })
+//   .on('transactionHash', (hash: any) => {
+//     console.log(hash)
+//   })
+//   .on('confirmation', (confirmationNumber: any, receipt: any) => {
+//     console.log(confirmationNumber)
+//     console.log(receipt)
+//   })
+//   .on('receipt', (receipt: any) => {
+//     console.log(receipt)
+//   })
+//   .on('error', (error: any) => {
+//     console.log(error)
+//   })
+// }
 
