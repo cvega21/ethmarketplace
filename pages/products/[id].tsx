@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Product from '../../components/Product'
 import { db } from '../../constants/firebase'
-import { collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore'
+import { collection, doc, DocumentReference, getDoc, getDocs, limit, query, setDoc, where } from 'firebase/firestore'
 import { IProduct } from '../../types/types'
 import styles from '../../styles/Product.module.css'
 import ActionButton from '../../components/ActionButton'
@@ -87,11 +87,22 @@ const ProductPage = ({ product }: IProps) => {
         console.log('****TOKEN ID BELOW | EVENT LISTENER****');
         console.log(receipt.events.Transfer.returnValues.tokenId);
       })
-      .then((receipt: any) => {
+      .then(async (receipt: any) => {
         console.log('****RECEIPT EMITTED | PROMISE****');
         console.log(receipt);
         console.log('****TOKEN ID BELOW | PROMISE****');
         console.log(receipt.events.Transfer.returnValues.tokenId);
+        const newProduct: IProduct = JSON.parse(JSON.stringify(product));
+
+        newProduct.ownerAddress = appContext?.account as string; 
+        newProduct.ownerName = appContext?.name as string;
+        newProduct.listedSince = '';
+        newProduct.location = '';
+        newProduct.forSale = false; 
+        newProduct.buyNowPrice = 0;
+
+        const productRef = doc(db, 'products', product.refString);
+        await setDoc(productRef, newProduct);
         setTxSuccess(true);
         setIsLoading(false);
         exitPage();
