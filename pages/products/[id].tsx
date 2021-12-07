@@ -11,14 +11,17 @@ import ActionButton from '../../components/ActionButton'
 import EthPrice from '../../components/EthPrice'
 import EthButton from '../../components/EthButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faList, faQuoteLeft } from '@fortawesome/free-solid-svg-icons'
+import { faCircleNotch, faList, faQuoteLeft } from '@fortawesome/free-solid-svg-icons'
 import { getShortAddress, getMediumAddress, getMdTokenURI } from '../../utils/utils'
 import { useAppContext } from '../../contexts/AppContext';
-import { CONTRACT_ADDRESS } from '../../utils/utils'
+import { CONTRACT_ADDRESS, exitPage } from '../../utils/utils'
 import Link from 'next/link'
 import contractABI from '../../build/contracts/Firechain.json';
 import Web3 from "web3";
-import detectEthereumProvider from '@metamask/detect-provider'
+import detectEthereumProvider from '@metamask/detect-provider';
+import ModalView from '../../components/ModalView';
+import MetamaskFox from '../../public/MetaMask_Fox.svg'
+import ConnectMetamask from '../../components/ConnectMetamask'
 var Contract = require('web3-eth-contract');
 const web3 = new Web3();
 
@@ -31,7 +34,7 @@ interface IProps {
 const ProductPage = ({ product }: IProps) => {
   const appContext = useAppContext();
   const [isLoading, setIsLoading] = useState(false);
-  const [productUploaded, setProductUploaded] = useState(false);
+  const [txSuccess, setTxSuccess] = useState(false);
   const [errorUploading, setErrorUploading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [statusMessage, setStatusMessage] = useState('');
@@ -60,9 +63,11 @@ const ProductPage = ({ product }: IProps) => {
   }, [appContext])
 
   const buyNFT = async (tokenID: number, price: string, account: string) => {
+    setIsLoading(true);
+    setStatusMessage('creating transaction...');  
     const fireChainContract = new Contract(contractABI.abi, CONTRACT_ADDRESS);
     const priceInWei = window.web3.utils.toWei(price, 'ether');
-    console.log('inside buyNFT')
+    console.log('inside buyNFT');
 
     try {
       const buyEventListener = await fireChainContract.methods.buyItem(tokenID).send({
@@ -87,6 +92,9 @@ const ProductPage = ({ product }: IProps) => {
         console.log(receipt);
         console.log('****TOKEN ID BELOW | PROMISE****');
         console.log(receipt.events.Transfer.returnValues.tokenId);
+        setTxSuccess(true);
+        setIsLoading(false);
+        exitPage();
       })
 
       return {
@@ -106,6 +114,55 @@ const ProductPage = ({ product }: IProps) => {
     <PageLayout>
       <div className='flex flex-col w-full items-center'>
         <div className='w-full sm:w-11/12 md:w-9/12 lg:w-6/12 xl:w-5/12 fadeUp'>
+        {isLoading ? 
+          <>
+            <ModalView>
+              <div className='text-white font-extralight text-3xl bg-black z-50 rounded-xl p-6 w-9/12 lg:w-3/12 shadow-2xl min-h-144'>
+                <FontAwesomeIcon icon={faCircleNotch} className='text-indigo-500 z-50 text-7xl animate-spin'/>
+                <h2 className='my-4'>
+                  {statusMessage}
+                </h2>
+                {txHash ? 
+                  <div className='text-xl'>
+                    <h2 className='font-normal text-lg'>view on etherscan</h2>
+                    <a 
+                      className='break-all text-indigo-400 text-sm' 
+                      href={`https://ropsten.etherscan.io/tx/${txHash}`}
+                      rel='noreferrer'
+                      target='_blank'
+                      >
+                        {txHash}
+                    </a>
+                  </div>
+                  :
+                  <></>
+                }
+              </div>
+            </ModalView>
+          </>
+          : txSuccess ?
+          <>
+            <div className='text-white absolute overflow-hidden z-40'>
+              <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
+            </div>
+            <div className='text-white font-extralight absolute top-64 text-6xl bg-green-600 z-50 rounded-xl p-4 w-10/12 lg:w-3/12 lg:max-w-2xl'>
+              <h2 className='pb-4'>🎉</h2>  
+              <h2>Transaction confirmed!</h2>
+            </div>
+          </>
+          : errorUploading ?
+          <>
+            <div className='text-white absolute overflow-hidden z-40'>
+              <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
+            </div>
+            <div className='text-white font-extralight absolute top-64 text-4xl bg-red-300 z-50 rounded-xl p-4 w-10/12 lg:w-auto lg:max-w-2xl'>
+              <h2>error listing item. </h2>
+              <h2>{errorMessage}</h2>
+            </div>
+          </>
+          :
+          <></>
+          }
           <div className='ml-8'>
             <h1 className='text-white text-3xl font-medium text-left mt-4'>{product.title}</h1>
             <p className='text-gray-400 font-light text-left'>{product.location}</p>
