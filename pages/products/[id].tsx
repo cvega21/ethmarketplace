@@ -14,8 +14,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faQuoteLeft } from '@fortawesome/free-solid-svg-icons'
 import { getShortAddress, getMediumAddress, getMdTokenURI } from '../../utils/utils'
 import { useAppContext } from '../../contexts/AppContext';
-import contractAbi from '../../build/contracts/MyNFT.json'
+import { CONTRACT_ADDRESS } from '../../utils/utils'
 import Link from 'next/link'
+import contractABI from '../../build/contracts/Firechain.json';
+import Web3 from "web3";
+import detectEthereumProvider from '@metamask/detect-provider'
+var Contract = require('web3-eth-contract');
+const web3 = new Web3();
+
 
 
 interface IProps {
@@ -24,31 +30,76 @@ interface IProps {
 
 const ProductPage = ({ product }: IProps) => {
   const appContext = useAppContext();
-  const [status, setStatus] = useState("");
-  const [url, setURL] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [productUploaded, setProductUploaded] = useState(false);
+  const [errorUploading, setErrorUploading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [statusMessage, setStatusMessage] = useState('');
+  const [txHash, setTxHash] = useState('');
   const router = useRouter();
   const { id } = router.query;
+
 
   useEffect(() => {
     const initEthereum = async () => {
       if (window.ethereum.selectedAddress) {
         await appContext?.connectMetamask();
-        console.log(window.ethereum.selectedAddress);
+        await window.ethereum.send('eth_requestAccounts');
+        window.web3 = new Web3(window.ethereum);
+        const provider = await detectEthereumProvider();
+        console.log(`provider checked!. value:`)
+        console.log(provider);
+        Contract.setProvider(provider);
       }
     }
     
     initEthereum();
 
-    // appContext?.refreshMetamask();
-    // console.log(appContext?.account)
-    // console.log('reeeee')
-
     return () => {
     }
   }, [appContext])
 
-  const mintNFT = async () => {
-    
+  const buyNFT = async (tokenID: number, price: string, account: string) => {
+    const fireChainContract = new Contract(contractABI.abi, CONTRACT_ADDRESS);
+    const priceInWei = window.web3.utils.toWei(price, 'ether');
+    console.log('inside buyNFT')
+
+    try {
+      const buyEventListener = await fireChainContract.methods.buyItem(tokenID).send({
+        to: CONTRACT_ADDRESS,
+        from: account, 
+        value: window.web3.utils.toHex(priceInWei),
+      })
+      .on('transactionHash', (hash: any) => {
+        console.log('****TX HASH EMITTED****');
+        console.log(hash);
+        setStatusMessage('transaction sent! awaiting confirmation...');  
+        setTxHash(hash);
+      })
+      .on('receipt', (receipt: any) => {
+        console.log('****RECEIPT EMITTED | EVENT LISTENER****');
+        console.log(receipt);
+        console.log('****TOKEN ID BELOW | EVENT LISTENER****');
+        console.log(receipt.events.Transfer.returnValues.tokenId);
+      })
+      .then((receipt: any) => {
+        console.log('****RECEIPT EMITTED | PROMISE****');
+        console.log(receipt);
+        console.log('****TOKEN ID BELOW | PROMISE****');
+        console.log(receipt.events.Transfer.returnValues.tokenId);
+      })
+
+      return {
+        sent: true
+      }
+    } catch (e) {
+      console.error(e);
+      
+      return {
+        sent: false,
+        tokenID: 0
+      }
+    }
   }
 
   return (
@@ -78,7 +129,11 @@ const ProductPage = ({ product }: IProps) => {
             </div>
             <div className='w-full flex items-center justify-around'>
               <div className='w-10/12'>
-                <EthButton buyNowPrice={product.buyNowPrice} product={product}/>
+                <EthButton 
+                  buyNowPrice={product.buyNowPrice} 
+                  product={product}
+                  onClick={buyNFT}
+                />
               </div>
             </div>
             <div className='flex justify-start w-10/12 my-4'>
