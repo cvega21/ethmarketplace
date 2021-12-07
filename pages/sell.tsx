@@ -19,7 +19,7 @@ import { IProduct, INFTMetadata } from '../types/types'
 import pinJSONToIPFS from '../utils/pinJSONToIPFS';
 import axios from 'axios';
 import MetamaskFox from '../public/MetaMask_Fox.svg'
-// import { mintNFT, mintNFTAndListForSale, mintNFTAndListForSale2 } from '../utils/utils'
+import { CONTRACT_ADDRESS, MINT_PRICE, exitPage } from '../utils/utils'
 import Web3 from "web3";
 import contractABI from '../build/contracts/Firechain.json';
 import detectEthereumProvider from '@metamask/detect-provider'
@@ -45,13 +45,10 @@ const Sell = () => {
   const storage = getStorage();
   
   const mintNFTAndListForSale = async (tokenURI: string, price: string, account: string) => {
-    const CONTRACT_ADDRESS = '0x652f6b7bDaD2E4f59152b3D8e16d74F150E7962C';
-    const MINT_PRICE = window.web3.utils.toWei('0.0001', "ether");
     const fireChainContract = new Contract(contractABI.abi, CONTRACT_ADDRESS);
-    // window.contract = await new web3.eth.Contract(contractABI.abi as any, CONTRACT_ADDRESS);//loadContract();
     const priceInWei = window.web3.utils.toWei(price, 'ether');
     let eventTokenID: number = 0;
-    console.log('inside mintNFTAndListForSale!!!!!')
+    console.log('inside mintNFTAndListForSale')
 
     try {
       const mintEventListener = await fireChainContract.methods.mintNFTAndListForSale(tokenURI, priceInWei).send({
@@ -94,8 +91,6 @@ const Sell = () => {
         tokenID: 0
       }
     }
-
-
   }
             
     useEffect(() => {
@@ -235,17 +230,11 @@ const Sell = () => {
       // Finish transaction and return to buy page
 
       setProductUploaded(true);
+      setIsLoading(false);
       exitPage();
     } catch (e) {
       console.error('error!!!' + e)
     }
-  }
-  
-  const exitPage = () => {
-    setIsLoading(false);
-    setTimeout(() => {
-      Router.push('/buy');
-    }, 2500);
   }
 
   const changeInput = (e: React.ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<any>>) => {

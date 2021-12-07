@@ -1,10 +1,13 @@
 import BN from "bn.js";
+import Router from 'next/router';
 import Web3 from "web3";
-import contractABI from '../build/contracts/Firechain.json';
-
 const web3 = new Web3();
-const CONTRACT_ADDRESS = '0x652f6b7bDaD2E4f59152b3D8e16d74F150E7962C';
-const MINT_PRICE = web3.utils.toWei('0.0001', "ether");
+
+import contractABI from '../build/contracts/Firechain.json';
+var Contract = require('web3-eth-contract');
+export const CONTRACT_ADDRESS = '0x652f6b7bDaD2E4f59152b3D8e16d74F150E7962C';
+export const MINT_PRICE = web3.utils.toWei('0.0001', "ether");
+
 
 
 export const getShortAddress = (address: string) => {
@@ -22,6 +25,12 @@ export const getMdTokenURI = (address: string) => {
 export const changeInput = (e: React.ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<any>>) => {
   let newValue = e.currentTarget.value;
   setState(newValue);
+}
+
+export const exitPage = () => {
+  setTimeout(() => {
+    Router.push('/buy');
+  }, 2500);
 }
 
 export const mintNFT = async (account: string, tokenURI: string) => {
@@ -86,80 +95,3 @@ export const buyNFT = async (tokenID: number, price: string, account: string) =>
       }
   }
 }
-
-export const mintNFTAndListForSale = async (tokenURI: string, price: string, account: string) => {
-  window.contract = await new web3.eth.Contract(contractABI.abi as any, CONTRACT_ADDRESS);//loadContract();
-  const priceInWei = web3.utils.toWei(price, 'ether');
-  
-  const transactionParameters = {
-    to: CONTRACT_ADDRESS, // Required except during contract publications.
-    from: account, // must match user's active address.,
-    value: web3.utils.toHex(MINT_PRICE),
-    'data': window.contract.methods.mintNFTAndListForSale(tokenURI, priceInWei).encodeABI() //make call to NFT smart contract 
-  };
-  
-  // change this so it returns the transaction hash and the tokenID as one object. 
-  try {
-    const request = await window.ethereum.request({
-      method: 'eth_sendTransaction',
-      params: [transactionParameters],
-    })
-
-    window.ethereum.on('receipt', (receipt: any) => {
-      console.log(receipt);
-      return receipt
-    })
-    // .on('transactionHash', (hash: any) => {
-    //   console.log(hash)
-    // })
-    // .on('confirmation', (confirmationNumber: any, receipt: any) => {
-    //   console.log(confirmationNumber)
-    //   console.log(receipt)
-    // })
-    // .on('receipt', (receipt: any) => {
-    //   console.log(receipt)
-    // })
-    // .on('error', (error: any) => {
-    //   console.log(error)
-    // });
-
-    // return {
-    //   success: true,
-    //   status: 'successful transaction!',
-    //   tx: request,
-    //   URL: `https://ropsten.etherscan.io/tx/${request}`
-    // }
-  } catch (error) {
-    console.log('error', error);
-      return {
-          success: false,
-          status: "😥 Something went wrong: " + error.message
-      }
-  }
-}
-
-// export const mintNFTAndListForSale = async (tokenURI: string, price: string, account: string) => {
-//   console.log('inside mintNFTAndListForSale 2!!!');
-//   const firechainContract = new web3.eth.Contract(contractABI.abi as any, CONTRACT_ADDRESS, {
-//     from: account
-//   });
-//   const priceInWei = web3.utils.toWei(price, 'ether');
-
-//   firechainContract.methods.mintNFTAndListForSale(tokenURI, priceInWei).send({
-//     value: web3.utils.toHex(MINT_PRICE)
-//   })
-//   .on('transactionHash', (hash: any) => {
-//     console.log(hash)
-//   })
-//   .on('confirmation', (confirmationNumber: any, receipt: any) => {
-//     console.log(confirmationNumber)
-//     console.log(receipt)
-//   })
-//   .on('receipt', (receipt: any) => {
-//     console.log(receipt)
-//   })
-//   .on('error', (error: any) => {
-//     console.log(error)
-//   })
-// }
-
