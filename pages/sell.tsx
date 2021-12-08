@@ -42,6 +42,9 @@ const Sell = () => {
   const [statusMessage, setStatusMessage] = useState('');
   const [txHash, setTxHash] = useState('');
   const [tokenID, setTokenID] = useState<Number>();
+  const [productsTitleArr, setProductsTitleArr] = useState<Array<string>>([]);
+  const [productsArr, setProductsArr] = useState<Array<any>>([]);
+  const [productToList, setProductToList] = useState<string>('');
   const storage = getStorage();
   
   const mintNFTAndListForSale = async (tokenURI: string, price: string, account: string) => {
@@ -128,7 +131,26 @@ const Sell = () => {
   
   }, [appContext])
 
-  const listItem = async () => {
+  useEffect(() => {
+
+    (async () => {
+      if (appContext?.account && productsArr.length === 0) {
+        const productsQuery = query(collection(db, 'products'), where('ownerAddress','==',appContext?.account), where('forSale','==',false));
+        const productsDocs = await getDocs(productsQuery);
+      
+        productsDocs.forEach((doc) => {
+          const product = doc.data();
+          setProductsTitleArr(productsArr => [...productsArr, product.title]);
+          setProductsArr(productsArr => [...productsArr, product]);
+        });
+      }
+    })()
+    
+    return () => {
+    }
+  }, [appContext?.account, productsArr])
+
+  const listNewItem = async () => {
     setIsLoading(true);
     
     try {
@@ -237,6 +259,33 @@ const Sell = () => {
     }
   }
 
+  const listExistingItem = (productTitle: string) => {
+    setIsLoading(true);
+    setStatusMessage('creating transaction...');  
+
+    productsArr.forEach(async (product: IProduct) => {
+      if (product.title === productTitle) {
+        console.log(product)
+        const currentDate = new Date().toLocaleDateString();
+        const newProduct: IProduct = JSON.parse(JSON.stringify(product));
+        const productRef = doc(db, 'products', product.refString);
+
+        newProduct.buyNowPrice = buyNowPrice;
+        newProduct.location = location;
+        newProduct.listedSince = currentDate;
+        newProduct.forSale = true; 
+        newProduct.deliveryOpts = deliveryOpts;
+        await setDoc(productRef, newProduct);
+      }
+    })
+
+    setProductUploaded(true);
+    setIsLoading(false);
+    exitPage();
+    
+    return 
+  }
+
   const changeInput = (e: React.ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<any>>) => {
     let newValue = e.currentTarget.value;
     setState(newValue);
@@ -258,7 +307,7 @@ const Sell = () => {
     <PageLayout>
       <div className="flex flex-col w-full items-center text-center">
         <div className="flex flex-col items-center text-center w-full relative overflow-hidden min-h-screen h-full">
-          <h1 className="text-white text-4xl font-light my-14">sell your stuff</h1>
+          <h1 className="text-white text-4xl font-normal my-14">sell your stuff</h1>
           {isLoading ? 
           <>
             <ModalView>
@@ -317,108 +366,178 @@ const Sell = () => {
           :
           <></>
           }
-          <div className="md:mt-0 w-11/12 lg:w-5/12 fadeDown">
-            <form action="#" method="POST">
-              <div className="shadow sm:rounded-md sm:overflow-hidden">
-                <div className="px-4 py-5 space-y-6 sm:p-6">
-                  <TextInput 
-                    changeInput={changeInput} 
-                    setState={setTitle}
-                    currentState={title} 
-                    title={"i'm selling a..."} 
-                    placeholder={'e.g. louis bag'} 
-                    options={[]} 
-                    textArea={false}
-                  />
-                  <TextInput 
-                    changeInput={changeInput} 
-                    setState={setCondition}
-                    currentState={condition} 
-                    title={"condition"} 
-                    placeholder={''} 
-                    options={['brand new', 'like new', 'decent', 'rugged', 'near death']} 
-                    textArea={false}
-                  />
-                  <TextInput 
-                    changeInput={changeInput} 
-                    setState={setDescription}
-                    currentState={description} 
-                    title={"description"} 
-                    placeholder={'e.g. These sneakers are straight fire'} 
-                    options={[]} 
-                    textArea={true} 
-                  />
-                  <EthInput
-                    changeInput={changeInput}
-                    setState={setBuyNowPrice}
-                    currentState={buyNowPrice}
-                    title={'price'}
-                    defaultVal={'0.0001'}
-                  />
-                  <TextInput 
-                    changeInput={changeInput} 
-                    setState={setLocation}
-                    currentState={location} 
-                    title={"location"} 
-                    placeholder={'e.g. Austin, TX'} 
-                    options={[]} 
-                    textArea={false} 
-                  />
-                  <TextInput 
-                    changeInput={changeInput} 
-                    setState={setDeliveryOpts}
-                    currentState={deliveryOpts} 
-                    title={"delivery options"} 
-                    placeholder={''} 
-                    options={['shipping + pickup', 'shipping only', 'pickup only']} 
-                    textArea={false}
-                  />
-                  <div>
-                    <label className="block text-md text-left font-medium text-white mb-2">
-                      Photo
-                    </label>
-                    <div className="relative min-h-48">
-                      {
-                        imagePreview ?
-                        <div className="mt-1 flex flex-col items-center pt-6 h-auto">
-                          <div className="relative h-40 w-full">
-                            <Image src={imagePreview} alt={imagePreview} layout='fill' objectFit='cover'></Image>
-                          </div>
-                        </div>
-                            :
-                            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                              <div className="space-y-1 text-center">
-                                <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                                <div className="relative flex text-sm text-gray-600 justify-center">
-                                  <label htmlFor="file-upload" className="relative cursor-pointer rounded-md font-medium text-indigo-400 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                                    <input accept="image/*" id="file-upload" name="file-upload" type="file" className="sr-only" onChange={changeImage}/>
-                                    <span>Upload a file</span>
-                                    </label>
-                                </div>
-                                <p className="text-xs text-gray-500">
-                                  PNG, JPG, GIF up to 10MB
-                                </p>
+          <div className='w-5/12'>
+            <h1 className="text-white text-2xl text-left w-full px-6 py-2 font-thin border-b my-4">list existing product</h1>
+            <div className='px-6'>
+              <TextInput 
+                changeInput={changeInput}
+                className='bg-indigo-900 border-black' 
+                setState={setProductToList}
+                currentState={productToList} 
+                title={"product"} 
+                placeholder={''} 
+                options={productsTitleArr} 
+                textArea={false}
+              />
+            </div>
+          </div>
+          {productToList ?
+            <div className="md:mt-0 w-11/12 lg:w-5/12 fadeDown px-4 space-y-6 sm:p-6"> 
+              {/* <TextInput 
+                changeInput={changeInput} 
+                setState={setCondition}
+                currentState={condition} 
+                title={"condition"} 
+                placeholder={''}
+                className='bg-indigo-900 border-black' 
+                options={['brand new', 'like new', 'decent', 'rugged', 'near death']} 
+                textArea={false}
+              />
+              <TextInput 
+                changeInput={changeInput} 
+                setState={setDescription}
+                currentState={description} 
+                title={"description"}
+                className='bg-indigo-900 border-black' 
+                placeholder={'e.g. These sneakers are straight fire'} 
+                options={[]} 
+                textArea={true} 
+              /> */}
+              <EthInput
+                changeInput={changeInput}
+                setState={setBuyNowPrice}
+                currentState={buyNowPrice}
+                // className='bg-indigo-900 border-black' 
+                // ethClassName='border-black' 
+                title={'price'}
+                defaultVal={'0.0001'}
+              />
+              <TextInput 
+                changeInput={changeInput} 
+                setState={setLocation}
+                currentState={location} 
+                title={"location"}
+                // className='bg-indigo-900 border-black' 
+                placeholder={'e.g. Austin, TX'} 
+                options={[]} 
+                textArea={false} 
+              />
+              <TextInput 
+                changeInput={changeInput} 
+                setState={setDeliveryOpts}
+                currentState={deliveryOpts}
+                // className='bg-indigo-900 border-black' 
+                title={"delivery options"} 
+                placeholder={''} 
+                options={['shipping + pickup', 'shipping only', 'pickup only']} 
+                textArea={false}
+              />
+            </div>
+            :
+            <>
+              <h1 className="text-white text-2xl text-left w-5/12 px-6 py-2 font-thin border-b mt-16">or create new product</h1>
+              <div className="md:mt-0 w-11/12 lg:w-5/12 fadeDown">
+                <form action="#" method="POST">
+                  <div className="shadow sm:rounded-md sm:overflow-hidden">
+                    <div className="px-4 py-5 space-y-6 sm:p-6">
+                      <TextInput 
+                        changeInput={changeInput} 
+                        setState={setTitle}
+                        currentState={title} 
+                        title={"i'm selling a..."} 
+                        placeholder={'e.g. louis bag'} 
+                        options={[]} 
+                        textArea={false}
+                      />
+                      <TextInput 
+                        changeInput={changeInput} 
+                        setState={setCondition}
+                        currentState={condition} 
+                        title={"condition"} 
+                        placeholder={''} 
+                        options={['brand new', 'like new', 'decent', 'rugged', 'near death']} 
+                        textArea={false}
+                      />
+                      <TextInput 
+                        changeInput={changeInput} 
+                        setState={setDescription}
+                        currentState={description} 
+                        title={"description"} 
+                        placeholder={'e.g. These sneakers are straight fire'} 
+                        options={[]} 
+                        textArea={true} 
+                      />
+                      <EthInput
+                        changeInput={changeInput}
+                        setState={setBuyNowPrice}
+                        currentState={buyNowPrice}
+                        title={'price'}
+                        defaultVal={'0.0001'}
+                      />
+                      <TextInput 
+                        changeInput={changeInput} 
+                        setState={setLocation}
+                        currentState={location} 
+                        title={"location"} 
+                        placeholder={'e.g. Austin, TX'} 
+                        options={[]} 
+                        textArea={false} 
+                      />
+                      <TextInput 
+                        changeInput={changeInput} 
+                        setState={setDeliveryOpts}
+                        currentState={deliveryOpts} 
+                        title={"delivery options"} 
+                        placeholder={''} 
+                        options={['shipping + pickup', 'shipping only', 'pickup only']} 
+                        textArea={false}
+                      />
+                      <div>
+                        <label className="block text-md text-left font-medium text-white mb-2">
+                          Photo
+                        </label>
+                        <div className="relative min-h-48">
+                          {
+                            imagePreview ?
+                            <div className="mt-1 flex flex-col items-center pt-6 h-auto">
+                              <div className="relative h-40 w-full">
+                                <Image src={imagePreview} alt={imagePreview} layout='fill' objectFit='cover'></Image>
                               </div>
                             </div>
-                      }
+                                :
+                                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                  <div className="space-y-1 text-center">
+                                    <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                      <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                    <div className="relative flex text-sm text-gray-600 justify-center">
+                                      <label htmlFor="file-upload" className="relative cursor-pointer rounded-md font-medium text-indigo-400 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                        <input accept="image/*" id="file-upload" name="file-upload" type="file" className="sr-only" onChange={changeImage}/>
+                                        <span>Upload a file</span>
+                                        </label>
+                                    </div>
+                                    <p className="text-xs text-gray-500">
+                                      PNG, JPG, GIF up to 10MB
+                                    </p>
+                                  </div>
+                                </div>
+                          }
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="px-4 py-3 text-right sm:px-6 mb-10">
-                  <button 
-                    type='button'
-                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                    onClick={listItem}  
-                    disabled={isLoading}
-                    >
-                    List For Sale
-                  </button>
-                </div>
+                </form>
               </div>
-            </form>
-          </div>
+            </>
+        }
+          <button 
+            type='button'
+            className="inline-flex justify-center py-3 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 w-4/12 mt-6 mb-16"
+            onClick={productToList ? () => listExistingItem(productToList) : listNewItem}  
+            disabled={isLoading}
+            >
+            List For Sale
+          </button>
         </div>
       </div>
     </PageLayout>
