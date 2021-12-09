@@ -18,28 +18,29 @@ const Buy = ({ productsArr, queryArr }: any) => {
       <h2 className="text-white text-2xl text-left w-full px-6 py-2 my-6 font-thin border-b">
         trending 🔥
       </h2>
-
       <div className="flex flex-col gap-10 md:grid md:grid-cols-2 md:gap-20 xl:grid-cols-3 fadeDown">
         {productsArr.map((product: IProduct) => {
-          return (
-            <Product
-              buyNowPrice={product.buyNowPrice}
-              condition={''}
-              deliveryOpts={''}
-              description={product.description}
-              forSale={product.forSale}
-              imagePath={product.imagePath}
-              key={product.imagePath}
-              listedSince={product.listedSince}
-              location={product.location}
-              ownerAddress={''}
-              ownerName={''}
-              refString={product.refString}
-              title={product.title}
-              tokenURI={product.tokenURI}
-              tokenID={1}
-            />
-          )
+          // if (product.trending) {
+            return (
+              <Product
+                buyNowPrice={product.buyNowPrice}
+                condition={''}
+                deliveryOpts={''}
+                description={product.description}
+                forSale={product.forSale}
+                imagePath={product.imagePath}
+                key={product.imagePath}
+                listedSince={product.listedSince}
+                location={product.location}
+                ownerAddress={''}
+                ownerName={''}
+                refString={product.refString}
+                title={product.title}
+                tokenURI={product.tokenURI}
+                tokenID={product.tokenID}
+              />
+            )
+          // }
         })}
       </div>
       <h2 className="text-white text-2xl text-left w-full px-6 py-2 my-6 font-thin border-b">

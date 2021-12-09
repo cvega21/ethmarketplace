@@ -15,6 +15,7 @@ export interface IProduct {
   title: string,
   tokenURI: string,
   tokenID: number,
+  trending?: boolean
 }
 
 export interface INFTMetadata {
