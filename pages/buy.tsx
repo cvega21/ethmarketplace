@@ -12,9 +12,13 @@ const Buy = ({ productsArr, queryArr }: any) => {
   return (
   <PageLayout>
     <div className="w-11/12 lg:w-9/12">
-      <h1 className="text-white text-4xl font-light py-14">
-        top picks for you
+      <h1 className="text-white text-4xl font-medium pt-14 pb-8">
+        marketplace
       </h1>
+      <h2 className="text-white text-2xl text-left w-full px-6 py-2 my-6 font-thin border-b">
+        trending 🔥
+      </h2>
+
       <div className="flex flex-col gap-10 md:grid md:grid-cols-2 md:gap-20 xl:grid-cols-3 fadeDown">
         {productsArr.map((product: IProduct) => {
           return (
@@ -38,6 +42,9 @@ const Buy = ({ productsArr, queryArr }: any) => {
           )
         })}
       </div>
+      <h2 className="text-white text-2xl text-left w-full px-6 py-2 my-6 font-thin border-b">
+        all products
+      </h2>
     </div>
   </PageLayout>
   )

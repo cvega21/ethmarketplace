@@ -348,7 +348,7 @@ const Sell = () => {
     <PageLayout>
       <div className="flex flex-col w-full items-center text-center">
         <div className="flex flex-col items-center text-center w-full relative overflow-hidden min-h-screen h-full">
-          <h1 className="text-white text-4xl font-normal my-14">sell your stuff</h1>
+          <h1 className="text-white text-4xl font-normal my-14">sell your stuff </h1>
           {isLoading ? 
           <>
             <ModalView>
@@ -407,7 +407,7 @@ const Sell = () => {
           :
           <></>
           }
-          <div className='w-5/12'>
+          <div className='w-10/12'>
             <h1 className="text-white text-2xl text-left w-full px-6 py-2 font-thin border-b my-4">list existing product</h1>
             <div className='px-6'>
               <TextInput 
@@ -423,7 +423,7 @@ const Sell = () => {
             </div>
           </div>
           {productToList ?
-            <div className="md:mt-0 w-11/12 lg:w-5/12 fadeDown px-4 space-y-6 sm:p-6"> 
+            <div className="md:mt-0 w-10/12 lg:w-5/12 fadeDown px-4 space-y-6 sm:p-6"> 
               {/* <TextInput 
                 changeInput={changeInput} 
                 setState={setCondition}
@@ -476,8 +476,8 @@ const Sell = () => {
             </div>
             :
             <>
-              <h1 className="text-white text-2xl text-left w-5/12 px-6 py-2 font-thin border-b mt-16">or create new product</h1>
-              <div className="md:mt-0 w-11/12 lg:w-5/12 fadeDown">
+              <div className="md:mt-0 w-10/12 lg:w-5/12 fadeDown">
+                <h1 className="text-white text-2xl text-left w-full px-6 py-2 font-thin border-b mt-16">or create new product</h1>
                 <form action="#" method="POST">
                   <div className="shadow sm:rounded-md sm:overflow-hidden">
                     <div className="px-4 py-5 space-y-6 sm:p-6">
