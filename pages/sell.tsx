@@ -348,7 +348,6 @@ const Sell = () => {
     <PageLayout>
       <div className="flex flex-col w-full items-center text-center">
         <div className="flex flex-col items-center text-center w-full relative overflow-hidden min-h-screen h-full">
-          <h1 className="text-white text-4xl font-normal my-14">sell your stuff </h1>
           {isLoading ? 
           <>
             <ModalView>
@@ -396,189 +395,167 @@ const Sell = () => {
             </div>
           </>
           : !appContext?.account ? 
-              <ModalView>
-                <div className='w-full bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-indigoDark'>
+                <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between  shadow-indigoDark m-8'>
                   <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
-                  <div className='my-6'>
+                  <div className='h-full my-4'>
                     <ConnectMetamask/>
                   </div>
                 </div>
-              </ModalView>
           :
-          <></>
-          }
-          <div className='w-10/12'>
-            <h1 className="text-white text-2xl text-left w-full px-6 py-2 font-thin border-b my-4">list existing product</h1>
-            <div className='px-6'>
-              <TextInput 
-                changeInput={changeInput}
-                className='bg-indigo-900 border-black' 
-                setState={setProductToList}
-                currentState={productToList} 
-                title={"product"} 
-                placeholder={''} 
-                options={productsTitleArr} 
-                textArea={false}
-              />
-            </div>
-          </div>
-          {productToList ?
-            <div className="md:mt-0 w-10/12 lg:w-5/12 fadeDown px-4 space-y-6 sm:p-6"> 
-              {/* <TextInput 
-                changeInput={changeInput} 
-                setState={setCondition}
-                currentState={condition} 
-                title={"condition"} 
-                placeholder={''}
-                className='bg-indigo-900 border-black' 
-                options={['brand new', 'like new', 'decent', 'rugged', 'near death']} 
-                textArea={false}
-              />
-              <TextInput 
-                changeInput={changeInput} 
-                setState={setDescription}
-                currentState={description} 
-                title={"description"}
-                className='bg-indigo-900 border-black' 
-                placeholder={'e.g. These sneakers are straight fire'} 
-                options={[]} 
-                textArea={true} 
-              /> */}
-              <EthInput
-                changeInput={changeInput}
-                setState={setBuyNowPrice}
-                currentState={buyNowPrice}
-                // className='bg-indigo-900 border-black' 
-                // ethClassName='border-black' 
-                title={'price'}
-                defaultVal={'0.0001'}
-              />
-              <TextInput 
-                changeInput={changeInput} 
-                setState={setLocation}
-                currentState={location} 
-                title={"location"}
-                // className='bg-indigo-900 border-black' 
-                placeholder={'e.g. Austin, TX'} 
-                options={[]} 
-                textArea={false} 
-              />
-              <TextInput 
-                changeInput={changeInput} 
-                setState={setDeliveryOpts}
-                currentState={deliveryOpts}
-                // className='bg-indigo-900 border-black' 
-                title={"delivery options"} 
-                placeholder={''} 
-                options={['shipping + pickup', 'shipping only', 'pickup only']} 
-                textArea={false}
-              />
-            </div>
-            :
-            <>
-              <div className="md:mt-0 w-10/12 lg:w-5/12 fadeDown">
-                <h1 className="text-white text-2xl text-left w-full px-6 py-2 font-thin border-b mt-16">or create new product</h1>
-                <form action="#" method="POST">
-                  <div className="shadow sm:rounded-md sm:overflow-hidden">
-                    <div className="px-4 py-5 space-y-6 sm:p-6">
-                      <TextInput 
-                        changeInput={changeInput} 
-                        setState={setTitle}
-                        currentState={title} 
-                        title={"i'm selling a..."} 
-                        placeholder={'e.g. louis bag'} 
-                        options={[]} 
-                        textArea={false}
-                      />
-                      <TextInput 
-                        changeInput={changeInput} 
-                        setState={setCondition}
-                        currentState={condition} 
-                        title={"condition"} 
-                        placeholder={''} 
-                        options={['brand new', 'like new', 'decent', 'rugged', 'near death']} 
-                        textArea={false}
-                      />
-                      <TextInput 
-                        changeInput={changeInput} 
-                        setState={setDescription}
-                        currentState={description} 
-                        title={"description"} 
-                        placeholder={'e.g. These sneakers are straight fire'} 
-                        options={[]} 
-                        textArea={true} 
-                      />
-                      <EthInput
-                        changeInput={changeInput}
-                        setState={setBuyNowPrice}
-                        currentState={buyNowPrice}
-                        title={'price'}
-                        defaultVal={'0.0001'}
-                      />
-                      <TextInput 
-                        changeInput={changeInput} 
-                        setState={setLocation}
-                        currentState={location} 
-                        title={"location"} 
-                        placeholder={'e.g. Austin, TX'} 
-                        options={[]} 
-                        textArea={false} 
-                      />
-                      <TextInput 
-                        changeInput={changeInput} 
-                        setState={setDeliveryOpts}
-                        currentState={deliveryOpts} 
-                        title={"delivery options"} 
-                        placeholder={''} 
-                        options={['shipping + pickup', 'shipping only', 'pickup only']} 
-                        textArea={false}
-                      />
-                      <div>
-                        <label className="block text-md text-left font-medium text-white mb-2">
-                          Photo
-                        </label>
-                        <div className="relative min-h-48">
-                          {
-                            imagePreview ?
-                            <div className="mt-1 flex flex-col items-center pt-6 h-auto">
-                              <div className="relative h-40 w-full">
-                                <Image src={imagePreview} alt={imagePreview} layout='fill' objectFit='cover'></Image>
-                              </div>
-                            </div>
-                                :
-                                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                                  <div className="space-y-1 text-center">
-                                    <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                                      <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
-                                    <div className="relative flex text-sm text-gray-600 justify-center">
-                                      <label htmlFor="file-upload" className="relative cursor-pointer rounded-md font-medium text-indigo-400 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                                        <input accept="image/*" id="file-upload" name="file-upload" type="file" className="sr-only" onChange={changeImage}/>
-                                        <span>Upload a file</span>
-                                        </label>
-                                    </div>
-                                    <p className="text-xs text-gray-500">
-                                      PNG, JPG, GIF up to 10MB
-                                    </p>
+          <>
+            <div className='xl:w-4/12 w-11/12'>
+              <h1 className="text-white text-4xl font-normal my-14">sell your stuff </h1>
+              <div className='w-full'>
+                <h1 className="text-white text-2xl text-left w-full px-6 py-2 font-thin border-b my-4">list existing product</h1>
+                <div className='my-6'>
+                  <TextInput 
+                    changeInput={changeInput}
+                    className='bg-indigo-900 border-black' 
+                    setState={setProductToList}
+                    currentState={productToList} 
+                    title={"product"} 
+                    placeholder={''} 
+                    options={productsTitleArr} 
+                    textArea={false}
+                  />
+                </div>
+              </div>
+              {productToList ?
+                <div className="md:mt-0 w-full fadeDown space-y-6"> 
+                  <EthInput
+                    changeInput={changeInput}
+                    setState={setBuyNowPrice}
+                    currentState={buyNowPrice}
+                    title={'price'}
+                    defaultVal={'0.0001'}
+                  />
+                  <TextInput 
+                    changeInput={changeInput} 
+                    setState={setLocation}
+                    currentState={location} 
+                    title={"location"}
+                    placeholder={'e.g. Austin, TX'} 
+                    options={[]} 
+                    textArea={false} 
+                  />
+                  <TextInput 
+                    changeInput={changeInput} 
+                    setState={setDeliveryOpts}
+                    currentState={deliveryOpts}
+                    title={"delivery options"} 
+                    placeholder={''} 
+                    options={['shipping + pickup', 'shipping only', 'pickup only']} 
+                    textArea={false}
+                  />
+                </div>
+                :
+                <>
+                  <div className="md:mt-0 w-full fadeDown">
+                    <h1 className="text-white text-2xl text-left w-full px-6 py-2 font-thin border-b mt-16">or create new product</h1>
+                    <form action="#" method="POST">
+                      <div className="shadow sm:rounded-md sm:overflow-hidden">
+                        <div className="py-5 space-y-6 ">
+                          <TextInput 
+                            changeInput={changeInput} 
+                            setState={setTitle}
+                            currentState={title} 
+                            title={"i'm selling a..."} 
+                            placeholder={'e.g. louis bag'} 
+                            options={[]} 
+                            textArea={false}
+                          />
+                          <TextInput 
+                            changeInput={changeInput} 
+                            setState={setCondition}
+                            currentState={condition} 
+                            title={"condition"} 
+                            placeholder={''} 
+                            options={['brand new', 'like new', 'decent', 'rugged', 'near death']} 
+                            textArea={false}
+                          />
+                          <TextInput 
+                            changeInput={changeInput} 
+                            setState={setDescription}
+                            currentState={description} 
+                            title={"description"} 
+                            placeholder={'e.g. These sneakers are straight fire'} 
+                            options={[]} 
+                            textArea={true} 
+                          />
+                          <EthInput
+                            changeInput={changeInput}
+                            setState={setBuyNowPrice}
+                            currentState={buyNowPrice}
+                            title={'price'}
+                            defaultVal={'0.0001'}
+                          />
+                          <TextInput 
+                            changeInput={changeInput} 
+                            setState={setLocation}
+                            currentState={location} 
+                            title={"location"} 
+                            placeholder={'e.g. Austin, TX'} 
+                            options={[]} 
+                            textArea={false} 
+                          />
+                          <TextInput 
+                            changeInput={changeInput} 
+                            setState={setDeliveryOpts}
+                            currentState={deliveryOpts} 
+                            title={"delivery options"} 
+                            placeholder={''} 
+                            options={['shipping + pickup', 'shipping only', 'pickup only']} 
+                            textArea={false}
+                          />
+                          <div>
+                            <label className="block text-md text-left font-medium text-white mb-2">
+                              Photo
+                            </label>
+                            <div className="relative min-h-48">
+                              {
+                                imagePreview ?
+                                <div className="mt-1 flex flex-col items-center pt-6 h-auto">
+                                  <div className="relative h-40 w-full">
+                                    <Image src={imagePreview} alt={imagePreview} layout='fill' objectFit='cover'></Image>
                                   </div>
                                 </div>
-                          }
+                                    :
+                                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                      <div className="space-y-1 text-center">
+                                        <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                          <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                        <div className="relative flex text-sm text-gray-600 justify-center">
+                                          <label htmlFor="file-upload" className="relative cursor-pointer rounded-md font-medium text-indigo-400 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                            <input accept="image/*" id="file-upload" name="file-upload" type="file" className="sr-only" onChange={changeImage}/>
+                                            <span>Upload a file</span>
+                                            </label>
+                                        </div>
+                                        <p className="text-xs text-gray-500">
+                                          PNG, JPG, GIF up to 10MB
+                                        </p>
+                                      </div>
+                                    </div>
+                              }
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </form>
                   </div>
-                </form>
-              </div>
+                </>
+            }
+            <button 
+              type='button'
+              className="inline-flex justify-center py-2 px-2 border border-transparent shadow-sm text-xl font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 w-full mt-20"
+              onClick={productToList ? () => listExistingItem(productToList) : listNewItem}  
+              disabled={isLoading}
+              >
+              List For Sale
+            </button>
+            </div>
             </>
-        }
-          <button 
-            type='button'
-            className="inline-flex justify-center py-3 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 w-4/12 mt-6 mb-16"
-            onClick={productToList ? () => listExistingItem(productToList) : listNewItem}  
-            disabled={isLoading}
-            >
-            List For Sale
-          </button>
+          }
         </div>
       </div>
     </PageLayout>

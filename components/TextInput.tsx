@@ -16,7 +16,7 @@ const TextInput = (props: ITextInput) => {
   return (
     <div className="grid grid-cols-3 gap-6">
       <div className="col-span-3 sm:col-span-3 w-full">
-        <label htmlFor="company-website" className="block text-md text-left font-medium text-white p-2">
+        <label className="block text-md text-left font-medium text-white p-2">
           {props.title}
         </label>
         {props.options.length > 0 ? 

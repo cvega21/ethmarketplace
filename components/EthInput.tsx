@@ -15,13 +15,13 @@ const EthInput = (props: IEthInput) => {
   return (
     <div className="flex flex-col justify-between">
       <div className="w-full">
-        <label htmlFor="company-website" className="block text-md text-left font-medium text-white">
+        <label className="block text-md text-left font-medium text-white p-2">
           {props.title}
       </label>
-        <div className="mt-1 flex rounded-md shadow-sm w-full">
+        <div className="flex rounded-md shadow-sm w-full">
           <span className={`inline-flex items-center px-3 rounded-l-md border border-r-0 text-gray-50 text-sm ${props.ethClassName? props.ethClassName : 'border-gray-500'} bg-gray-900`}>
-            ETH
-        <Image src="/eth.svg" height={20} width={30} alt="ethereum" />
+            <p>ETH</p>
+            <Image src="/eth.svg" height={20} width={30} alt="ethereum" />
           </span>
           <input
             type="number"
