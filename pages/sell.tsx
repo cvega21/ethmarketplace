@@ -347,7 +347,7 @@ const Sell = () => {
   return (
     <PageLayout>
       <div className="flex flex-col w-full items-center text-center">
-        <div className="flex flex-col items-center text-center w-full relative overflow-hidden min-h-screen h-full">
+        <div className="flex flex-col items-center text-center w-full relative overflow-hidden h-full">
           {isLoading ? 
           <>
             <ModalView>
@@ -395,7 +395,7 @@ const Sell = () => {
             </div>
           </>
           : !appContext?.account ? 
-                <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between  shadow-indigoDark m-8'>
+                <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-indigoDark m-8'>
                   <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
                   <div className='h-full my-4'>
                     <ConnectMetamask/>

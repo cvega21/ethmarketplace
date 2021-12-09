@@ -134,7 +134,7 @@ const Account = () => {
 
   return (
     <PageLayout>
-      <div className="text-center flex w-full flex-col lg:flex-1 justify-center items-center h-full">
+      <div className="text-center flex w-full flex-col justify-center items-center h-full">
         <div className="flex flex-col items-center w-full overflow-hidden h-full">
           {isLoading ? 
             <>
