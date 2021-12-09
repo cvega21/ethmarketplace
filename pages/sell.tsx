@@ -259,31 +259,72 @@ const Sell = () => {
     }
   }
 
-  const listExistingItem = (productTitle: string) => {
+  const listExistingItem = async (productTitle: string) => {
     setIsLoading(true);
-    setStatusMessage('creating transaction...');  
+    setStatusMessage('creating transaction...'); 
+    const fireChainContract = new Contract(contractABI.abi, CONTRACT_ADDRESS);
+    const priceInWei = window.web3.utils.toWei(buyNowPrice.toString(), 'ether');
+    let newProduct: IProduct = productsArr[0];
+    console.log('entering loop...')
 
     productsArr.forEach(async (product: IProduct) => {
-      if (product.title === productTitle) {
-        console.log(product)
-        const currentDate = new Date().toLocaleDateString();
-        const newProduct: IProduct = JSON.parse(JSON.stringify(product));
-        const productRef = doc(db, 'products', product.refString);
+      console.log('inside products arr loop')
 
+      // need to change comparison below to be between some unique key
+      if (product.title === productTitle) {
+        console.log('inside product title == product title')
+        console.log(product)
+
+        const currentDate = new Date().toLocaleDateString();
+        newProduct = JSON.parse(JSON.stringify(product));
+        
         newProduct.buyNowPrice = buyNowPrice;
         newProduct.location = location;
         newProduct.listedSince = currentDate;
         newProduct.forSale = true; 
         newProduct.deliveryOpts = deliveryOpts;
-        await setDoc(productRef, newProduct);
       }
     })
 
-    setProductUploaded(true);
-    setIsLoading(false);
-    exitPage();
-    
-    return 
+    try {
+      console.log('inside try catch...')
+      console.log(`tokenID = ${newProduct.tokenID}`)
+      const listEventListener = await fireChainContract.methods.listForSale(newProduct.tokenID, priceInWei).send({
+        to: CONTRACT_ADDRESS,
+        from: appContext?.account, 
+      })
+      .on('transactionHash', (hash: any) => {
+        console.log('****FIRST TX HASH EMITTED****');
+        console.log(hash);
+        setStatusMessage('transaction sent! awaiting confirmation...');  
+        setTxHash(hash);
+      })
+      .on('receipt', (receipt: any) => {
+        console.log('****RECEIPT EMITTED | EVENT LISTENER****');
+        console.log(receipt);
+      })
+      .then(async (receipt: any) => {
+        console.log('****FINAL RECEIPT EMITTED | PROMISE****');
+        console.log(receipt);
+        const productRef = doc(db, 'products', newProduct.refString);
+
+        await setDoc(productRef, newProduct);
+        setProductUploaded(true);
+        setIsLoading(false);
+        exitPage();
+      })
+      
+      return {
+        sent: true
+      }
+    } catch (e) {
+      console.error(e);
+      
+      return {
+        sent: false,
+        tokenID: 0
+      }
+    }
   }
 
   const changeInput = (e: React.ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<any>>) => {
