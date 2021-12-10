@@ -18,6 +18,7 @@ import { collection, getFirestore, doc, setDoc, addDoc, query, where, getDocs  }
 import Product from '../components/Product';
 import ConnectMetamask from '../components/ConnectMetamask'
 import ModalView from '../components/ModalView';
+import ChromeLink from '../components/ChromeLink';
 import MetamaskFox from '../public/MetaMask_Fox.svg'
 
 const Account = () => {
@@ -298,6 +299,7 @@ const Account = () => {
               <div className='h-full my-4'>
                 <ConnectMetamask/>
               </div>
+              <ChromeLink/>
             </div>
           </>
         }

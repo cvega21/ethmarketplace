@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PageLayout from '../../constants/PageLayout'
 import { useRouter } from 'next/router'
+import Router from 'next/router'
 import Image from 'next/image'
 import Product from '../../components/Product'
 import { db } from '../../constants/firebase'
@@ -61,6 +62,10 @@ const ProductPage = ({ product }: IProps) => {
     return () => {
     }
   }, [appContext])
+
+  const sendToConnect = () => {
+    Router.push('/account');
+  }
 
   const buyNFT = async (tokenID: number, price: string, account: string) => {
     setIsLoading(true);
@@ -200,7 +205,7 @@ const ProductPage = ({ product }: IProps) => {
                 <EthButton 
                   buyNowPrice={product.buyNowPrice} 
                   product={product}
-                  onClick={buyNFT}
+                  onClick={appContext?.account ? buyNFT : sendToConnect}
                 />
               </div>
             </div>

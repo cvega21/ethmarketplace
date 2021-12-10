@@ -4,6 +4,7 @@ import TextInput from '../components/TextInput'
 import EthInput from '../components/EthInput'
 import ConnectMetamask from '../components/ConnectMetamask'
 import ModalView from '../components/ModalView'
+import ChromeLink from '../components/ChromeLink';
 import Image from 'next/image'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
@@ -400,6 +401,7 @@ const Sell = () => {
                   <div className='h-full my-4'>
                     <ConnectMetamask/>
                   </div>
+                  <ChromeLink/>
                 </div>
           :
           <>
