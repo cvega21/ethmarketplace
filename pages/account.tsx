@@ -45,6 +45,11 @@ const Account = () => {
         const ethBalance = web3.utils.fromWei(weiBalance, 'ether')
         setEthBalance(parseFloat(ethBalance).toFixed(2));
         setShortAccount(getMediumAddress(appContext?.account as string));
+
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x3' }],
+        });
       }
     }
 

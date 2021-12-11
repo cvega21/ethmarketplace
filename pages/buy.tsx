@@ -8,6 +8,16 @@ import { IProduct } from '../types/types'
 import styles from '../styles/Home.module.css'
 
 const Buy = ({ productsArr, queryArr }: any) => {
+
+  useEffect(() => {
+    (async () => {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: '0x3' }], 
+      });
+    })()
+
+  }, [])
   
   return (
   <PageLayout>

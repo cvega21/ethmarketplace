@@ -107,6 +107,11 @@ const Sell = () => {
           console.log(`provider checked!. value:`)
           console.log(provider);
           Contract.setProvider(provider);
+          
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0x3' }],
+          });
         }
       }
       
