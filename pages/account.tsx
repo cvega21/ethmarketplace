@@ -19,7 +19,8 @@ import Product from '../components/Product';
 import ConnectMetamask from '../components/ConnectMetamask'
 import ModalView from '../components/ModalView';
 import ChromeLink from '../components/ChromeLink';
-import MetamaskFox from '../public/MetaMask_Fox.svg'
+import MetamaskFox from '../public/MetaMask_Fox.svg';
+import WarningBanner from '../components/WarningBanner';
 
 const Account = () => {
   const appContext = useAppContext();
@@ -140,6 +141,7 @@ const Account = () => {
 
   return (
     <PageLayout>
+      <WarningBanner/>
       <div className="text-center flex w-full flex-col justify-center items-center h-full">
         <div className="flex flex-col items-center w-full overflow-hidden h-full">
           {isLoading ? 

@@ -9,12 +9,15 @@ interface IAppContext {
   name: string,
   setName: React.Dispatch<React.SetStateAction<string>>,
   refreshMetamask: Function,
+  warningIsOpen: boolean,
+  setWarningIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const AppContext = React.createContext<IAppContext | null>(null);
 
 export const AppWrapper: React.FC = ({ children }) => {
   const [navIsOpen, setNavIsOpen] = useState(false);
+  const [warningIsOpen, setWarningIsOpen] = useState(true);
   const [account, setAccount] = useState('');
   const [name, setName] = useState('');
   
@@ -59,6 +62,8 @@ export const AppWrapper: React.FC = ({ children }) => {
       setName: setName,
       setNavIsOpen: setNavIsOpen,
       refreshMetamask: refreshMetamask,
+      warningIsOpen: warningIsOpen,
+      setWarningIsOpen: setWarningIsOpen
   }
 
   return (

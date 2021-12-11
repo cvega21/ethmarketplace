@@ -5,6 +5,7 @@ import EthInput from '../components/EthInput'
 import ConnectMetamask from '../components/ConnectMetamask'
 import ModalView from '../components/ModalView'
 import ChromeLink from '../components/ChromeLink';
+import PageTitle from '../components/PageTitle';
 import Image from 'next/image'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
@@ -24,6 +25,7 @@ import { CONTRACT_ADDRESS, MINT_PRICE, exitPage } from '../utils/utils'
 import Web3 from "web3";
 import contractABI from '../build/contracts/Firechain.json';
 import detectEthereumProvider from '@metamask/detect-provider'
+import WarningBanner from '../components/WarningBanner';
 var Contract = require('web3-eth-contract');
  
 const Sell = () => {
@@ -354,6 +356,7 @@ const Sell = () => {
     <PageLayout>
       <div className="flex flex-col w-full items-center text-center">
         <div className="flex flex-col items-center text-center w-full relative overflow-hidden h-full">
+          <WarningBanner/>
           {isLoading ? 
           <>
             <ModalView>
@@ -411,7 +414,7 @@ const Sell = () => {
           :
           <>
             <div className='xl:w-4/12 w-11/12'>
-              <h1 className="text-white text-4xl font-normal my-14">sell your stuff </h1>
+              <PageTitle text='sell your stuff'/>
               <div className='w-full'>
                 <h1 className="text-white text-2xl text-left w-full px-6 py-2 font-thin border-b my-4">list existing product</h1>
                 <div className='my-6'>

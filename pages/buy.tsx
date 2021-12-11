@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Product from "../components/Product";
 import PageLayout from '../constants/PageLayout';
 import NavBar from '../components/NavBar';
+import PageTitle from '../components/PageTitle';
+import WarningBanner from '../components/WarningBanner';
 import { db } from '../constants/firebase'
 import { collection, doc, getDoc, getDocs, limit, onSnapshot, query, where } from '@firebase/firestore';
 import { IProduct } from '../types/types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/Home.module.css'
 
 const Buy = ({ productsArr, queryArr }: any) => {
@@ -21,10 +25,9 @@ const Buy = ({ productsArr, queryArr }: any) => {
   
   return (
   <PageLayout>
-    <div className="w-11/12 lg:w-9/12">
-      <h1 className="text-white text-4xl font-medium pt-14 pb-8">
-        marketplace
-      </h1>
+    <WarningBanner/>
+    <div className="w-11/12 lg:w-9/12 relative">
+      <PageTitle text='marketplace'/>
       <h2 className="text-white text-2xl text-left w-full px-6 py-2 my-6 font-thin border-b">
         trending 🔥
       </h2>
