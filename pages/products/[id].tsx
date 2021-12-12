@@ -128,12 +128,12 @@ const ProductPage = ({ product }: IProps) => {
 
   return (
     <PageLayout>
-      <div className='flex flex-col w-full items-center'>
-        <div className='w-full sm:w-11/12 md:w-9/12 lg:w-6/12 xl:w-5/12 fadeUp'>
+      <div className='flex flex-col w-full items-center overflow-hidden'>
+        <div className='sm:w-11/12 md:w-9/12 lg:w-6/12 xl:w-5/12 fadeUp text-center w-full relative overflow-hidden h-full'>
         {isLoading ? 
           <>
             <ModalView>
-              <div className='text-white font-extralight text-3xl bg-black z-50 rounded-xl p-6 w-9/12 lg:w-3/12 shadow-2xl min-h-144'>
+              <div className='text-white font-extralight text-3xl bg-black z-50 rounded-xl p-6 w-9/12 lg:w-full shadow-2xl min-h-144'>
                 <FontAwesomeIcon icon={faCircleNotch} className='text-indigo-500 z-50 text-7xl animate-spin'/>
                 <h2 className='my-4'>
                   {statusMessage}
