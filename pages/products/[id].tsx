@@ -112,12 +112,18 @@ const ProductPage = ({ product }: IProps) => {
         setIsLoading(false);
         exitPage();
       })
-
+      
       return {
         sent: true
       }
     } catch (e) {
       console.error(e);
+      setIsLoading(false);
+      setErrorUploading(true);
+      setErrorMessage('something went wrong, please try again')
+      setTimeout(() => {
+        setErrorUploading(false);
+      }, 2500)
       
       return {
         sent: false,
@@ -167,15 +173,11 @@ const ProductPage = ({ product }: IProps) => {
             </div>
           </>
           : errorUploading ?
-          <>
-            <div className='text-white absolute overflow-hidden z-40'>
-              <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
-            </div>
-            <div className='text-white font-extralight absolute top-64 text-4xl bg-red-300 z-50 rounded-xl p-4 w-10/12 lg:w-auto lg:max-w-2xl'>
-              <h2>error listing item. </h2>
+          <ModalView>
+            <div className='text-white font-extralight absolute text-4xl bg-red-400 z-50 rounded-xl p-6 w-10/12 lg:w-auto lg:max-w-2xl flex justify-center items-center flex-col'>
               <h2>{errorMessage}</h2>
             </div>
-          </>
+          </ModalView>
           :
           <></>
           }

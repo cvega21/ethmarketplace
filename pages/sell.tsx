@@ -90,6 +90,12 @@ const Sell = () => {
         tokenID: eventTokenID
       }
     } catch (e) {
+      setIsLoading(false);
+      setErrorUploading(true);
+      setErrorMessage('something went wrong, please try again')
+      setTimeout(() => {
+        setErrorUploading(false);
+      }, 2500)
       console.error(e);
       
       return {
@@ -326,6 +332,13 @@ const Sell = () => {
         sent: true
       }
     } catch (e) {
+      setIsLoading(false);
+      setErrorUploading(true);
+      setErrorMessage('something went wrong, please try again')
+      setTimeout(() => {
+        setErrorUploading(false);
+      }, 2500)
+
       console.error(e);
       
       return {
@@ -394,15 +407,11 @@ const Sell = () => {
             </div>
           </>
           : errorUploading ?
-          <>
-            <div className='text-white absolute overflow-hidden z-40'>
-              <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
-            </div>
-            <div className='text-white font-extralight absolute top-64 text-4xl bg-red-300 z-50 rounded-xl p-4 w-10/12 lg:w-auto lg:max-w-2xl'>
-              <h2>error listing item. </h2>
+          <ModalView>
+            <div className='text-white font-extralight absolute text-4xl bg-red-400 z-50 rounded-xl p-6 w-10/12 lg:w-auto lg:max-w-2xl flex justify-center items-center flex-col'>
               <h2>{errorMessage}</h2>
             </div>
-          </>
+          </ModalView>
           : !appContext?.account ? 
                 <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-indigoDark m-8'>
                   <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
