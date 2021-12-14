@@ -29,23 +29,23 @@ export default async function getMetadata(req: NextApiRequest, res: NextApiRespo
     }
   } else {
     // Firebase (Centralized) Implementation
-    try {
-      const refString = req.query.id as string;
-      const productRef = doc(db, 'products', refString);
-      const product = await getDoc(productRef);
-      const productData: IProduct = product.data() as IProduct;
-      const {title, description, imagePath} = productData;
+    // try {
+    //   const refString = req.query.id as string;
+    //   const productRef = doc(db, 'products', refString);
+    //   const product = await getDoc(productRef);
+    //   const productData: IProduct = product.data() as IProduct;
+    //   const {title, description, imagePath} = productData;
     
-      res.status(200).json({
-        title: title,
-        description: description,
-        imagePath: imagePath
-      });
-    } catch (e) {
-      res.status(400).json({
-        error: 'error in the firebase call.' 
+    //   res.status(200).json({
+    //     title: title,
+    //     description: description,
+    //     imagePath: imagePath
+    //   });
+    // } catch (e) {
+      res.status(405).json({
+        error: 'use POST method.' 
       })
-    }
+    // }
   }
 }
 

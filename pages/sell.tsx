@@ -187,20 +187,20 @@ const Sell = () => {
 
       // Check if the user has less than 4 listed items
 
-      // const productsQuery = query(collection(db, 'products'), where('ownerAddress','==',appContext?.account), where('forSale','==',true));
-      // const productsDocs = await getDocs(productsQuery);
-      // productsDocs.forEach((doc) => {
-      //   console.log(doc.data());
-      // })
-      // if (productsDocs.size >= 4) {
-      //   setErrorUploading(true);
-      //   setIsLoading(false);
-      //   setErrorMessage('you have hit the limit of 4 active listings.')
-      //   setTimeout(() => {
-      //     setErrorUploading(false)
-      //   }, 5000)
-      //   return
-      // }
+      const productsQuery = query(collection(db, 'products'), where('ownerAddress','==',appContext?.account), where('forSale','==',true));
+      const productsDocs = await getDocs(productsQuery);
+      productsDocs.forEach((doc) => {
+        console.log(doc.data());
+      })
+      if (productsDocs.size >= 4) {
+        setErrorUploading(true);
+        setIsLoading(false);
+        setErrorMessage('you have hit the limit of 4 active listings.')
+        setTimeout(() => {
+          setErrorUploading(false)
+        }, 5000)
+        return
+      }
       
 
       // Upload image to Firebase Storage and retrieve download URL + ref to use for key in DB
