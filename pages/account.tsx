@@ -196,7 +196,7 @@ const Account = () => {
                       />
                     </div>
                     <a 
-                      className='text-indigo-400 font-thin lg:text-4xl text-2xl my-2 bg-transparent outline-none focus:ring-indigo-800'
+                      className='text-indigo-400 font-thin text-2xl my-2 bg-transparent outline-none focus:ring-indigo-800'
                       href={`https://www.twitter.com/${twitter}`}
                       target="_blank"
                       rel="noreferrer"
@@ -214,9 +214,9 @@ const Account = () => {
                         className={`lg:text-3xl text-xl ${twitter ? 'text-indigo-200' : ''} transition-all duration-300`}
                         />
                     </div>
-                    <h2 className={`text-indigo-400 text-opacity-40 font-thin lg:text-4xl text-xl ${twitter ? 'text-opacity-100' : ''}`}>@</h2>
+                    <h2 className={`text-indigo-400 text-opacity-40 font-thin text-2xl ${twitter ? 'text-opacity-100' : ''}`}>@</h2>
                     <input 
-                      className='text-indigo-400 font-thin lg:text-4xl text-xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-indigo-400 placeholder-opacity-40 w-full group-focus:text-white' 
+                      className='text-indigo-400 font-thin text-2xl my-2 bg-transparent focus:ring-0 outline-none focus:ring-indigo-800 focus:border-transparent placeholder-indigo-400 placeholder-opacity-40 w-full group-focus:text-white' 
                       placeholder="enter your twitter"
                       onChange={e => {
                         changeInput(e, setTwitter);
@@ -235,7 +235,7 @@ const Account = () => {
                     />
                   </div>
                   <a 
-                    className='text-indigo-400 font-thin lg:text-xl text-lg my-2 bg-transparent outline-none focus:ring-indigo-800 break-all'
+                    className='text-indigo-400 font-thin lg:text-xl md:text-md text-sm my-2 bg-transparent outline-none focus:ring-indigo-800 break-all'
                     href={`https://etherscan.io/address/${appContext?.account}`} 
                     target="_blank" 
                     rel="noreferrer"
@@ -276,7 +276,7 @@ const Account = () => {
                 <h2>All NFTs</h2>
               </div>
             </div>
-            <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-12 w-6/12 mt-4 items-center fadeDown">
+            <div className="flex-col grid lg:grid-cols-3 md:grid-cols-2 gap-12 w-9/12 lg:w-9/12 mt-12 items-center fadeDown">
               {productsArr.map((product: IProduct) => {
                 return (
                   <Product
@@ -361,7 +361,7 @@ export const AccountBox = ({ name, twitter, address}: IUser) => {
               />
             </div>
             <a 
-              className='text-indigo-400 font-thin lg:text-xl text-lg my-2 bg-transparent outline-none focus:ring-indigo-800 break-all'
+              className='text-indigo-400 font-thin lg:text-xl my-2 bg-transparent outline-none focus:ring-indigo-800 break-all md:text-md text-sm'
               href={`https://etherscan.io/address/${address}`} 
               target="_blank" 
               rel="noreferrer"

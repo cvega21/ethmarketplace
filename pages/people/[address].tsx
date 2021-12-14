@@ -35,7 +35,7 @@ const PublicProfile = ({ user, productsArr }: any) => {
           <h2>All NFTs</h2>
         </div>
       </div>
-      <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-12 w-6/12 mt-4 items-center fadeDown mb-10">
+      <div className="flex-col grid lg:grid-cols-3 md:grid-cols-2 gap-12 w-9/12 lg:w-9/12 my-12 items-center fadeDown">
         {productsArr.map((product: IProduct) => {
           return (
             <Product
