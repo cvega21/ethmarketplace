@@ -88,8 +88,11 @@ const Home: NextPage = () => {
             <h2 className="font-extralight text-gray-500 text-xl md:text-4xl mt-8">
               buy and sell your real-life stuff as NFT&apos;s.
             </h2>
+            <h3 className='font-thin text-gray-500 text-lg mt-2'>
+              powered by Ethereum ⚡️
+            </h3>
           </div>
-          <div className="flex flex-col w-6/12 min-w-min md:w-3/12 lg:w-2/12 mt-6 lg:mt-32">
+          <div className="flex flex-col w-6/12 min-w-min md:w-3/12 lg:w-3/12 mt-6 lg:mt-20">
             <ActionButton theme='light' link='buy'>
               explore
             </ActionButton>
