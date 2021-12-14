@@ -6,6 +6,7 @@ import ConnectMetamask from '../components/ConnectMetamask'
 import ModalView from '../components/ModalView'
 import ChromeLink from '../components/ChromeLink';
 import PageTitle from '../components/PageTitle';
+import Footer from '../components/Footer';
 import Image from 'next/image'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
@@ -578,6 +579,7 @@ const Sell = () => {
             </>
         </div>
       </div>
+      <Footer/>
     </PageLayout>
   )
 }

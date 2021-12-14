@@ -23,6 +23,7 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import ModalView from '../../components/ModalView';
 import MetamaskFox from '../../public/MetaMask_Fox.svg'
 import ConnectMetamask from '../../components/ConnectMetamask'
+import Footer from '../../components/Footer'
 var Contract = require('web3-eth-contract');
 const web3 = new Web3();
 
@@ -134,7 +135,7 @@ const ProductPage = ({ product }: IProps) => {
 
   return (
     <PageLayout>
-      <div className='flex flex-col w-full items-center overflow-hidden'>
+      <div className='flex flex-col w-full items-center overflow-hidden mb-10'>
         <div className='sm:w-11/12 md:w-9/12 lg:w-6/12 xl:w-5/12 fadeUp text-center w-full relative overflow-hidden h-full'>
         {isLoading ? 
           <>
@@ -254,6 +255,7 @@ const ProductPage = ({ product }: IProps) => {
           </div>
         </div>
       </div>
+      <Footer/>
     </PageLayout>
   )
 }

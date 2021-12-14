@@ -6,6 +6,7 @@ import Product from "../../components/Product";
 import PageLayout from '../../constants/PageLayout';
 import { AccountBox } from '../../pages/account';
 import { useAppContext } from '../../contexts/AppContext'
+import Footer from '../../components/Footer';
 
 
 interface IProps {
@@ -34,7 +35,7 @@ const PublicProfile = ({ user, productsArr }: any) => {
           <h2>All NFTs</h2>
         </div>
       </div>
-      <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-12 w-6/12 mt-4 items-center fadeDown">
+      <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-12 w-6/12 mt-4 items-center fadeDown mb-10">
         {productsArr.map((product: IProduct) => {
           return (
             <Product
@@ -57,6 +58,7 @@ const PublicProfile = ({ user, productsArr }: any) => {
           )
         })}
       </div>
+      <Footer/>
     </PageLayout>
   )
 }

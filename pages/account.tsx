@@ -21,6 +21,7 @@ import ModalView from '../components/ModalView';
 import ChromeLink from '../components/ChromeLink';
 import MetamaskFox from '../public/MetaMask_Fox.svg';
 import WarningBanner from '../components/WarningBanner';
+import Footer from '../components/Footer';
 
 const Account = () => {
   const appContext = useAppContext();
@@ -142,7 +143,7 @@ const Account = () => {
   return (
     <PageLayout>
       <WarningBanner/>
-      <div className="text-center flex w-full flex-col justify-center items-center h-full">
+      <div className="text-center flex w-full flex-col justify-center items-center h-full mb-10">
         <div className="flex flex-col items-center w-full overflow-hidden h-full">
           {isLoading ? 
             <>
@@ -312,6 +313,7 @@ const Account = () => {
         }
         </div>
       </div>
+      <Footer/>
     </PageLayout>
   )
 }

@@ -10,6 +10,7 @@ import { IProduct } from '../types/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/Home.module.css'
+import Footer from '../components/Footer';
 
 const Buy = ({ productsArr, queryArr }: any) => {
 
@@ -60,6 +61,7 @@ const Buy = ({ productsArr, queryArr }: any) => {
         all products
       </h2>
     </div>
+    <Footer/>
   </PageLayout>
   )
 }
