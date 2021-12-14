@@ -413,14 +413,15 @@ const Sell = () => {
             </div>
           </ModalView>
           : !appContext?.account ? 
-                <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-indigoDark m-8'>
-                  <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
-                  <div className='h-full my-4'>
-                    <ConnectMetamask/>
-                  </div>
-                  <ChromeLink/>
-                </div>
-          :
+          <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-indigoDark m-8'>
+            <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
+            <div className='h-full my-4'>
+              <ConnectMetamask/>
+            </div>
+            <ChromeLink/>
+          </div>
+          :<></>}
+
           <>
             <div className='xl:w-4/12 w-11/12'>
               <PageTitle text='sell your stuff'/>
@@ -574,7 +575,6 @@ const Sell = () => {
             </button>
             </div>
             </>
-          }
         </div>
       </div>
     </PageLayout>
