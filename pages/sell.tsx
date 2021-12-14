@@ -286,6 +286,7 @@ const Sell = () => {
 
       // need to change comparison below to be between some unique key
       if (product.title === productTitle) {
+        setTitle(product.title);
         console.log('inside product title == product title')
         console.log(product)
 
@@ -397,31 +398,30 @@ const Sell = () => {
             </ModalView>
           </>
           : productUploaded ?
-          <>
-            <div className='text-white absolute overflow-hidden z-40'>
-              <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
-            </div>
-            <div className='text-white font-extralight absolute top-64 text-6xl bg-green-600 z-50 rounded-xl p-4 w-10/12 lg:w-3/12 lg:max-w-2xl'>
-              <h2 className='pb-4'>🎉</h2>  
-              <h2><p className='font-normal'>{`${title}`}</p> is now live!</h2>
-            </div>
-          </>
+              <ModalView>
+                <div className='text-white font-extralight text-6xl bg-green-600 z-50 rounded-xl p-4 w-10/12 lg:w-3/12 lg:max-w-2xl'>
+                  <h2 className='pb-4'>🎉</h2>  
+                  <h2><p className='font-normal'>{`${title}`}</p> is now live!</h2>
+                </div>
+              </ModalView>
           : errorUploading ?
-          <ModalView>
-            <div className='text-white font-extralight absolute text-4xl bg-red-400 z-50 rounded-xl p-6 w-10/12 lg:w-auto lg:max-w-2xl flex justify-center items-center flex-col'>
-              <h2>{errorMessage}</h2>
-            </div>
-          </ModalView>
+              <ModalView>
+                <div className='text-white font-extralight absolute text-4xl bg-red-400 z-50 rounded-xl p-6 w-10/12 lg:w-auto lg:max-w-2xl flex justify-center items-center flex-col'>
+                  <h2>{errorMessage}</h2>
+                </div>
+              </ModalView>
           : !appContext?.account ? 
-          <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-indigoDark m-8'>
-            <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
-            <div className='h-full my-4'>
-              <ConnectMetamask/>
-            </div>
-            <ChromeLink/>
-          </div>
-          :<></>}
-
+              <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-indigoDark m-8'>
+                <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
+                <div className='h-full my-4'>
+                  <ConnectMetamask/>
+                </div>
+                <ChromeLink/>
+              </div>
+          :
+            <>
+            </>
+          }
           <>
             <div className='xl:w-4/12 w-11/12'>
               <PageTitle text='sell your stuff'/>
@@ -434,9 +434,10 @@ const Sell = () => {
                     setState={setProductToList}
                     currentState={productToList} 
                     title={"product"} 
-                    placeholder={''} 
+                    placeholder={'no existing products available'} 
                     options={productsTitleArr} 
                     textArea={false}
+                    disabled={true}
                   />
                 </div>
               </div>
@@ -567,7 +568,7 @@ const Sell = () => {
             }
             <button 
               type='button'
-              className="inline-flex justify-center py-2 px-2 border border-transparent shadow-sm text-xl font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 w-full mt-20"
+              className="inline-flex justify-center py-2 px-2 border border-transparent shadow-sm text-xl font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 w-full my-16"
               onClick={productToList ? () => listExistingItem(productToList) : listNewItem}  
               disabled={isLoading}
               >

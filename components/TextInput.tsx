@@ -8,7 +8,8 @@ interface ITextInput {
   placeholder: string,
   options: string[],
   textArea: boolean,
-  className?: string
+  className?: string,
+  disabled?: boolean
 }
 
 const TextInput = (props: ITextInput) => {
@@ -47,6 +48,7 @@ const TextInput = (props: ITextInput) => {
                 placeholder={props.placeholder}
                 onChange={e => props.changeInput(e, props.setState)}
                 value={props.currentState}
+                disabled={props.disabled}
               />
           }
         </div>

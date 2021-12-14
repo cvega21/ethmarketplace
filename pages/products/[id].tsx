@@ -163,15 +163,12 @@ const ProductPage = ({ product }: IProps) => {
             </ModalView>
           </>
           : txSuccess ?
-          <>
-            <div className='text-white absolute overflow-hidden z-40'>
-              <div className='bg-gray-900 w-screen opacity-50 h-screen'></div>
-            </div>
-            <div className='text-white font-extralight absolute top-64 text-6xl bg-green-600 z-50 rounded-xl p-4 w-10/12 lg:w-3/12 lg:max-w-2xl'>
+          <ModalView>
+            <div className='text-white font-extralight absolute text-6xl bg-green-600 z-50 rounded-xl p-4 w-9/12 lg:max-w-2xl'>
               <h2 className='pb-4'>🎉</h2>  
               <h2>Transaction confirmed!</h2>
             </div>
-          </>
+          </ModalView>
           : errorUploading ?
           <ModalView>
             <div className='text-white font-extralight absolute text-4xl bg-red-400 z-50 rounded-xl p-6 w-10/12 lg:w-auto lg:max-w-2xl flex justify-center items-center flex-col'>
