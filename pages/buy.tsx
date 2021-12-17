@@ -34,7 +34,7 @@ const Buy = ({ productsArr, queryArr }: any) => {
       </h2>
       <div className="flex flex-col gap-10 md:grid md:grid-cols-2 md:gap-20 xl:grid-cols-3 fadeDown">
         {productsArr.map((product: IProduct) => {
-          // if (product.trending) {
+          if (product.trending) {
             return (
               <Product
                 buyNowPrice={product.buyNowPrice}
@@ -54,12 +54,37 @@ const Buy = ({ productsArr, queryArr }: any) => {
                 tokenID={product.tokenID}
               />
             )
-          // }
+          }
         })}
       </div>
       <h2 className="text-white text-2xl text-left w-full px-6 py-2 my-6 font-thin border-b">
         all products
       </h2>
+      <div className="flex flex-col gap-10 md:grid md:grid-cols-2 md:gap-20 xl:grid-cols-3 fadeDown my-6">
+        {productsArr.map((product: IProduct) => {
+          if (!product.trending) {
+            return (
+              <Product
+                buyNowPrice={product.buyNowPrice}
+                condition={''}
+                deliveryOpts={''}
+                description={product.description}
+                forSale={product.forSale}
+                imagePath={product.imagePath}
+                key={product.imagePath}
+                listedSince={product.listedSince}
+                location={product.location}
+                ownerAddress={''}
+                ownerName={''}
+                refString={product.refString}
+                title={product.title}
+                tokenURI={product.tokenURI}
+                tokenID={product.tokenID}
+              />
+            )
+          }
+        })}
+      </div>
     </div>
     <Footer/>
   </PageLayout>
