@@ -1,6 +1,6 @@
 // require('dotenv').config();
-const key = process.env.PINATA_KEY;
-const secret = process.env.PINATA_SECRET;
+const key = process.env.NEXT_PUBLIC_PINATA_KEY;
+const secret = process.env.NEXT_PUBLIC_PINATA_SECRET;
 
 import axios from 'axios'
 
