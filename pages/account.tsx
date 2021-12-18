@@ -116,7 +116,7 @@ const Account = () => {
     
     return () => {
     }
-  }, [appContext?.account, productsArr])
+  }, [appContext?.account])
 
 
   const saveChanges = async () => {
@@ -287,7 +287,7 @@ const Account = () => {
                     description={product.description}
                     forSale={product.forSale}
                     imagePath={product.imagePath}
-                    key={product.imagePath}
+                    key={product.refString}
                     listedSince={product.listedSince}
                     location={product.location}
                     ownerAddress={''}
