@@ -19,6 +19,7 @@ if (!admin.apps.length) {
 const db = getFirestore(); 
 
 export default async function verifyNonce(req: NextApiRequest, res: NextApiResponse) {
+  console.log('********Verifying Nonce**********')
   
   try {
     if (req.method !== 'POST') {
@@ -37,12 +38,13 @@ export default async function verifyNonce(req: NextApiRequest, res: NextApiRespo
     const address = req.body.address;
     const sig = req.body.signature;
 
-    console.log('getting the user\'s nonce...')
+    console.log('getting the user and their nonce...')
     const userRef = doc(db, 'users', address);
     const userDoc = await getDoc(userRef);
     
 
     if (userDoc.exists()) {
+      console.log('user exists...')
       const existingNonce = userDoc.data()?.nonce;
 
       const recoveredAddress = recoverPersonalSignature({

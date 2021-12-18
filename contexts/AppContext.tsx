@@ -28,37 +28,41 @@ export const AppWrapper: React.FC = ({ children }) => {
   
   const connectMetamask = async () => {
     const defaultAuth = getAuth(firebase);
-    const getNonceURI = 'https://www.google.com'
-    const verifyNonceURI = 'https://www.google.com'
+    const getNonceURI = '/api/auth/getNonce'
+    const verifyNonceURI = '/api/auth/verifyNonce'
 
     try {
       console.log('requesting ethereum accounts...')
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'});
       const account = accounts[0];
       setAccount(account);
-
+      console.log(`account: ${account}`)
+      
       console.log('getting nonce...')
-      // const authResponse = await axios.post(`${getNonceURI}`, {
-      //   address: accounts[0]
-      // })
+      const nonceResponse = await axios.post(`${getNonceURI}`, {
+        address: accounts[0]
+      })
+      console.log(`nonce: ${nonceResponse.data.nonce}`)
       
       console.log('requesting eth signature...')
       const ethSignature = await window.ethereum.request({
         method: 'personal_sign',
         params: [
-          `0x${toHex('3')}`,
+          `0x${toHex(nonceResponse.data.nonce)}`,
           accounts[0]
         ]
       })
+      console.log(`eth signature: ${ethSignature}`)
       
       console.log('verifying nonce...')
-      // const verifyNonce = await axios.post(`${verifyNonceURI}`, {
-        //   address: accounts[0],
-        //   signature: ethSignature
-        // })
+      const verifyResponse = await axios.post(`${verifyNonceURI}`, {
+        address: accounts[0],
+        signature: ethSignature
+      })
+      console.log(`nonce response (auth token): ${verifyResponse.data.token}`)
         
       console.log('signing in...')
-      signInWithCustomToken(defaultAuth, 'test')
+      signInWithCustomToken(defaultAuth, verifyResponse.data.token)
 
       return account
     } catch (e) {

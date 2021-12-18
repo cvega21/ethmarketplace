@@ -25,7 +25,7 @@ const EthButton = (props: IEthButton) => {
   useEffect(() => {
     const initEthereum = async () => {
       if (window.ethereum.selectedAddress) {
-        await appContext?.connectMetamask();
+        await appContext?.refreshMetamask();
       }
     }
     

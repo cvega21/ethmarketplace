@@ -42,7 +42,7 @@ const Account = () => {
       if (window.ethereum.selectedAddress) {
         const web3 = new Web3;
         
-        await appContext?.connectMetamask();
+        await appContext?.refreshMetamask();
         const weiBalance = await window.ethereum.request({ method: 'eth_getBalance', params: [appContext?.account, 'latest'] });
         const ethBalance = web3.utils.fromWei(weiBalance, 'ether')
         setEthBalance(parseFloat(ethBalance).toFixed(2));

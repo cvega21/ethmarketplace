@@ -48,7 +48,7 @@ const ProductPage = ({ product }: IProps) => {
   useEffect(() => {
     const initEthereum = async () => {
       if (window.ethereum.selectedAddress) {
-        await appContext?.connectMetamask();
+        await appContext?.refreshMetamask();
         await window.ethereum.send('eth_requestAccounts');
         window.web3 = new Web3(window.ethereum);
         const provider = await detectEthereumProvider();
