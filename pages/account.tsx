@@ -75,26 +75,27 @@ const Account = () => {
     //does the account already exist in the DB? if it does, load its info in state. If it doesn't, load empty profile and create a new record in DB
     setIsLoading(true);
 
-    console.log(appContext?.account);
-    const q = query(collection(db, 'users'), where('address','==',appContext?.account));
-    
-    (async () => {
-      const queryRef = await getDocs(q);
-      const querySnapshot = queryRef.docs;
-      let counter = 0;
-            
-      querySnapshot.forEach((doc) => {
-        const { name, twitter } = doc.data();
-        
-        if (counter === 0) {
-          setUserID(doc.id)
-          // setName(name);
-          appContext?.setName(name);
-          setTwitter(twitter);
-          setNewUser(false);
-        }
-      })
-    })()
+    if (appContext?.account) {
+      const q = query(collection(db, 'users'), where('address','==',appContext?.account));
+      
+      (async () => {
+        const queryRef = await getDocs(q);
+        const querySnapshot = queryRef.docs;
+        let counter = 0;
+              
+        querySnapshot.forEach((doc) => {
+          const { name, twitter } = doc.data();
+          
+          if (counter === 0) {
+            setUserID(doc.id)
+            // setName(name);
+            appContext?.setName(name);
+            setTwitter(twitter);
+            setNewUser(false);
+          }
+        })
+      })()
+    }
     
     setIsLoading(false);
   }, [appContext])

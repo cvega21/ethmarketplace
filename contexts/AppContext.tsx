@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState} from 'react'
-import { Auth, getAuth, signInWithCustomToken } from "firebase/auth";
+import React, { createContext, useContext, useEffect, useState} from 'react'
+import { Auth, getAuth, signInWithCustomToken, User } from "firebase/auth";
 import axios from 'axios';
 import { toHex } from '../utils/utils'
 import { firebase } from '../constants/firebase'
@@ -23,8 +23,9 @@ export const AppWrapper: React.FC = ({ children }) => {
   const [navIsOpen, setNavIsOpen] = useState(false);
   const [warningIsOpen, setWarningIsOpen] = useState(true);
   const [account, setAccount] = useState('');
+  const [firebaseAccount, setFirebaseAccount] = useState<any>();
   const [name, setName] = useState('');
-  const [auth, setAuth] = useState<Auth>();
+  const auth = getAuth(firebase);
   
   const connectMetamask = async () => {
     const defaultAuth = getAuth(firebase);
@@ -34,9 +35,7 @@ export const AppWrapper: React.FC = ({ children }) => {
     try {
       console.log('requesting ethereum accounts...')
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'});
-      const account = accounts[0];
-      setAccount(account);
-      console.log(`account: ${account}`)
+      console.log(`account: ${accounts[0]}`)
       
       console.log('getting nonce...')
       const nonceResponse = await axios.post(`${getNonceURI}`, {
@@ -50,7 +49,8 @@ export const AppWrapper: React.FC = ({ children }) => {
         params: [
           `0x${toHex(nonceResponse.data.nonce)}`,
           accounts[0]
-        ]
+        ],
+        message: 'test!'
       })
       console.log(`eth signature: ${ethSignature}`)
       
@@ -62,7 +62,10 @@ export const AppWrapper: React.FC = ({ children }) => {
       console.log(`nonce response (auth token): ${verifyResponse.data.token}`)
         
       console.log('signing in...')
-      signInWithCustomToken(defaultAuth, verifyResponse.data.token)
+      signInWithCustomToken(defaultAuth, verifyResponse.data.token);
+
+      const account = accounts[0];
+      // setAccount(account);
 
       return account
     } catch (e) {
@@ -74,7 +77,7 @@ export const AppWrapper: React.FC = ({ children }) => {
     try {
       const accountArr = await window.ethereum.request({ method:
       'eth_accounts'})
-      setAccount(accountArr[0])
+      // setAccount(accountArr[0])
       return accountArr[0]
     } catch (e) {
       return `oops. ${e}`
@@ -84,10 +87,30 @@ export const AppWrapper: React.FC = ({ children }) => {
   const addWalletListener = async () => {
     if (window.ethereum) {
       window.ethereum.on('accountsChanged', (accounts: Array<string>) => {
-        accounts.length > 0 ? setAccount(accounts[0]) : setAccount('');
+        if (accounts && accounts.length > 0) {
+          // setAccount(accounts[0]);
+        } else {
+          // user has signed out
+          setAccount('');
+          auth.signOut();
+        }
       })
     }
   }
+
+  useEffect(() => {
+    const unlisten = auth.onAuthStateChanged((authUser) => {
+      authUser ? setAccount(authUser.uid) : setAccount('');
+
+      console.log('inside auth state changed !!!')
+      console.log(authUser?.uid);
+    })
+
+    return () => {
+      unlisten();
+    }
+
+  }, []);
 
 
   
