@@ -375,7 +375,7 @@ const Sell = () => {
           {isLoading ? 
           <>
             <ModalView>
-              <div className='text-white font-extralight text-3xl bg-black z-50 rounded-xl p-6 w-9/12 lg:w-3/12 shadow-2xl min-h-144'>
+              <div className='text-white font-extralight text-3xl bg-black z-50 rounded-xl p-6 w-full flex flex-col justify-center items-center shadow-2xl min-h-144'>
                 <FontAwesomeIcon icon={faCircleNotch} className='text-indigo-500 z-50 text-7xl animate-spin'/>
                 <h2 className='my-4'>
                   {statusMessage}
@@ -411,14 +411,16 @@ const Sell = () => {
                   <h2>{errorMessage}</h2>
                 </div>
               </ModalView>
-          : !appContext?.account ? 
-              <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-indigoDark m-8'>
-                <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
-                <div className='h-full my-4'>
-                  <ConnectMetamask/>
+          : !appContext?.account ?
+              <ModalView>
+                <div className=' bg-black rounded-2xl flex flex-col items-center justify-between shadow-indigoDark m-8 py-6 px-16'>
+                  <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
+                  <div className='h-full my-4'>
+                    <ConnectMetamask/>
+                  </div>
+                  <ChromeLink/>
                 </div>
-                <ChromeLink/>
-              </div>
+              </ModalView>
           :
             <>
             </>

@@ -1,22 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useAppContext } from '../contexts/AppContext';
+// import detectEthereumProvider from '@metamask/detect-provider'
 
 
 const ConnectMetamask = () => {
   const appContext = useAppContext();
-
-  useEffect(() => {
-    const initEthereum = async () => {
-      if (window.ethereum.selectedAddress) {        
-        await appContext?.connectMetamask();
-      }
-    }
-
-    initEthereum();
-    
-    appContext?.addWalletListener();
-    
-  }, [appContext])
 
   return (
     <button 
