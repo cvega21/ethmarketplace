@@ -194,11 +194,18 @@ const ProductPage = ({ product }: IProps) => {
             </div>
           </div>
           <div className='flex flex-col items-center'>
-            <div className='w-10/12 flex items-start'>
+            <div className='w-10/12 flex items-center'>
               <h1 className='text-gray-300 font-extralight text-xl'>listed by </h1>
               <Link href={`/people/${product.ownerAddress}`}>
-                <a className='text-indigo-400 font-extralight text-xl ml-1'>{product.ownerName.toLowerCase()}</a>
+                <a className='text-indigo-400 font-extralight text-xl ml-1 mr-2'>{product.ownerName.toLowerCase()}</a>
               </Link>
+              <Image 
+                  src='/avi_placeholder.png' 
+                  height='25' 
+                  width='25' 
+                  alt='avatar placeholder'
+                  className='rounded-full group-hover:opacity-60 min-w-full min-h-full'
+                />
             </div>
             <div className='w-full flex items-center justify-around'>
               <div className='w-10/12'>
