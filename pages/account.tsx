@@ -303,7 +303,7 @@ const Account = () => {
           </div>
           :
           <>          
-            <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between  shadow-indigoDark m-8'>
+            <div className='w-auto bg-black rounded-2xl py-8 px-16 flex flex-col items-center justify-between shadow-indigoDark m-8'>
               <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
               <div className='h-full my-4'>
                 <ConnectMetamask/>
