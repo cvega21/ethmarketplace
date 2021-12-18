@@ -2,7 +2,8 @@ import React, { createContext, useContext, useEffect, useState} from 'react'
 import { Auth, getAuth, signInWithCustomToken, User } from "firebase/auth";
 import axios from 'axios';
 import { toHex } from '../utils/utils'
-import { firebase } from '../constants/firebase'
+import { db, firebase } from '../constants/firebase'
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 interface IAppContext {
   account: string
@@ -59,12 +60,31 @@ export const AppWrapper: React.FC = ({ children }) => {
         address: accounts[0],
         signature: ethSignature
       })
-      console.log(`nonce response (auth token): ${verifyResponse.data.token}`)
-        
-      console.log('signing in...')
-      signInWithCustomToken(defaultAuth, verifyResponse.data.token);
+      
+      if (verifyResponse.status !== 200) {
+        alert('there was an error verifying your account.');
 
-      const account = accounts[0];
+        return
+      }
+
+      console.log(`nonce response (auth token): ${verifyResponse.data.token}`)
+      
+      console.log('signing in...')
+      const firebaseCreds = await signInWithCustomToken(defaultAuth, verifyResponse.data.token);
+      console.log(`firebaseCreds.user = ${firebaseCreds.user}`);
+
+      console.log('updating nonce (CLIENT)...')
+      const userRef = doc(db, 'users', accounts[0]);
+      const userDoc = await getDoc(userRef);
+      console.log(`userRef:`)
+      console.log(userRef);
+      console.log(userDoc.data());
+      
+      await updateDoc(userRef, {
+        nonce: `Please sign the random nonce to complete sign-in. This is only used to verify your account and does not send any transaction nor incur gas fees. Current nonce: ${Math.floor(Math.random() * 1000000).toString()}`,
+      });
+
+      // const account = accounts[0];
       // setAccount(account);
 
       return account

@@ -41,7 +41,6 @@ export default async function verifyNonce(req: NextApiRequest, res: NextApiRespo
     console.log('getting the user and their nonce...')
     const userRef = doc(db, 'users', address);
     const userDoc = await getDoc(userRef);
-    
 
     if (userDoc.exists()) {
       console.log('user exists...')
@@ -53,10 +52,6 @@ export default async function verifyNonce(req: NextApiRequest, res: NextApiRespo
       });
 
       if (recoveredAddress === address) {
-        await updateDoc(userRef, {
-          nonce: `Please sign the random nonce to complete sign-in. This is only used to verify your account and does not send any transaction nor incur gas fees. Current nonce: ${Math.floor(Math.random() * 1000000).toString()}`,
-        });
-
         const firebaseToken = await admin.auth().createCustomToken(address);
         
         res.status(200).json({ token: firebaseToken });
