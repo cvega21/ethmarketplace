@@ -5,19 +5,20 @@ import { Auth, getAuth, signInWithCustomToken } from "firebase/auth";
 import { recoverPersonalSignature } from '@metamask/eth-sig-util';
 require('dotenv').config();
 
-admin.initializeApp({
-  credential: admin.credential.cert({
-    projectId: "ethmarketplace",
-    privateKey: process.env.PRIVATE_KEY,
-    clientEmail: process.env.CLIENT_EMAIL,  
-  })
-});
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.PROJECT_ID,
+      clientEmail: process.env.CLIENT_EMAIL,  
+      privateKey: process.env.PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    })
+  });
+}
 
 const db = getFirestore(); 
 
 export default async function getNonce(req: NextApiRequest, res: NextApiResponse) {
   console.log('hi')
-  console.log(process.env.TEST);
 
     try {
       if (req.method !== 'POST') {
@@ -33,13 +34,10 @@ export default async function getNonce(req: NextApiRequest, res: NextApiResponse
         return 
       }
 
-      console.log('hi')
-      console.log(req.method)
-      res.status(200).json({gay: 'true'})
-
-      const userRef = await doc(db, 'users', req.body.address);
+      console.log('getting user ref and doc...')
+      const userRef = doc(db, 'users', req.body.address);
       const userDoc = await getDoc(userRef);
-      
+      console.log(userDoc.data())
       
 
       if (userDoc.exists()) {
