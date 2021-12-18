@@ -1,4 +1,8 @@
 import React, { createContext, useContext, useState} from 'react'
+import { Auth, getAuth, signInWithCustomToken } from "firebase/auth";
+import axios from 'axios';
+import { toHex } from '../utils/utils'
+import { firebase } from '../constants/firebase'
 
 interface IAppContext {
   account: string
@@ -20,12 +24,42 @@ export const AppWrapper: React.FC = ({ children }) => {
   const [warningIsOpen, setWarningIsOpen] = useState(true);
   const [account, setAccount] = useState('');
   const [name, setName] = useState('');
+  const [auth, setAuth] = useState<Auth>();
   
   const connectMetamask = async () => {
+    const defaultAuth = getAuth(firebase);
+    const getNonceURI = 'https://www.google.com'
+    const verifyNonceURI = 'https://www.google.com'
+
     try {
+      console.log('requesting ethereum accounts...')
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'});
       const account = accounts[0];
       setAccount(account);
+
+      console.log('getting nonce...')
+      // const authResponse = await axios.post(`${getNonceURI}`, {
+      //   address: accounts[0]
+      // })
+      
+      console.log('requesting eth signature...')
+      const ethSignature = await window.ethereum.request({
+        method: 'personal_sign',
+        params: [
+          `0x${toHex('3')}`,
+          accounts[0]
+        ]
+      })
+      
+      console.log('verifying nonce...')
+      // const verifyNonce = await axios.post(`${verifyNonceURI}`, {
+        //   address: accounts[0],
+        //   signature: ethSignature
+        // })
+        
+      console.log('signing in...')
+      signInWithCustomToken(defaultAuth, 'test')
+
       return account
     } catch (e) {
       return `oops. ${e}`

@@ -20,6 +20,13 @@ export const getMdTokenURI = (address: string) => {
   return address.substr(8,14) + '...' + address.substr(-6,6);
 }
 
+export const toHex = (stringToConvert: string) => {
+  return stringToConvert
+    .split('')
+    .map((c) => c.charCodeAt(0).toString(16).padStart(2, '0'))
+    .join('');
+}
+
 export const changeInput = (e: React.ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<any>>) => {
   let newValue = e.currentTarget.value;
   setState(newValue);
