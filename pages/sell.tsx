@@ -28,6 +28,7 @@ import contractABI from '../build/contracts/Firechain.json';
 import detectEthereumProvider from '@metamask/detect-provider'
 import WarningBanner from '../components/WarningBanner';
 var Contract = require('web3-eth-contract');
+const web3 = new Web3();
  
 const Sell = () => {
   const appContext = useAppContext();
@@ -53,7 +54,7 @@ const Sell = () => {
   
   const mintNFTAndListForSale = async (tokenURI: string, price: string, account: string) => {
     const fireChainContract = new Contract(contractABI.abi, CONTRACT_ADDRESS);
-    const priceInWei = window.web3.utils.toWei(price, 'ether');
+    const priceInWei = web3.utils.toWei(price, 'ether');
     let eventTokenID: number = 0;
     console.log('inside mintNFTAndListForSale')
 
@@ -61,7 +62,7 @@ const Sell = () => {
       const mintEventListener = await fireChainContract.methods.mintNFTAndListForSale(tokenURI, priceInWei).send({
         to: CONTRACT_ADDRESS,
         from: account, 
-        value: window.web3.utils.toHex(MINT_PRICE),
+        value: web3.utils.toHex(MINT_PRICE),
       })
       .on('transactionHash', (hash: any) => {
         console.log('****TX HASH EMITTED****');
@@ -107,11 +108,14 @@ const Sell = () => {
   }
             
     useEffect(() => {
+      console.log('inside useeffect')
+      console.log(appContext)
+
       const initEthereum = async () => {
         if (window.ethereum.selectedAddress) {
           await appContext?.refreshMetamask();
           await window.ethereum.send('eth_requestAccounts');
-          window.web3 = new Web3(window.ethereum);
+          // window.web3 = new Web3(window.ethereum);
           const provider = await detectEthereumProvider();
           console.log(`provider checked!. value:`)
           console.log(provider);
@@ -126,7 +130,7 @@ const Sell = () => {
       
       initEthereum();
       
-      appContext?.addWalletListener();
+      const wallet = appContext?.addWalletListener();
       
       const q = query(collection(db, 'users'), where('address','==',appContext?.account));
       
@@ -143,8 +147,12 @@ const Sell = () => {
         }
       })
     })()
+
+    return () => {
+      wallet;
+    }
   
-  }, [appContext])
+  }, [appContext?.account])
 
   useEffect(() => {
 
@@ -278,7 +286,7 @@ const Sell = () => {
     setIsLoading(true);
     setStatusMessage('creating transaction...'); 
     const fireChainContract = new Contract(contractABI.abi, CONTRACT_ADDRESS);
-    const priceInWei = window.web3.utils.toWei(buyNowPrice.toString(), 'ether');
+    const priceInWei = web3.utils.toWei(buyNowPrice.toString(), 'ether');
     let newProduct: IProduct = productsArr[0];
     console.log('entering loop...')
 

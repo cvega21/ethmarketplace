@@ -27,8 +27,6 @@ import Footer from '../../components/Footer'
 var Contract = require('web3-eth-contract');
 const web3 = new Web3();
 
-
-
 interface IProps {
   product: IProduct
 }
@@ -44,13 +42,15 @@ const ProductPage = ({ product }: IProps) => {
   const router = useRouter();
   const { id } = router.query;
 
+ 
+
 
   useEffect(() => {
     const initEthereum = async () => {
       if (window.ethereum.selectedAddress) {
         await appContext?.refreshMetamask();
         await window.ethereum.send('eth_requestAccounts');
-        window.web3 = new Web3(window.ethereum);
+        // window.web3 = new Web3(window.ethereum);
         const provider = await detectEthereumProvider();
         console.log(`provider checked!. value:`)
         console.log(provider);
@@ -72,14 +72,14 @@ const ProductPage = ({ product }: IProps) => {
     setIsLoading(true);
     setStatusMessage('creating transaction...');  
     const fireChainContract = new Contract(contractABI.abi, CONTRACT_ADDRESS);
-    const priceInWei = window.web3.utils.toWei(price, 'ether');
+    const priceInWei = web3.utils.toWei(price, 'ether');
     console.log('inside buyNFT');
 
     try {
       const buyEventListener = await fireChainContract.methods.buyItem(tokenID).send({
         to: CONTRACT_ADDRESS,
         from: account, 
-        value: window.web3.utils.toHex(priceInWei),
+        value: web3.utils.toHex(priceInWei),
       })
       .on('transactionHash', (hash: any) => {
         console.log('****TX HASH EMITTED****');
