@@ -106,11 +106,12 @@ export const AppWrapper: React.FC = ({ children }) => {
 
   const addWalletListener = async () => {
     if (window.ethereum) {
-      window.ethereum.on('accountsChanged', (accounts: Array<string>) => {
+      const listener = window.ethereum.on('accountsChanged', (accounts: Array<string>) => {
         if (accounts && accounts.length > 0) {
           // setAccount(accounts[0]);
         } else {
           // user has signed out
+          console.log('inside wallet listener... user has signed out')
           setAccount('');
           auth.signOut();
         }
@@ -120,10 +121,9 @@ export const AppWrapper: React.FC = ({ children }) => {
 
   useEffect(() => {
     const unlisten = auth.onAuthStateChanged((authUser) => {
-      authUser ? setAccount(authUser.uid) : setAccount('');
-
       console.log('inside auth state changed !!!')
-      console.log(authUser?.uid);
+
+      authUser ? setAccount(authUser.uid) : setAccount('');
     })
 
     return () => {

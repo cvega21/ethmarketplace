@@ -49,6 +49,14 @@ export const useEthereum = () => {
   const [shortAccount, setShortAccount] = useState('');
 
   useEffect(() => {
+    appContext?.addWalletListener();
+    
+    return () => {
+      // remove wallet listener
+    }
+  }, [])
+
+  useEffect(() => {
     const initEthereum = async () => {
       
       if (window.ethereum.selectedAddress) {

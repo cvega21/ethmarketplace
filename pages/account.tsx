@@ -12,8 +12,8 @@ import { faCircleNotch, faEdit, faUserAstronaut, faLocationArrow, faUser } from 
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { getShortAddress, getMediumAddress } from '../utils/utils';
 import { IProduct, IUser } from '../types/types';
-import { changeInput } from '../utils/utils';
-import { db } from '../constants/firebase';
+import { changeInput, useEthereum } from '../utils/utils';
+import { db, firebase } from '../constants/firebase';
 import { collection, getFirestore, doc, setDoc, addDoc, query, where, getDocs  } from "firebase/firestore";
 import Product from '../components/Product';
 import ConnectMetamask from '../components/ConnectMetamask'
@@ -22,63 +22,39 @@ import ChromeLink from '../components/ChromeLink';
 import MetamaskFox from '../public/MetaMask_Fox.svg';
 import WarningBanner from '../components/WarningBanner';
 import Footer from '../components/Footer';
+import { getAuth } from 'firebase/auth';
 
 const Account = () => {
   const appContext = useAppContext();
-  const [shortAccount, setShortAccount] = useState<string>('');
   const [newUser, setNewUser] = useState<boolean>(true);
   const [userID, setUserID] = useState<string>('');
   const [infoHasChanged, setInfoHasChanged] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [twitter, setTwitter] = useState<string>('');
-  const [ethBalance, setEthBalance] = useState<string>('');
   const [productsArr, setProductsArr] = useState<Array<IProduct>>([]);
-  // const [MetamaskLogo, setMetamaskLogo] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
-  const metamask = useRef(null);
-  
+  const web3 = new Web3;
+  const { ethBalance } = useEthereum();
+  const auth = getAuth(firebase);
+
   useEffect(() => {
-    const initEthereum = async () => {
-      if (window.ethereum.selectedAddress) {
-        const web3 = new Web3;
-        
-        await appContext?.refreshMetamask();
-        const weiBalance = await window.ethereum.request({ method: 'eth_getBalance', params: [appContext?.account, 'latest'] });
-        const ethBalance = web3.utils.fromWei(weiBalance, 'ether')
-        setEthBalance(parseFloat(ethBalance).toFixed(2));
-        setShortAccount(getMediumAddress(appContext?.account as string));
-
-        await window.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x3' }],
-        });
-      }
-    }
-
-    initEthereum();
-    
-    appContext?.addWalletListener();
-
-    if (appContext?.account === '') {
-      setShortAccount('');
-      setNewUser(true);
-      setUserID('');
-      setInfoHasChanged(false);
-      appContext.setName('');
-      setTwitter('');
-    }
+    // TESTING THE REMOVAL OF CODE BELOW.... DO NOT DELETE
+    // if (appContext?.account === '') {
+    //   // setShortAccount('');
+    //   setNewUser(true);
+    //   setUserID('');
+    //   setInfoHasChanged(false);
+    //   appContext.setName('');
+    //   setTwitter('');
+    // }
 
     
-  }, [appContext])
-  
-  useEffect(() => {
-    //does the account already exist in the DB? if it does, load its info in state. If it doesn't, load empty profile and create a new record in DB
-    setIsLoading(true);
-
+    // when metamask injects the account, search for the user's info in Firestore
     if (appContext?.account) {
-      const q = query(collection(db, 'users'), where('address','==',appContext?.account));
+      setIsLoading(true);
       
       (async () => {
+        const q = query(collection(db, 'users'), where('address','==',appContext?.account));
         const queryRef = await getDocs(q);
         const querySnapshot = queryRef.docs;
         let counter = 0;
@@ -95,13 +71,11 @@ const Account = () => {
           }
         })
       })()
+      setIsLoading(false);
     }
     
-    setIsLoading(false);
-  }, [appContext])
 
-  useEffect(() => {
-
+    // after getting user's info, get their products' NFT metadata
     (async () => {
       if (appContext?.account && productsArr.length === 0) {
         const productsQuery = query(collection(db, 'products'), where('ownerAddress','==',appContext?.account));
@@ -113,15 +87,14 @@ const Account = () => {
         });
       }
     })()
-    
-    return () => {
-    }
+
   }, [appContext?.account])
 
 
   const saveChanges = async () => {
     setIsLoading(true);  
     
+    // ****NEED TO UPDATE BELOW to match new firebase security schemas****
     try {
       const newUserRef = doc(collection(db, 'users'));
       const newUser: IUser = {
