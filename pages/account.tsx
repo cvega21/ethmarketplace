@@ -1,92 +1,75 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
-import PageLayout from '../constants/PageLayout';
-import ActionButton from '../components/ActionButton';
-import Web3 from "web3";
-import Web3Modal from "web3modal";
-import { useAppContext } from '../contexts/AppContext';
+import { getAuth } from 'firebase/auth';
 import Image from 'next/image';
-import BN from 'bn.js';
+import Web3 from "web3";
+import { collection, doc, setDoc, query, where, getDocs, getDoc  } from "firebase/firestore";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleNotch, faEdit, faUserAstronaut, faLocationArrow, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faEdit, faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { getShortAddress, getMediumAddress } from '../utils/utils';
+import ConnectMetamask from '../components/ConnectMetamask'
+import ChromeLink from '../components/ChromeLink';
+import Footer from '../components/Footer';
+import ModalView from '../components/ModalView';
+import Product from '../components/Product';
+import WarningBanner from '../components/WarningBanner';
+import PageLayout from '../constants/PageLayout';
+import { db, firebase } from '../constants/firebase';
+import { useAppContext } from '../contexts/AppContext';
+import MetamaskFox from '../public/MetaMask_Fox.svg';
 import { IProduct, IUser } from '../types/types';
 import { changeInput, useEthereum } from '../utils/utils';
-import { db, firebase } from '../constants/firebase';
-import { collection, getFirestore, doc, setDoc, addDoc, query, where, getDocs  } from "firebase/firestore";
-import Product from '../components/Product';
-import ConnectMetamask from '../components/ConnectMetamask'
-import ModalView from '../components/ModalView';
-import ChromeLink from '../components/ChromeLink';
-import MetamaskFox from '../public/MetaMask_Fox.svg';
-import WarningBanner from '../components/WarningBanner';
-import Footer from '../components/Footer';
-import { getAuth } from 'firebase/auth';
 
 const Account = () => {
   const appContext = useAppContext();
   const [newUser, setNewUser] = useState<boolean>(true);
-  const [userID, setUserID] = useState<string>('');
   const [infoHasChanged, setInfoHasChanged] = useState<boolean>(false);
-  const [name, setName] = useState<string>('');
   const [twitter, setTwitter] = useState<string>('');
   const [productsArr, setProductsArr] = useState<Array<IProduct>>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const web3 = new Web3;
   const { ethBalance } = useEthereum();
   const auth = getAuth(firebase);
 
   useEffect(() => {
-    // TESTING THE REMOVAL OF CODE BELOW.... DO NOT DELETE
-    // if (appContext?.account === '') {
-    //   // setShortAccount('');
-    //   setNewUser(true);
-    //   setUserID('');
-    //   setInfoHasChanged(false);
-    //   appContext.setName('');
-    //   setTwitter('');
-    // }
+    console.log('inside useeffect')
 
-    
-    // when metamask injects the account, search for the user's info in Firestore
+    // when context account is updated after metamask injects the object, search for the user's info in Firestore
     if (appContext?.account) {
       setIsLoading(true);
       
       (async () => {
-        const q = query(collection(db, 'users'), where('address','==',appContext?.account));
-        const queryRef = await getDocs(q);
-        const querySnapshot = queryRef.docs;
-        let counter = 0;
-              
-        querySnapshot.forEach((doc) => {
-          const { name, twitter } = doc.data();
-          
-          if (counter === 0) {
-            setUserID(doc.id)
-            // setName(name);
-            appContext?.setName(name);
-            setTwitter(twitter);
-            setNewUser(false);
-          }
-        })
+        console.log('checking if user exists...')
+        const userRef = doc(db, 'users', appContext?.account as string);
+        const userDoc = await getDoc(userRef);
+        
+        // use 'name' field as proxy for user existence (there will be a record with the userID on first login, with only a nonce field populated under /metadata/auth)
+        if (userDoc.exists() && userDoc.data().name) {
+          // if existing user, load their data. 
+          const { name, twitter } = userDoc.data();
+          appContext?.setName(name);
+          setTwitter(twitter);
+          setNewUser(false);
+        } else if (userDoc.exists()) {
+          // if new user, leave fields empty
+          setNewUser(true);
+          setInfoHasChanged(false);
+          appContext.setName('');
+          setTwitter('');
+        }
+        
+        // after getting user's info, get their products 
+        // can this be moved to get static props for SSR? yes but it would require a change from account page for user's own profile -> using public profile page
+        if (productsArr.length === 0) {
+          const productsQuery = query(collection(db, 'products'), where('ownerAddress','==',appContext?.account));
+          const productsDocs = await getDocs(productsQuery);
+          productsDocs.forEach((doc) => {
+            const product = doc.data();
+            setProductsArr(productsArr => [...productsArr, product as IProduct])
+          });
+        }
+
       })()
       setIsLoading(false);
     }
-    
-
-    // after getting user's info, get their products' NFT metadata
-    (async () => {
-      if (appContext?.account && productsArr.length === 0) {
-        const productsQuery = query(collection(db, 'products'), where('ownerAddress','==',appContext?.account));
-        const productsDocs = await getDocs(productsQuery);
-      
-        productsDocs.forEach((doc) => {
-          const product = doc.data();
-          setProductsArr(productsArr => [...productsArr, product as IProduct])
-        });
-      }
-    })()
 
   }, [appContext?.account])
 
@@ -94,7 +77,6 @@ const Account = () => {
   const saveChanges = async () => {
     setIsLoading(true);  
     
-    // ****NEED TO UPDATE BELOW to match new firebase security schemas****
     try {
       const newUserRef = doc(db, 'users', appContext?.account as string);
       const newUser: IUser = {
@@ -118,14 +100,14 @@ const Account = () => {
     <PageLayout>
       <WarningBanner/>
       <div className="text-center flex w-full flex-col justify-center items-center h-full mb-10">
-        <div className="flex flex-col items-center w-full overflow-hidden h-full">
+        <div className="flex flex-col items-center text-center w-full relative overflow-hidden h-full">
           {isLoading ? 
-            <>
-              <div className='absolute overflow-hidden z-40'>
+            <ModalView>
+              {/* <div className='absolute overflow-hidden z-40'>
                 <div className='bg-gray-900 w-screen h-screen opacity-50'></div>
-              </div>
+              </div> */}
               <FontAwesomeIcon icon={faCircleNotch} className='text-indigo-500 text-7xl animate-spin absolute z-50 top-48'/>
-            </>
+            </ModalView>
           : 
             <></>
           }
