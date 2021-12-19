@@ -11,7 +11,7 @@ import Image from 'next/image'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { collection, getFirestore, doc, setDoc, addDoc, query, where, getDocs  } from "firebase/firestore";
+import { collection, getFirestore, doc, setDoc, addDoc, query, where, getDocs, getDoc  } from "firebase/firestore";
 import { db } from '../constants/firebase'
 import { useAppContext } from '../contexts/AppContext';
 import PageLayout from '../constants/PageLayout'
@@ -27,6 +27,7 @@ import Web3 from "web3";
 import contractABI from '../build/contracts/Firechain.json';
 import detectEthereumProvider from '@metamask/detect-provider'
 import WarningBanner from '../components/WarningBanner';
+import { changeInput, useEthereum } from '../utils/utils';
 var Contract = require('web3-eth-contract');
 const web3 = new Web3();
  
@@ -51,6 +52,7 @@ const Sell = () => {
   const [productsArr, setProductsArr] = useState<Array<any>>([]);
   const [productToList, setProductToList] = useState<string>('');
   const storage = getStorage();
+  useEthereum();
   
   const mintNFTAndListForSale = async (tokenURI: string, price: string, account: string) => {
     const fireChainContract = new Contract(contractABI.abi, CONTRACT_ADDRESS);
@@ -107,71 +109,44 @@ const Sell = () => {
     }
   }
             
-    useEffect(() => {
-      console.log('inside useeffect')
-      console.log(appContext)
-
-      const initEthereum = async () => {
-        if (window.ethereum.selectedAddress) {
-          await appContext?.refreshMetamask();
-          await window.ethereum.send('eth_requestAccounts');
-          // window.web3 = new Web3(window.ethereum);
-          const provider = await detectEthereumProvider();
-          console.log(`provider checked!. value:`)
-          console.log(provider);
-          Contract.setProvider(provider);
-          
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '0x3' }],
-          });
-        }
-      }
-      
-      initEthereum();
-      
-      const wallet = appContext?.addWalletListener();
-      
-      const q = query(collection(db, 'users'), where('address','==',appContext?.account));
+  useEffect(() => {
+    console.log('inside useeffect')
+    console.log(appContext)
+    
+    // when context account is updated after metamask injects the object, check if user exists and get their existing products not listed for sale
+    if (appContext?.account) {
+      setIsLoading(true);
       
       (async () => {
-      const queryRef = await getDocs(q);
-      const querySnapshot = queryRef.docs;
-      let counter = 0;
-            
-      querySnapshot.forEach((doc) => {
-        const { name, twitter } = doc.data();
+        console.log('checking if user exists...')
+        const userRef = doc(db, 'users', appContext?.account as string);
+        const userDoc = await getDoc(userRef);
         
-        if (counter === 0) {
+        // check if user exists and has fully signed up 
+        if (userDoc.exists() && userDoc.data().name) {
+          const { name } = userDoc.data();
           appContext?.setName(name);
+        } else {
+          alert('there was a problem logging in.')
         }
-      })
-    })()
+        
+        // get their products that are not listed for sale 
+        if (appContext?.account && productsArr.length === 0) {
+          const productsQuery = query(collection(db, 'products'), where('ownerAddress','==',appContext?.account), where('forSale','==',false));
+          const productsDocs = await getDocs(productsQuery);
+        
+          productsDocs.forEach((doc) => {
+            const product = doc.data();
+            setProductsTitleArr(productsArr => [...productsArr, product.title]);
+            setProductsArr(productsArr => [...productsArr, product]);
+          });
+        }
 
-    return () => {
-      wallet;
+      })()
+
+      setIsLoading(false);
     }
-  
   }, [appContext?.account])
-
-  useEffect(() => {
-
-    (async () => {
-      if (appContext?.account && productsArr.length === 0) {
-        const productsQuery = query(collection(db, 'products'), where('ownerAddress','==',appContext?.account), where('forSale','==',false));
-        const productsDocs = await getDocs(productsQuery);
-      
-        productsDocs.forEach((doc) => {
-          const product = doc.data();
-          setProductsTitleArr(productsArr => [...productsArr, product.title]);
-          setProductsArr(productsArr => [...productsArr, product]);
-        });
-      }
-    })()
-    
-    return () => {
-    }
-  }, [appContext?.account, productsArr])
 
   const listNewItem = async () => {
     setIsLoading(true);
