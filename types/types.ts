@@ -30,3 +30,16 @@ export interface IUser {
   permissions?: string,
   twitter: string,
 }
+
+export interface IAppContext {
+  account: string
+  addWalletListener: Function,
+  connectMetamask: Function,
+  navIsOpen: boolean,
+  setNavIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  name: string,
+  setName: React.Dispatch<React.SetStateAction<string>>,
+  refreshMetamask: Function,
+  warningIsOpen: boolean,
+  setWarningIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
