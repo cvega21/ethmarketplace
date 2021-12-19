@@ -74,7 +74,10 @@ export const AppWrapper: React.FC = ({ children }) => {
       console.log(`firebaseCreds.user = ${firebaseCreds.user}`);
 
       console.log('updating nonce (CLIENT)...')
-      const userRef = doc(db, 'users', accounts[0]);
+
+      // If new user: create a user record with the single field of "nonce" under /{userID}/metadata
+      // If existing user: updates nonce in /{userID}/metadata
+      const userRef = doc(db, 'users', accounts[0], 'metadata', 'auth');
       const userDoc = await getDoc(userRef);
       console.log(`userRef:`)
       console.log(userRef);

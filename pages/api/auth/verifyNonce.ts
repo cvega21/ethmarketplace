@@ -39,7 +39,7 @@ export default async function verifyNonce(req: NextApiRequest, res: NextApiRespo
     const sig = req.body.signature;
 
     console.log('getting the user and their nonce...')
-    const userRef = doc(db, 'users', address);
+    const userRef = doc(db, 'users', address, 'metadata', 'auth');
     const userDoc = await getDoc(userRef);
 
     if (userDoc.exists()) {

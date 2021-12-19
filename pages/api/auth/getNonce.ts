@@ -35,8 +35,11 @@ export default async function getNonce(req: NextApiRequest, res: NextApiResponse
     }
 
     console.log('getting user and their nonce...')
-    const userRef = doc(db, 'users', req.body.address);
+    const userRef = doc(db, 'users', req.body.address, 'metadata', 'auth');
     const userDoc = await getDoc(userRef);
+    console.log(`req address: ${req.body.address}`)
+    console.log(userDoc.data())
+    console.log(userDoc.metadata)
     
     if (userDoc.exists()) {
       console.log('user exists...')
@@ -56,7 +59,7 @@ export default async function getNonce(req: NextApiRequest, res: NextApiResponse
       });
       console.log(`createdUser: ${createdUser}`);
 
-      await admin.firestore().collection('users').doc(createdUser.uid).set({
+      await admin.firestore().collection('users').doc(createdUser.uid).collection('metadata').doc('auth').set({
         nonce: generatedNonce,
       });
 
@@ -66,5 +69,6 @@ export default async function getNonce(req: NextApiRequest, res: NextApiResponse
   } catch (e) {
     console.error(e);
     res.status(500);
+    return
   }
 }

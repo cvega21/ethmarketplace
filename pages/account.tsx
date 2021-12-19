@@ -96,7 +96,7 @@ const Account = () => {
     
     // ****NEED TO UPDATE BELOW to match new firebase security schemas****
     try {
-      const newUserRef = doc(collection(db, 'users'));
+      const newUserRef = doc(db, 'users', appContext?.account as string);
       const newUser: IUser = {
         address: appContext?.account as string,
         permissions: 'user',
