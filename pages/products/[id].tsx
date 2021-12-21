@@ -24,6 +24,7 @@ import ModalView from '../../components/ModalView';
 import MetamaskFox from '../../public/MetaMask_Fox.svg'
 import ConnectMetamask from '../../components/ConnectMetamask'
 import Footer from '../../components/Footer'
+import axios from 'axios'
 var Contract = require('web3-eth-contract');
 const web3 = new Web3();
 
@@ -41,9 +42,7 @@ const ProductPage = ({ product }: IProps) => {
   const [txHash, setTxHash] = useState('');
   const router = useRouter();
   const { id } = router.query;
-
- 
-
+  const buyNFTEndpoint = '/api/buyNFT'
 
   useEffect(() => {
     const initEthereum = async () => {
@@ -98,6 +97,8 @@ const ProductPage = ({ product }: IProps) => {
         console.log(receipt);
         console.log('****TOKEN ID BELOW | PROMISE****');
         console.log(receipt.events.Transfer.returnValues.tokenId);
+
+        const txHash = receipt.transactionHash;
         const newProduct: IProduct = JSON.parse(JSON.stringify(product));
 
         newProduct.ownerAddress = appContext?.account as string; 
@@ -107,11 +108,27 @@ const ProductPage = ({ product }: IProps) => {
         newProduct.forSale = false; 
         newProduct.buyNowPrice = 0;
 
-        const productRef = doc(db, 'products', product.refString);
-        await setDoc(productRef, newProduct);
-        setTxSuccess(true);
-        setIsLoading(false);
-        exitPage();
+        // call to buy endpoint
+        const updateProduct = await axios.post(`${buyNFTEndpoint}`, {
+          buyer: account,
+          seller: product.ownerAddress,
+          tokenID: tokenID,
+          txHash: txHash,
+          product: newProduct
+        })
+
+        if (updateProduct.data.status = 'success') {
+          setTxSuccess(true);
+          setIsLoading(false);
+          exitPage();
+        } else if (updateProduct.data.status = 'error') {
+          setErrorUploading(true);
+          setErrorMessage(`something went wrong, please try again. ${updateProduct.data.error}`)
+          setTimeout(() => {
+            setErrorUploading(false);
+            setIsLoading(false);
+          }, 2500)
+        }
       })
       
       return {
