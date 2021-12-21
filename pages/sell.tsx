@@ -388,7 +388,7 @@ const Sell = () => {
               </div>
             </ModalView>
           </>
-          : !productUploaded ?
+          :  productUploaded ?
               <ModalView>
                 <div className='text-white font-extralight text-6xl bg-green-600 z-50 rounded-xl p-4 w-full lg:max-w-2xl'>
                   <h2 className='pb-4'>🎉</h2>  
