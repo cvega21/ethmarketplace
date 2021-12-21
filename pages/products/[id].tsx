@@ -108,15 +108,26 @@ const ProductPage = ({ product }: IProps) => {
         newProduct.forSale = false; 
         newProduct.buyNowPrice = 0;
 
+        console.log({
+          buyer: account,
+          seller: product.ownerAddress,
+          tokenID: tokenID,
+          txHash: txHash,
+          newProduct: newProduct
+        });
+
+        // wait 5 seconds for etherscan to refresh
+        await new Promise(r => setTimeout(r, 5000));
+        
         // call to buy endpoint
         const updateProduct = await axios.post(`${buyNFTEndpoint}`, {
           buyer: account,
           seller: product.ownerAddress,
           tokenID: tokenID,
           txHash: txHash,
-          product: newProduct
+          newProduct: newProduct
         })
-
+        
         if (updateProduct.data.status = 'success') {
           setTxSuccess(true);
           setIsLoading(false);
