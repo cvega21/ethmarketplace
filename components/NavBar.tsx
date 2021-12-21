@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFireAlt, faStore, faCoins, faGraduationCap, faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faFireAlt, faStore, faCoins, faGraduationCap, faUserCircle, faFileContract } from '@fortawesome/free-solid-svg-icons'
 import NavBarItemMobile from './NavBarItemMobile';
 import NavBarItem from './NavBarItem';
 import { useAppContext } from '../contexts/AppContext'
@@ -29,6 +29,7 @@ const NavBar = () => {
                 <NavBarItem title='buy' collapse={true}/>
                 <NavBarItem title='sell' collapse={true}/>
                 <NavBarItem title='account' collapse={true}/>
+                <NavBarItem title='contract' collapse={true}/>
               </ul>
             </div>
           </div> 
@@ -36,8 +37,8 @@ const NavBar = () => {
         <div className={`bg-gray-800 mobile-side-bar w-full absolute inset-y-0 top-16 left-0 transform-gpu transition duration-200 ease-in-out z-10 ${!navContext?.navIsOpen ? '-translate-x-full' : ''}`}>
           <NavBarItemMobile icon={faStore} title='buy'/>
           <NavBarItemMobile icon={faCoins} title='sell'/>
-          {/* <NavBarItemMobile icon={faGraduationCap} title='learn'/> */}
           <NavBarItemMobile icon={faUserCircle} title='account'/>
+          <NavBarItemMobile icon={faFileContract} title='contract'/>
         </div>
       </>
   )
