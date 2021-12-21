@@ -59,6 +59,11 @@ export default async function getNonce(req: NextApiRequest, res: NextApiResponse
       });
       console.log(`createdUser: ${createdUser}`);
 
+      await admin.firestore().collection('users').doc(createdUser.uid).set({
+        address: req.body.address,
+        permissions: 'user',
+      });
+
       await admin.firestore().collection('users').doc(createdUser.uid).collection('metadata').doc('auth').set({
         nonce: generatedNonce,
       });
