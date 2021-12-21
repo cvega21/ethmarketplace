@@ -7,7 +7,7 @@ import contractABI from '../build/contracts/Firechain.json';
 import { useEffect, useState } from "react";
 var Contract = require('web3-eth-contract');
 export const CONTRACT_ADDRESS = '0x652f6b7bDaD2E4f59152b3D8e16d74F150E7962C';
-export const CONTRACT_LINK = `https://ropsten.etherscan.io/address/${CONTRACT_ADDRESS}`;
+export const CONTRACT_LINK = `https://ropsten.etherscan.io/address/${CONTRACT_ADDRESS}#code`;
 export const MINT_PRICE = web3.utils.toWei('0.0001', "ether");
 
 export const getShortAddress = (address: string) => {
