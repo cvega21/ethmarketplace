@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFireAlt, faStore, faCoins, faGraduationCap, faUserCircle, faFileContract } from '@fortawesome/free-solid-svg-icons'
+import { faFireAlt, faStore, faCoins, faGraduationCap, faUserCircle, faFileContract, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import NavBarItemMobile from './NavBarItemMobile';
 import NavBarItem from './NavBarItem';
 import { useAppContext } from '../contexts/AppContext'
@@ -29,7 +29,7 @@ const NavBar = () => {
                 <NavBarItem title='buy' collapse={true}/>
                 <NavBarItem title='sell' collapse={true}/>
                 <NavBarItem title='account' collapse={true}/>
-                <NavBarItem title='contract' collapse={true}/>
+                <NavBarItem title='contract' collapse={true} icon={faExternalLinkAlt}/>
               </ul>
             </div>
           </div> 
