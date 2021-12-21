@@ -141,8 +141,13 @@ const Sell = () => {
             setProductsArr(productsArr => [...productsArr, product]);
           });
         }
-
+        
+        const provider = await detectEthereumProvider();
+        console.log(`provider checked!. value:`)
+        console.log(provider);
+        Contract.setProvider(provider);
       })()
+
 
       setIsLoading(false);
     }
