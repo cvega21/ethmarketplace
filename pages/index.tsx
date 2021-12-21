@@ -52,7 +52,7 @@ const Home: NextPage = () => {
   
   useEffect(() => {
     const options = {
-      strings: ['^300 gucci belts^400', '^300 yeezys^400', '^300 iPhones^400', '^100a^100n^100y^100t^100h^100i^100n^100g^1000'],
+      strings: ['^300 gucci belts^400', '^300 yeezys^400', '^300 iPhones^400', 'y^100o^100u^100r^100 s^100t^100u^100f^100f^1000'],
       typeSpeed: 38,
       backSpeed: 18,
       loop: false
@@ -84,12 +84,12 @@ const Home: NextPage = () => {
               <span ref={typedElement}></span>
             </div>
           </div>
-          <div className="w-11/12  md:w-8/12 lg:w-5/12 flex flex-col">
-            <h2 className="font-extralight text-gray-500 text-xl md:text-4xl mt-8">
+          <div className="w-11/12  md:w-8/12 lg:w-6/12 flex flex-col mt-12">
+            <h2 className="font-light text-gray-500 text-xl md:text-4xl mt-8">
               buy and sell your real-life stuff as NFT&apos;s.
             </h2>
-            <h3 className='font-thin text-gray-500 text-lg mt-2'>
-              powered by Ethereum ⚡️
+            <h3 className='font-extralight text-gray-500 text-lg mt-4'>
+              powered by <a href='https://ethereum.org/en/what-is-ethereum/' target='_blank' rel='noreferrer' className='text-indigo-400 '>Ethereum ⚡️</a>
             </h3>
           </div>
           <div className="flex flex-col w-6/12 min-w-min md:w-3/12 lg:w-3/12 mt-6 lg:mt-20">
