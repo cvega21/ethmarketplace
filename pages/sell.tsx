@@ -123,7 +123,9 @@ const Sell = () => {
         const userDoc = await getDoc(userRef);
         
         // check if user exists and has fully signed up 
-        if (userDoc.exists() && userDoc.data().name) {
+        if (userDoc.exists()) {
+          console.log('user exists...')
+          console.log(userDoc.data());
           const { name } = userDoc.data();
           appContext?.setName(name);
         } else {
@@ -386,9 +388,9 @@ const Sell = () => {
               </div>
             </ModalView>
           </>
-          : productUploaded ?
+          : !productUploaded ?
               <ModalView>
-                <div className='text-white font-extralight text-6xl bg-green-600 z-50 rounded-xl p-4 w-10/12 lg:w-3/12 lg:max-w-2xl'>
+                <div className='text-white font-extralight text-6xl bg-green-600 z-50 rounded-xl p-4 w-full lg:max-w-2xl'>
                   <h2 className='pb-4'>🎉</h2>  
                   <h2><p className='font-normal'>{`${title}`}</p> is now live!</h2>
                 </div>
