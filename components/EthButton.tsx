@@ -7,6 +7,8 @@ import { buyNFT } from '../utils/utils';
 import contractABI from '../build/contracts/Firechain.json';
 import { IProduct } from '../types/types';
 
+declare let window: any;
+
 interface IEthButton {
   buyNowPrice: Number,
   children?: React.ReactNode,
