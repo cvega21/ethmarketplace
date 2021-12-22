@@ -28,6 +28,8 @@ import axios from 'axios'
 var Contract = require('web3-eth-contract');
 const web3 = new Web3();
 
+declare let window: any;
+
 interface IProps {
   product: IProduct
 }
