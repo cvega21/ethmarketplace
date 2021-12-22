@@ -9,6 +9,7 @@ var Contract = require('web3-eth-contract');
 export const CONTRACT_ADDRESS = '0x652f6b7bDaD2E4f59152b3D8e16d74F150E7962C';
 export const CONTRACT_LINK = `https://ropsten.etherscan.io/address/${CONTRACT_ADDRESS}#code`;
 export const MINT_PRICE = web3.utils.toWei('0.0001', "ether");
+declare let window: any;
 
 export const getShortAddress = (address: string) => {
   return address.substr(0,5) + '...' + address.substr(-4,4);

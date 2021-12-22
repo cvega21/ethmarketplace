@@ -10,12 +10,14 @@ import NavBar from '../components/NavBar'
 import Typed from 'typed.js';
 import { useAppContext } from '../contexts/AppContext'
 
-declare global {
-  interface Window {
-      ethereum: any;
-      contract: any;
-  }
-}
+// declare global {
+//   interface Window {
+//       ethereum: any;
+//       contract: any;
+//   }
+// }
+
+
 
 const Home: NextPage = () => {
   const [loggedIn, setLoggedIn] = useState(false);

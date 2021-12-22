@@ -20,6 +20,8 @@ interface IAppContext {
 
 const AppContext = React.createContext<IAppContext | null>(null);
 
+declare let window: any;
+
 export const AppWrapper: React.FC = ({ children }) => {
   const [navIsOpen, setNavIsOpen] = useState(false);
   const [warningIsOpen, setWarningIsOpen] = useState(true);

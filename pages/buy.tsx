@@ -12,6 +12,8 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/Home.module.css'
 import Footer from '../components/Footer';
 
+declare let window: any;
+
 const Buy = ({ productsArr, queryArr }: any) => {
 
   useEffect(() => {
