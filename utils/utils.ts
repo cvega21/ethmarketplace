@@ -121,7 +121,7 @@ export const mintNFT = async (account: string, tokenURI: string) => {
       success: true,
       status: "✅ Check out your transaction on Etherscan: https://ropsten.etherscan.io/tx/" + txHash
     }
-  } catch (error) {
+  } catch (error: any) {
     console.log('error', error);
       return {
           success: false,
@@ -153,7 +153,7 @@ export const buyNFT = async (tokenID: number, price: string, account: string) =>
       success: true,
       status: "✅ Check out your transaction on Etherscan: https://ropsten.etherscan.io/tx/" + txHash
     }
-  } catch (error) {
+  } catch (error: any) {
     console.log('error', error);
       return {
           success: false,

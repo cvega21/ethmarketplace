@@ -20,7 +20,7 @@ const pinJSONToIPFS = async(JSONBody: any) => {
         message: 'Congrats! You just minted an NFT!'
       }
 
-    } catch (e) {
+    } catch (e: any) {
       return {
         success: false,
         pinataUrl: '',
