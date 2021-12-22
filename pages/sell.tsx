@@ -234,6 +234,10 @@ const Sell = () => {
       console.log('prompt mint finalized.');
       
       // Persist object metadata on Firestore
+      let ownerName = 'anonymous';
+      if (appContext?.name) {
+        ownerName = appContext?.name;
+      }
       
       console.log('entering set doc...');
       const product: IProduct = {
@@ -246,7 +250,7 @@ const Sell = () => {
         tokenURI: pinataResponse.data.tokenURI,
         listedSince: currentDate,
         ownerAddress: appContext?.account as string,
-        ownerName: appContext?.name as string,
+        ownerName: ownerName,
         condition: condition,
         deliveryOpts: deliveryOpts,
         forSale: true,
