@@ -52,19 +52,12 @@ export const useEthereum = () => {
 
   useEffect(() => {
     appContext?.addWalletListener();
-    
-    return () => {
-      // remove wallet listener
-    }
   }, [])
 
   useEffect(() => {
     const initEthereum = async () => {
       
       if (window.ethereum.selectedAddress) {
-        console.log('inside useEthereum Hook')
-        console.log(`window.ethereum.selectedAddress: ${window.ethereum.selectedAddress}`)
-        
         try {
           await appContext?.refreshMetamask();
           const weiBalance = await window.ethereum.request({ method: 'eth_getBalance', params: [window.ethereum.selectedAddress, 'latest'] });
