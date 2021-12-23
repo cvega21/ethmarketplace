@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { db } from '../../../constants/firebase'
+import { db, firebase } from '../../../constants/firebase'
 import { collection, doc, getDoc, getDocs, limit, onSnapshot, query, where } from '@firebase/firestore';
 import { IProduct, INFTMetadata } from '../../../types/types';
 import pinJSONToIPFS from '../../../utils/pinJSONToIPFS';
