@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import admin from 'firebase-admin';
-import { firebase } from '../../../constants/firebase'
+import { initFirebase } from '../../../constants/firebase'
 import { collection, doc, getDoc, updateDoc, getFirestore, limit, onSnapshot, query, where } from '@firebase/firestore';
 import { Auth, getAuth, signInWithCustomToken } from "firebase/auth";
 import { recoverPersonalSignature } from '@metamask/eth-sig-util';
@@ -18,6 +18,7 @@ if (!admin.apps.length) {
 }
 
 const db = getFirestore(); 
+initFirebase();
 
 export default async function verifyNonce(req: NextApiRequest, res: NextApiResponse) {
   console.log('********Verifying Nonce**********')

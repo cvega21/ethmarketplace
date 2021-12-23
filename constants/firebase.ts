@@ -1,7 +1,7 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { collection, getFirestore, doc, setDoc, addDoc  } from "firebase/firestore";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyDNsb7C4EEJfAJNUaBLbSW-20yWdGRq5ns",
   authDomain: "ethmarketplace.firebaseapp.com",
   projectId: "ethmarketplace",
@@ -12,4 +12,7 @@ const firebaseConfig = {
 };
 
 export const firebase = initializeApp(firebaseConfig);
-export const db = getFirestore(); 
+export const db = getFirestore();
+export const initFirebase = () => {
+  getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+}
