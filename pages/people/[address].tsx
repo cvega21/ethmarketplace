@@ -91,6 +91,7 @@ export async function getStaticProps({ params }: any) {
       user,
       productsArr
     },
+    revalidate: 30
   }
 }
 
