@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFireAlt, faStore, faCoins, faGraduationCap, faUserCircle, faFileContract, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'

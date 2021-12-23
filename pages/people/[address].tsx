@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore'
+import React from 'react'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../../constants/firebase';
 import { IUser, IProduct } from '../../types/types';
 import Product from "../../components/Product";

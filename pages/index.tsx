@@ -1,54 +1,13 @@
+import React, { useEffect, useRef } from 'react';
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import ActionButton from '../components/ActionButton';
-import Product from '../components/Product';
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import Web3 from 'web3';
 import NavBar from '../components/NavBar'
-import Typed from 'typed.js';
 import { useAppContext } from '../contexts/AppContext'
-
-// declare global {
-//   interface Window {
-//       ethereum: any;
-//       contract: any;
-//   }
-// }
-
-
+import Typed from 'typed.js';
 
 const Home: NextPage = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState('')
-  const [web3IsEnabled, setWeb3IsEnabled] = useState(false);
-  const web3js = useRef<Web3|null>(null);
-  const [navIsOpen, setNavIsOpen] = useState(false);
-  // const navContext = {
-  //   navIsOpen: navIsOpen,
-  //   setNavIsOpen: setNavIsOpen
-  // }
   const navContext = useAppContext();
-
-  const changeNav = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setNavIsOpen(!navIsOpen);
-  }
-
-  // useEffect(() => {
-  //   window.ethereum ? setWeb3IsEnabled(true) : void(0);
-  //   web3js.current = new Web3(window.ethereum.currentProvider);
-  //   console.log(web3js.current);
-  // }, [])
-  
-  setTimeout(() => {
-    startContract();
-  }, 500);
-
-  const startContract = () => {
-    let web3 = web3js.current as Web3;
-  }
-
   const typedElement: any = useRef(null);
   const typed: any = useRef(null);
   

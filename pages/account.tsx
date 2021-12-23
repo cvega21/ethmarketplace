@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { getAuth } from 'firebase/auth';
 import Image from 'next/image';
 import Head from 'next/head'
-import Web3 from "web3";
 import { collection, doc, setDoc, query, where, getDocs, getDoc  } from "firebase/firestore";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch, faEdit, faLocationArrow } from '@fortawesome/free-solid-svg-icons';

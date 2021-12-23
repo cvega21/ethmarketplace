@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { db, initFirebase } from '../../../constants/firebase'
-import { collection, doc, getDoc, getDocs, limit, onSnapshot, query, where } from '@firebase/firestore';
-import { IProduct, INFTMetadata } from '../../../types/types';
+import { initFirebase } from '../../../constants/firebase'
+import { INFTMetadata } from '../../../types/types';
 import pinJSONToIPFS from '../../../utils/pinJSONToIPFS';
 
 interface IPinataRes {

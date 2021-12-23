@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState} from 'react'
-import { Auth, getAuth, signInWithCustomToken, User } from "firebase/auth";
+import React, { useContext, useEffect, useState} from 'react'
+import { getAuth, signInWithCustomToken } from "firebase/auth";
 import axios from 'axios';
 import { toHex } from '../utils/utils'
 import { db, firebase } from '../constants/firebase'
@@ -26,7 +26,6 @@ export const AppWrapper: React.FC = ({ children }) => {
   const [navIsOpen, setNavIsOpen] = useState(false);
   const [warningIsOpen, setWarningIsOpen] = useState(true);
   const [account, setAccount] = useState('');
-  const [firebaseAccount, setFirebaseAccount] = useState<any>();
   const [name, setName] = useState('');
   const auth = getAuth(firebase);
   

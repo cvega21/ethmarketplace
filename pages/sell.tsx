@@ -1,5 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react'
-import NavBar from '../components/NavBar'
+import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
+import Head from 'next/head'
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { collection, doc, setDoc, query, where, getDocs, getDoc  } from "firebase/firestore";
+import axios from 'axios';
+import Web3 from "web3";
+import detectEthereumProvider from '@metamask/detect-provider'
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TextInput from '../components/TextInput'
 import EthInput from '../components/EthInput'
 import ConnectMetamask from '../components/ConnectMetamask'
@@ -7,28 +15,15 @@ import ModalView from '../components/ModalView'
 import ChromeLink from '../components/ChromeLink';
 import PageTitle from '../components/PageTitle';
 import Footer from '../components/Footer';
-import Image from 'next/image'
-import Head from 'next/head'
-import Typed from 'typed.js';
-import { initializeApp } from "firebase/app";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { collection, getFirestore, doc, setDoc, addDoc, query, where, getDocs, getDoc  } from "firebase/firestore";
+import WarningBanner from '../components/WarningBanner';
 import { db } from '../constants/firebase'
 import { useAppContext } from '../contexts/AppContext';
 import PageLayout from '../constants/PageLayout'
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Router from 'next/router';
-import { IProduct, INFTMetadata } from '../types/types'
-import pinJSONToIPFS from '../utils/pinJSONToIPFS';
-import axios from 'axios';
+import { IProduct } from '../types/types'
 import MetamaskFox from '../public/MetaMask_Fox.svg'
 import { CONTRACT_ADDRESS, MINT_PRICE, exitPage } from '../utils/utils'
-import Web3 from "web3";
 import contractABI from '../build/contracts/Firechain.json';
-import detectEthereumProvider from '@metamask/detect-provider'
-import WarningBanner from '../components/WarningBanner';
-import { changeInput, useEthereum } from '../utils/utils';
+import { useEthereum } from '../utils/utils';
 var Contract = require('web3-eth-contract');
 const web3 = new Web3();
  

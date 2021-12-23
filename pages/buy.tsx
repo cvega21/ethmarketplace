@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import Head from 'next/head'
+import { collection, getDocs, query } from '@firebase/firestore';
 import Product from "../components/Product";
 import PageLayout from '../constants/PageLayout';
-import NavBar from '../components/NavBar';
-import Head from 'next/head'
 import PageTitle from '../components/PageTitle';
 import WarningBanner from '../components/WarningBanner';
 import { db } from '../constants/firebase'
-import { collection, doc, getDoc, getDocs, limit, onSnapshot, query, where } from '@firebase/firestore';
 import { IProduct } from '../types/types'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import styles from '../styles/Home.module.css'
 import Footer from '../components/Footer';
 
 declare let window: any;

@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import admin from 'firebase-admin';
 import { initFirebase } from '../../../constants/firebase'
-import { collection, doc, getDoc, updateDoc, getFirestore, limit, onSnapshot, query, where } from '@firebase/firestore';
-import { Auth, getAuth, signInWithCustomToken } from "firebase/auth";
+import { doc, getDoc, getFirestore } from '@firebase/firestore';
 import { recoverPersonalSignature } from '@metamask/eth-sig-util';
 import { toHex } from '../../../utils/utils'
 require('dotenv').config();

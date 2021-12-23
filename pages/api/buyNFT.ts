@@ -1,10 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import admin from 'firebase-admin';
-import { collection, doc, getDoc, updateDoc, getFirestore, limit, onSnapshot, query, where } from '@firebase/firestore';
-import { Auth, getAuth, signInWithCustomToken } from "firebase/auth";
+import { getFirestore } from '@firebase/firestore';
 import { initFirebase } from '../../constants/firebase';
-import { recoverPersonalSignature } from '@metamask/eth-sig-util';
-import { toHex, CONTRACT_ADDRESS } from '../../utils/utils'
+import { CONTRACT_ADDRESS } from '../../utils/utils'
 import axios from 'axios';
 require('dotenv').config();
 

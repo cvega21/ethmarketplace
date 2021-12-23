@@ -1,7 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { useAppContext } from '../contexts/AppContext';
-// import detectEthereumProvider from '@metamask/detect-provider'
-
 
 const ConnectMetamask = () => {
   const appContext = useAppContext();
