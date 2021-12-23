@@ -11,7 +11,7 @@ const NavBar = () => {
   
   return (
       <>
-        <nav className="bg-gray-700 bg-opacity-50 text-white w-full z-20 relative">
+        <nav className="bg-gray-800 transition-all duration-200 text-white w-full z-20 fixed">
           <div className='mobile-top-bar flex justify-between relative drop-shadow-2xl'>
             <div className='flex justify-between w-full'>
               <Link href="/" passHref={true}>
@@ -34,7 +34,7 @@ const NavBar = () => {
             </div>
           </div> 
         </nav>
-        <div className={`bg-gray-800 mobile-side-bar w-full absolute inset-y-0 top-16 left-0 transform-gpu transition duration-200 ease-in-out z-10 ${!navContext?.navIsOpen ? '-translate-x-full' : ''}`}>
+        <div className={`bg-gray-800 mobile-side-bar w-full fixed inset-y-0 top-16 left-0 transform-gpu transition duration-200 ease-in-out z-10 ${!navContext?.navIsOpen ? '-translate-x-full' : ''}`}>
           <NavBarItemMobile icon={faStore} title='buy'/>
           <NavBarItemMobile icon={faCoins} title='sell'/>
           <NavBarItemMobile icon={faUserCircle} title='account'/>
