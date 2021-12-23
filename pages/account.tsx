@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getAuth } from 'firebase/auth';
 import Image from 'next/image';
+import Head from 'next/head'
 import Web3 from "web3";
 import { collection, doc, setDoc, query, where, getDocs, getDoc  } from "firebase/firestore";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -98,6 +99,9 @@ const Account = () => {
 
   return (
     <PageLayout>
+      <Head>
+        <title>firechain | account</title>
+      </Head>
       <WarningBanner/>
       <div className="text-center flex w-full flex-col justify-center items-center h-full mb-10">
         <div className="flex flex-col items-center text-center w-full relative overflow-hidden h-full">

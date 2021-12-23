@@ -7,18 +7,22 @@ import PageLayout from '../../constants/PageLayout';
 import { AccountBox } from '../../pages/account';
 import { useAppContext } from '../../contexts/AppContext'
 import Footer from '../../components/Footer';
+import Head from 'next/head';
 
 
 interface IProps {
   user: IUser,
-  productsArr: IProduct
+  productsArr: Array<IProduct>
 }
 
-const PublicProfile = ({ user, productsArr }: any) => {
+const PublicProfile = ({ user, productsArr }: IProps) => {
   const appContext = useAppContext();
   
   return (
     <PageLayout>
+      <Head>
+        <title>@{user.twitter.toLowerCase()} | firechain</title>
+      </Head>
       <AccountBox
         name={user.name}
         twitter={user.twitter}

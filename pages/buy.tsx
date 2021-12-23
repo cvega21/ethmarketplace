@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Product from "../components/Product";
 import PageLayout from '../constants/PageLayout';
 import NavBar from '../components/NavBar';
+import Head from 'next/head'
 import PageTitle from '../components/PageTitle';
 import WarningBanner from '../components/WarningBanner';
 import { db } from '../constants/firebase'
@@ -28,6 +29,9 @@ const Buy = ({ productsArr, queryArr }: any) => {
   
   return (
   <PageLayout>
+    <Head>
+      <title>firechain | marketplace</title>
+    </Head>
     <WarningBanner/>
     <div className="w-11/12 lg:w-9/12 relative">
       <PageTitle text='marketplace'/>

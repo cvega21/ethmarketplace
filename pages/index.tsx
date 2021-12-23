@@ -69,9 +69,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Firechain</title>
-        <meta name="description" content="buy and sell the hottest real-life stuff, on the blockchain." />
-        <link rel="icon" href="/fire.svg" />
+        <title>firechain</title>
       </Head>
       <main className={`text-center dark flex flex-1 flex-col items-center bg-gray-900 relative ${navContext?.navIsOpen ? 'min-h-screen overflow-hidden' : 'min-h-screen'}`}>
         <NavBar/>

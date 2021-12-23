@@ -8,6 +8,7 @@ import ChromeLink from '../components/ChromeLink';
 import PageTitle from '../components/PageTitle';
 import Footer from '../components/Footer';
 import Image from 'next/image'
+import Head from 'next/head'
 import Typed from 'typed.js';
 import { initializeApp } from "firebase/app";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
@@ -363,6 +364,9 @@ const Sell = () => {
 
   return (
     <PageLayout>
+      <Head>
+        <title>firechain | sell stuff</title>
+      </Head>
       <div className="flex flex-col w-full items-center text-center">
         <div className="flex flex-col items-center text-center w-full relative overflow-hidden h-full">
           <WarningBanner/>

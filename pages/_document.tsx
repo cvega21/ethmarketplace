@@ -13,7 +13,8 @@ class MyDocument extends Document {
         <Head>
           <link rel="preconnect" href="https://fonts.googleapis.com"/>
           <link href="https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@600&display=swap" rel="stylesheet"></link>
-          {/* <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet"/> */}
+          <link rel="icon" href="/fire.svg" />
+          <meta name="description" content="buy and sell the hottest real-life stuff, on the blockchain." />
         </Head>
         <body className='bg-gray-900'>
           <Main />
