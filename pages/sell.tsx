@@ -405,7 +405,7 @@ const Sell = () => {
                   <h2>{errorMessage}</h2>
                 </div>
               </ModalView>
-          : !appContext?.account ?
+          : !appContext?.account  && !appContext?.navIsOpen ?
               <ModalView>
                 <div className=' bg-black rounded-2xl flex flex-col items-center justify-between shadow-indigoDark m-8 py-6 px-16'>
                   <Image src={MetamaskFox} width={200} height={200} alt={'fox'}/>
