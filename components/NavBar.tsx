@@ -15,7 +15,7 @@ const NavBar = () => {
           <div className='mobile-top-bar flex justify-between relative drop-shadow-2xl'>
             <div className='flex justify-between w-full'>
               <Link href="/" passHref={true}>
-                <a className="font-bold ml-6 text-3xl font-dramatic flex items-center py-3">
+                <a className="ml-6 text-3xl font-dramatic flex items-center py-3">
                   <FontAwesomeIcon icon={faFireAlt} className="text-red-400"/> 
                   <h1 className="ml-2 text-4xl hover:text-red-100 transition duration-200 ease-in-out">firechain</h1>
                 </a>
