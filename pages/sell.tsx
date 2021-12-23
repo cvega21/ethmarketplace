@@ -360,7 +360,7 @@ const Sell = () => {
   return (
     <PageLayout>
       <Head>
-        <title>firechain | sell stuff</title>
+        <title>sell stuff | firechain</title>
       </Head>
       <div className="flex flex-col w-full items-center text-center">
         <div className="flex flex-col items-center text-center w-full relative overflow-hidden h-full">

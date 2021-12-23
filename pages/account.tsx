@@ -99,7 +99,7 @@ const Account = () => {
   return (
     <PageLayout>
       <Head>
-        <title>firechain | account</title>
+        <title>my account | firechain</title>
       </Head>
       <WarningBanner/>
       <div className="text-center flex w-full flex-col justify-center items-center h-full mb-10">

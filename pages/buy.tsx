@@ -26,7 +26,7 @@ const Buy = ({ productsArr, queryArr }: any) => {
   return (
   <PageLayout>
     <Head>
-      <title>firechain | marketplace</title>
+      <title>marketplace | firechain</title>
     </Head>
     <WarningBanner/>
     <div className="w-11/12 lg:w-9/12 relative">
