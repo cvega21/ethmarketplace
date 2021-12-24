@@ -14,7 +14,7 @@ class MyDocument extends Document {
           <link rel="preconnect" href="https://fonts.googleapis.com"/>
           <link href="https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@600&display=swap" rel="stylesheet"></link>
           <link rel="icon" href="/fire.svg" />
-          <meta name="description" content="buy and sell the hottest real-life stuff, on the blockchain." />
+          <meta name="description" content="buy and sell your real-life stuff as NFT's." />
         </Head>
         <body className='bg-gray-900'>
           <Main />

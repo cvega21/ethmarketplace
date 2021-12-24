@@ -29,6 +29,11 @@ const Home: NextPage = () => {
     <div>
       <Head>
         <title>firechain</title>
+        <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/ethmarketplace.appspot.com/o/Screen%20Shot%202021-12-23%20at%205.41.55%20PM.png?alt=media&token=3a462c3d-cfb4-4e85-bdee-8dbd64dc924c" />
+        <meta property="og:description" content="buy and sell your real-life stuff as NFT's" />
+        <meta property="og:url"content="https://firecha.in/" />
+        <meta property="og:title" content="firechain | NFT marketplace" />
+        <meta property="og:type" content="website" />
       </Head>
       <main className={`text-center dark flex flex-1 flex-col items-center bg-gray-900 relative ${navContext?.navIsOpen ? 'min-h-screen overflow-hidden' : 'min-h-screen'}`}>
         <NavBar/>
