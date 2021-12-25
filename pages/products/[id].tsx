@@ -208,8 +208,8 @@ const ProductPage = ({ product }: IProps) => {
           :
           <></>
           }
-          <div className='ml-8'>
-            <h1 className='text-white text-3xl font-medium text-left mt-4'>{product.title}</h1>
+          <div className='xl:pl-16 px-4'>
+            <h1 className='text-white text-3xl font-semibold text-left mt-4'>{product.title}</h1>
             <p className='text-gray-400 font-light text-left'>{product.location}</p>
           </div>
           <div className='w-full flex flex-col items-center'>
@@ -245,24 +245,28 @@ const ProductPage = ({ product }: IProps) => {
                 />
               </div>
             </div>
-            <div className='flex justify-start w-10/12 my-4'>
-              <h2 className='text-white font-normal text-xl'>product details</h2>
+            <div className='flex justify-start w-10/12 mt-6'>
+              <h2 className='text-white font-semibold text-xl'>product details</h2>
             </div>
             <div className='text-white w-10/12'>
+              <div className='flex flex-col items-start w-full border-b py-2 text-left border-gray-800 mb-1'>
+                  <h2 className='text-gray-200 font-light py-1 w-full'>description</h2>
+                  <h1 className='text-gray-400 font-extralight text-left'>{product.description}</h1>
+              </div>
               <div className='flex justify-between'>
-                <h2 className='text-gray-200 font-light'>listed since</h2>
+                <h2 className='text-gray-200 font-light py-1'>listed since</h2>
                 <h1 className='text-gray-400 font-extralight'>{product.listedSince}</h1>
               </div>
               <div className='flex justify-between'>
-                <h2 className='text-gray-200 font-light'>condition</h2>
+                <h2 className='text-gray-200 font-light py-1'>condition</h2>
                 <h1 className='text-gray-400 font-extralight'>{product.condition}</h1>
               </div>
               <div className='flex justify-between'>
-                <h2 className='text-gray-200 font-light'>delivery options</h2>
+                <h2 className='text-gray-200 font-light py-1'>delivery options</h2>
                 <h1 className='text-gray-400 font-extralight'>{product.deliveryOpts}</h1>
               </div>
               <div className='flex justify-between'>
-                <h2 className='text-gray-200 font-light'>owner address</h2>
+                <h2 className='text-gray-200 font-light py-1'>owner address</h2>
                 <a 
                   className='text-indigo-400 font-extralight' 
                   href={`https://etherscan.io/address/${product.ownerAddress}`} 
@@ -273,7 +277,18 @@ const ProductPage = ({ product }: IProps) => {
                 </a>
               </div>
               <div className='flex justify-between'>
-                <h2 className='text-gray-200 font-light'>token URI</h2>
+                <h2 className='text-gray-200 font-light py-1'>token ID</h2>
+                <a 
+                  className='text-indigo-400 font-extralight' 
+                  href={`https://ropsten.etherscan.io/token/0x652f6b7bdad2e4f59152b3d8e16d74f150e7962c?a=${product.tokenID}`} 
+                  target="_blank" 
+                  rel="noreferrer"
+                  >
+                  {product.tokenID}
+                </a>
+              </div>
+              <div className='flex justify-between'>
+                <h2 className='text-gray-200 font-light text-left py-1'>token URI (metadata)</h2>
                 <a 
                   className='text-indigo-400 font-extralight' 
                   href={product.tokenURI}
@@ -282,10 +297,6 @@ const ProductPage = ({ product }: IProps) => {
                   >
                     {getMdTokenURI(product.tokenURI)}
                 </a>
-              </div>
-              <div className='flex flex-col items-start'>
-                <h2 className='text-gray-200 font-medium'>product description</h2>
-                <h1 className='text-gray-400 font-extralight text-left'>{product.description}</h1>
               </div>
             </div>
           </div>
