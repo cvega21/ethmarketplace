@@ -62,7 +62,7 @@ const Buy = ({ productsArr, queryArr }: any) => {
       <h2 className="text-white text-2xl text-left w-full px-6 py-2 my-6 font-thin border-b">
         all products
       </h2>
-      <div className="flex flex-col gap-10 md:grid md:grid-cols-2 md:gap-20 xl:grid-cols-3 fadeDown my-6">
+      <div className="flex flex-col gap-10 md:grid md:grid-cols-2 md:gap-20 xl:grid-cols-3 fadeDown mt-6 mb-20">
         {productsArr.map((product: IProduct) => {
           if (!product.trending) {
             return (
