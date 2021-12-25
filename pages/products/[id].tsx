@@ -269,7 +269,7 @@ const ProductPage = ({ product }: IProps) => {
                 <h2 className='text-gray-200 font-light py-1'>owner address</h2>
                 <a 
                   className='text-indigo-400 font-extralight' 
-                  href={`https://etherscan.io/address/${product.ownerAddress}`} 
+                  href={`https://ropsten.etherscan.io/address/${product.ownerAddress}`} 
                   target="_blank" 
                   rel="noreferrer"
                   >
