@@ -104,7 +104,7 @@ const Home = ( {featuredProduct}: IHomeProps ) => {
 }
 
 export async function getStaticProps() {
-  const productRef = doc(db, 'products', '1l6gyyng0cwLOySHQCZp');
+  const productRef = doc(db, 'products', 'fxRJeSkAhEZS9tDoc04I');
   const productDoc = await getDoc(productRef);
   let featuredProduct: IProduct = productDoc.data() as IProduct;
 
