@@ -97,7 +97,7 @@ const Account = () => {
   }
 
   return (
-    <PageLayout>
+    <PageLayout spread={true}>
       <Head>
         <title>my account | firechain</title>
       </Head>
