@@ -4,10 +4,10 @@ import { isMobile } from 'react-device-detect';
 
 const ConnectMetamask = () => {
   const appContext = useAppContext();
-  const APP_DEEP_LINK = 'https://metamask.app.link/dapp/firecha.in';
+  const APP_DEEP_LINK = 'https://metamask.app.link/dapp/firecha.in/account';
   
   const mobileDeepLink = () => {
-    if (window.location.href !== APP_DEEP_LINK) {
+    if (!window.ethereum) {
       location.assign(APP_DEEP_LINK);
     }
 
