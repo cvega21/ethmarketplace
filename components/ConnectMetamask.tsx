@@ -6,7 +6,7 @@ const ConnectMetamask = () => {
   const appContext = useAppContext();
   
   const mobileDeepLink = () => {
-    location.assign('https://metamask.app.link/dapp/firecha.in');
+    location.replace('https://metamask.app.link/dapp/firecha.in');
   }
  
   return (
