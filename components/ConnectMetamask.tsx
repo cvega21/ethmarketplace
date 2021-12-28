@@ -8,7 +8,7 @@ const ConnectMetamask = () => {
   
   const mobileDeepLink = () => {
     if (window.location.href !== APP_DEEP_LINK) {
-      location.replace(APP_DEEP_LINK);
+      location.assign(APP_DEEP_LINK);
     }
 
     appContext?.connectMetamask();
