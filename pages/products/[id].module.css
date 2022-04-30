@@ -1,0 +1,5 @@
+.image {
+    min-height: 225px !important;
+    height: unset !important;
+    border-radius: 10px;
+}

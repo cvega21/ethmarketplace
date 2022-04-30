@@ -21,7 +21,7 @@ const PublicProfile = ({ user, productsArr }: IProps) => {
   return (
     <PageLayout>
       <Head>
-        <title>@{user.twitter.toLowerCase()} | firechain</title>
+        <title>@{user?.twitter?.toLowerCase()} | firechain</title>
       </Head>
       <AccountBox
         name={user.name}
