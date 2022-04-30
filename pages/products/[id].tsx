@@ -164,7 +164,7 @@ const ProductPage = ({ product }: IProps) => {
       <Head>
         <title>{product.title} in {product.location}</title>
       </Head>
-      <div className='flex flex-col w-full items-center overflow-hidden mb-10'>
+      <div className='flex flex-col w-10/12 items-center overflow-hidden mb-10'>
         <div className='sm:w-11/12 md:w-9/12 lg:w-6/12 xl:w-5/12 fadeUp text-center w-full relative overflow-hidden h-full'>
         {isLoading ? 
           <>
@@ -208,22 +208,23 @@ const ProductPage = ({ product }: IProps) => {
           :
           <></>
           }
-          <div className='xl:pl-16 px-4'>
+          <div className='lg:px-0 px-4'>
             <h1 className='text-white text-3xl font-semibold text-left mt-4'>{product.title}</h1>
             <p className='text-gray-400 font-light text-left'>{product.location}</p>
           </div>
-          <div className='w-full flex flex-col items-center'>
-            <div className={styles.imageContainer}>
-              <Image 
-                src={product.imagePath}
-                alt={product.title} 
-                layout='fill'
-                className={styles.image}
-              />
-            </div>
+          <div className='block items-center py-4'>
+            <Image 
+              src={product.imagePath}
+              alt={product.title}
+              width={300}
+              height={225} 
+              layout='responsive'
+              objectFit='cover'
+              className={styles.image}
+            />
           </div>
           <div className='flex flex-col items-center'>
-            <div className='w-10/12 flex items-center'>
+            <div className='w-10/12 md:w-full flex items-center'>
               <h1 className='text-gray-300 font-extralight text-xl'>listed by </h1>
               <Link href={`/people/${product.ownerAddress}`}>
                 <a className='text-indigo-400 font-extralight text-xl ml-1 mr-2'>{product.ownerName.toLowerCase()}</a>
@@ -237,7 +238,7 @@ const ProductPage = ({ product }: IProps) => {
                 />
             </div>
             <div className='w-full flex items-center justify-around'>
-              <div className='w-10/12'>
+              <div className='w-10/12 md:w-full'>
                 <EthButton 
                   buyNowPrice={product.buyNowPrice} 
                   product={product}
@@ -245,10 +246,10 @@ const ProductPage = ({ product }: IProps) => {
                 />
               </div>
             </div>
-            <div className='flex justify-start w-10/12 mt-6'>
+            <div className='flex justify-start w-10/12 md:w-full mt-6'>
               <h2 className='text-white font-semibold text-xl'>product details</h2>
             </div>
-            <div className='text-white w-10/12'>
+            <div className='text-white w-10/12 md:w-full'>
               <div className='flex flex-col items-start w-full border-b py-2 text-left border-gray-800 mb-1'>
                   <h2 className='text-gray-200 font-light py-1 w-full'>description</h2>
                   <h1 className='text-gray-400 font-extralight text-left'>{product.description}</h1>
