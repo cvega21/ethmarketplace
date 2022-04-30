@@ -20,7 +20,7 @@ jobs:
           command: npx truffle compile 
       - run:
           name: run smart contract tests
-          command: npx truffle test 
+          command: npx truffle test ./contracts/Firechain.test.js
 
 workflows:
   version: 2
