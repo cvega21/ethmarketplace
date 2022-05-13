@@ -1,3 +1,19 @@
+The idea for Firechain was born after I noticed a problem with potential scams when I was selling my old furniture on Facebook Marketplace - I realized that smart contracts with built-in escrows and security could give users a safer experience.
+
+The front-end is a SPA built on React, Next.js, TailwindCSS and web3.js. There's pages to explore the marketplace, list a new item, view and buy individual products, as well as custom user profiles showing items for sale. 
+
+They are server-side rendered and CDN cached through Vercel for fast loads, which means we have to check for data updates every ~15 seconds to generate the updated static files.
+
+The true back-end is Ethereum, as the smart contract (written in Solidity) keeps track of all the users, products and prices, as well as transaction execution and actual settlement of funds.
+ 
+The products' metadata is stored in IPFS, a decentralized file storage protocol similar to BitTorrent. We use Pinata's API pinning service to ensure that at least one IPFS node will store this data indefinitely.
+
+We also use a Firebase database caching the blockchain data to minimize loading times, as Ethereum calls can get slow. It has a user profile schema to enable additional functionality, such as custom usernames and profile pictures.
+
+Finally, we leverage Metamask (popular crypto wallet) to enable user authentication without any e-mail or OAuth sign up by essentially implementing asymmetric key encryption with Ethereum.
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -11,24 +27,3 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
