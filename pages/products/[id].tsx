@@ -8,6 +8,7 @@ import { collection, doc, getDoc, getDocs, query } from 'firebase/firestore'
 import { IProduct } from '../../types/types'
 import styles from './[id].module.css'
 import EthButton from '../../components/EthButton'
+import ProductDetailsList from '../../components/ProductDetails/ProductDetailsList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import { getMediumAddress, getMdTokenURI } from '../../utils/utils'
@@ -21,6 +22,7 @@ import ModalView from '../../components/ModalView';
 import Footer from '../../components/Footer'
 import axios from 'axios'
 import Head from 'next/head'
+import ProductDetailsItem from '../../components/ProductDetails/ProductDetailsItem'
 var Contract = require('web3-eth-contract');
 const web3 = new Web3();
 
@@ -43,6 +45,7 @@ const ProductPage = ({ product }: IProps) => {
   const buyNFTEndpoint = '/api/buyNFT'
 
   useEffect(() => {
+    // extract this to useEthereum hook?
     const initEthereum = async () => {
       if (window.ethereum.selectedAddress) {
         await appContext?.refreshMetamask();
@@ -65,6 +68,7 @@ const ProductPage = ({ product }: IProps) => {
     Router.push('/account');
   }
 
+  // extract the logic outside of the display component
   const buyNFT = async (tokenID: number, price: string, account: string) => {
     setIsLoading(true);
     setStatusMessage('creating transaction...');  
@@ -100,6 +104,7 @@ const ProductPage = ({ product }: IProps) => {
         const newProduct: IProduct = JSON.parse(JSON.stringify(product));
 
         newProduct.ownerAddress = appContext?.account as string; 
+        // change ownerName interface to optional
         newProduct.ownerName = appContext?.name as string;
         newProduct.listedSince = '';
         newProduct.location = '';
@@ -193,20 +198,20 @@ const ProductPage = ({ product }: IProps) => {
             </ModalView>
           </>
           : txSuccess ?
-          <ModalView>
-            <div className='text-white font-extralight absolute text-6xl bg-green-600 z-50 rounded-xl p-4 w-9/12 lg:max-w-2xl'>
-              <h2 className='pb-4'>🎉</h2>  
-              <h2>Transaction confirmed!</h2>
-            </div>
-          </ModalView>
+            <ModalView>
+              <div className='text-white font-extralight absolute text-6xl bg-green-600 z-50 rounded-xl p-4 w-9/12 lg:max-w-2xl'>
+                <h2 className='pb-4'>🎉</h2>  
+                <h2>Transaction confirmed!</h2>
+              </div>
+            </ModalView>
           : errorUploading ?
-          <ModalView>
-            <div className='text-white font-extralight absolute text-4xl bg-red-400 z-50 rounded-xl p-6 w-10/12 lg:w-auto lg:max-w-2xl flex justify-center items-center flex-col'>
-              <h2>{errorMessage}</h2>
-            </div>
-          </ModalView>
+            <ModalView>
+              <div className='text-white font-extralight absolute text-4xl bg-red-400 z-50 rounded-xl p-6 w-10/12 lg:w-auto lg:max-w-2xl flex justify-center items-center flex-col'>
+                <h2>{errorMessage}</h2>
+              </div>
+            </ModalView>
           :
-          <></>
+           <></>
           }
           <div className='lg:px-0 px-4'>
             <h1 className='text-white text-3xl font-semibold text-left mt-4'>{product.title}</h1>
@@ -249,57 +254,36 @@ const ProductPage = ({ product }: IProps) => {
             <div className='flex justify-start w-10/12 md:w-full mt-6'>
               <h2 className='text-white font-semibold text-xl'>product details</h2>
             </div>
-            <div className='text-white w-10/12 md:w-full'>
-              <div className='flex flex-col items-start w-full border-b py-2 text-left border-gray-800 mb-1'>
-                  <h2 className='text-gray-200 font-light py-1 w-full'>description</h2>
-                  <h1 className='text-gray-400 font-extralight text-left'>{product.description}</h1>
-              </div>
-              <div className='flex justify-between'>
-                <h2 className='text-gray-200 font-light py-1'>listed since</h2>
-                <h1 className='text-gray-400 font-extralight'>{product.listedSince}</h1>
-              </div>
-              <div className='flex justify-between'>
-                <h2 className='text-gray-200 font-light py-1'>condition</h2>
-                <h1 className='text-gray-400 font-extralight'>{product.condition}</h1>
-              </div>
-              <div className='flex justify-between'>
-                <h2 className='text-gray-200 font-light py-1'>delivery options</h2>
-                <h1 className='text-gray-400 font-extralight'>{product.deliveryOpts}</h1>
-              </div>
-              <div className='flex justify-between'>
-                <h2 className='text-gray-200 font-light py-1'>owner address</h2>
-                <a 
-                  className='text-indigo-400 font-extralight' 
-                  href={`https://ropsten.etherscan.io/address/${product.ownerAddress}`} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  >
-                  {getMediumAddress(product.ownerAddress)}
-                </a>
-              </div>
-              <div className='flex justify-between'>
-                <h2 className='text-gray-200 font-light py-1'>token ID</h2>
-                <a 
-                  className='text-indigo-400 font-extralight' 
-                  href={`https://ropsten.etherscan.io/token/0x652f6b7bdad2e4f59152b3d8e16d74f150e7962c?a=${product.tokenID}`} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  >
-                  {product.tokenID}
-                </a>
-              </div>
-              <div className='flex justify-between'>
-                <h2 className='text-gray-200 font-light text-left py-1'>token URI (metadata)</h2>
-                <a 
-                  className='text-indigo-400 font-extralight' 
-                  href={product.tokenURI}
-                  target="_blank"
-                  rel="noreferrer"
-                  >
-                    {getMdTokenURI(product.tokenURI)}
-                </a>
-              </div>
-            </div>
+            <ProductDetailsList>
+              <ProductDetailsItem 
+                title='description' 
+                detailsText={product.description} 
+              />
+              <ProductDetailsItem 
+                title='listed since' 
+                detailsText={product.listedSince} 
+              />
+              <ProductDetailsItem
+                title='condition' 
+                detailsText={product.condition} 
+              />
+              <ProductDetailsItem 
+                title='delivery options' 
+                detailsText={product.deliveryOpts} 
+              />
+              <ProductDetailsItem 
+                title='owner address' 
+                detailsText={product.ownerAddress} 
+              />
+              <ProductDetailsItem 
+                title='token ID' 
+                detailsText={product.tokenID.toString()} 
+              />
+              <ProductDetailsItem 
+                title='token URI (metadata)' 
+                detailsText={product.tokenURI} 
+              />
+            </ProductDetailsList>
           </div>
         </div>
       </div>
