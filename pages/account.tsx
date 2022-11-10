@@ -58,6 +58,7 @@ const Account = () => {
         
         // after getting user's info, get their products 
         // can this be moved to get static props for SSR? yes but it would require a change from account page for user's own profile -> using public profile page
+        // doable and just incorporate a conditional component if the address matches current wallet
         if (productsArr.length === 0) {
           const productsQuery = query(collection(db, 'products'), where('ownerAddress','==',appContext?.account));
           const productsDocs = await getDocs(productsQuery);
@@ -168,10 +169,10 @@ const Account = () => {
                   
                   <div className='flex items-center group text-gray-500 focus-within:text-white'>
                     <div className='lg:pr-6 pr-4'>
-                      <FontAwesomeIcon 
+                      {/* <FontAwesomeIcon 
                         icon={faTwitter}
                         className={`lg:text-3xl text-xl ${twitter ? 'text-indigo-200' : ''} transition-all duration-300`}
-                        />
+                        /> */}
                     </div>
                     <h2 className={`text-indigo-400 text-opacity-40 font-thin text-2xl ${twitter ? 'text-opacity-100' : ''}`}>@</h2>
                     <input 
@@ -313,12 +314,12 @@ export const AccountBox = ({ name, twitter, address}: IUser) => {
             </a>
           </div>
           <div className="flex items-center text-indigo-200">
-            <div className='lg:pr-6 pr-4 flex justify-start'>
+            {/* <div className='lg:pr-6 pr-4 flex justify-start'>
               <FontAwesomeIcon 
                 icon={faLocationArrow}
                 className={`lg:text-3xl text-xl transition-all duration-300`}
               />
-            </div>
+            </div> */}
             <a 
               className='text-indigo-400 font-thin lg:text-xl my-2 bg-transparent outline-none focus:ring-indigo-800 break-all md:text-md text-sm'
               href={`https://etherscan.io/address/${address}`} 
